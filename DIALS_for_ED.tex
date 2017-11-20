@@ -398,21 +398,33 @@ of handedness of rotation will produce regular reciprocal lattice positions
 (see Figure \DW{see below}). Programs like AD3DT \cite{adt:2007} cannot
 determine the direction of rotation from the program parameters and ignore it
 (priv. comm. Ute Kolb). The ``classical'' rotation method enables the
-uncertainties together with parameter refinement. \TG{I got the impression, that
-the fact, that dials or xds give a clear clue about the rotation direction could
-be quite a ``big thing'' in the electron diffraction community, but maybe I
-exaggerate.} If indexing is successful, it is likely to work
-either way, with only slightly worse RMSDs between the predicted and observed
-positions for the incorrect choice as guidance. \TG{in my experience, the 'std
-dev. of spindle position is significantly worse for the wrong direction. And the
-rotation axis is only instrument dependent, i.e. one can calibrate the rotation
-with a high resolution data set from a radiation hard sample.}
-\DW{Interesting - DIALS does not yet allow refinement of the spindle axis
-orientation. The canonical imgCIF coordinate frame is assumed in which the
-rotation axis is along X, and the beam, crystal and detector orientations
-refine around that. I should check the standard deviations of model parameters
-for these other models. Otherwise, I plan to add refinement of the rotation
-axis direction rather soon anyway.}
+uncertainties together with parameter refinement. \TG{I got the impression,
+that the fact, that dials or xds give a clear clue about the rotation direction
+could be quite a ``big thing'' in the electron diffraction community, but maybe
+I exaggerate.} If indexing is successful, it is likely to work either way. For
+any case where there is ambiguity, the inverse direction should also be tested
+and results compared. The correct solution will have a lower RMSD for the
+angular residual between the predicted and observed positions of the
+reflections.
+
+\TG{in my experience, the 'std dev. of spindle position is
+significantly worse for the wrong direction. And the rotation axis is only
+instrument dependent, i.e. one can calibrate the rotation with a high
+resolution data set from a radiation hard sample.}
+\DW{Original reply here
+changed: I misunderstood the 'std dev. of spindle position' from XDS: now I
+think this does not refer to refinement of the orientation of the rotation axis
+by XDS, but is the equivalent of DIALS' \texttt{RMSD\_Z}. In that case, the statement about
+``uncertainties together with parameter refinement'' is true, but irrelevant,
+is it not? Assuming the rotation axis oriention is not refined and we are comparing
+RMSDs between the two choices of direction, then for DIALS immediately after indexing
+for the \texttt{288/sq\_05\_01} dataset gives correct axis: \texttt{RMSD\_Z}=0.58 images
+inverted axis: \texttt{RMSD\_Z}=1.5 images. So, indeed the difference is significant. In
+other cases the difference may be less dramatic, but the correct direction is
+favoured unless there are other significant errors present confusing matters
+(data I have from eBIC gives such poor solutions that I hesitate to claim
+that lower \texttt{RMSD\_Z} for one solution definitely identifies the correct one)}
+
 Most pernicious
 is uncertainty in the rotation range per image. At an X-ray beamline the rotary
 position and velocity of a goniometer is well-controlled and linked to the
