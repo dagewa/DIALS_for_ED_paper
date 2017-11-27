@@ -344,8 +344,8 @@ right gain for these though?}
 
 The most substantial difference between the processing of rotation data from
 electron diffraction compared to X-ray diffraction lies in the modelling of the
-diffraction geometry. The short wavelength of an electron beam (0.02508 \AA{}
-for 200 keV electrons compared to 1.0332 \AA\ for 12 keV X-rays) \TG{changed
+diffraction geometry. The short wavelength of an electron beam ($\SI{0.02508}{\angstrom}$
+for 200 keV electrons compared to $\SI{1.0332}{\angstrom}$ for 12 keV X-rays) \TG{changed
 0.0251 to 0.02508 to match precision} implies a correspondingly large Ewald
 sphere, with a small $2\theta$ scattering angle even for the highest resolution
 reflections.  At an X-ray beamline the sample to detector distance is easily
@@ -396,7 +396,7 @@ Ewald sphere makes the incorrect choice obvious, for example using a visual
 tool such as \dialsreciprocallatticeviewer \cite{Winter2017}. By contrast, the
 flatness of the Ewald sphere in electron diffraction ensures that either choice
 of handedness of rotation will produce regular reciprocal lattice positions
-(see Figure \DW{see below}).  If indexing is successful, it is likely to work
+(see Figure~\ref{fig:invert_axis}).  If indexing is successful, it is likely to work
 either way. For any case where there is ambiguity, the inverse direction should
 also be tested and results compared. The correct solution will have a lower
 RMSD for the angular residual between the predicted and observed positions of
@@ -410,14 +410,6 @@ for electron diffraction should therefore be well calibrated
 can then be modelled as part of the scan-varying refinement of the crystal.
 \TG{Mauro Gemmi pointed me at his calibration method in the cited paper,
 therefore I shortened the paragraph}
-
-\DW{Figure - to show effect of inverted rotation axis, 2D plot of reflections
-along one axis (say 5 reflections along (h00)) being mapped back to reciprocal
-space for MX vs ED, with right and wrong rotation directions. Calculate the
-expected reflection angles for each relp (formula in dials.refine paper, or an
-alternative in para 2.2 of Kabsch 2010b (see reference in dials.refine paper))
-Compare situation when the angles are positive from the scan start (straight
-line of relps) with situation when angles are negative (curved line)}
 
 \DW{Figure - to show effect of inverted rotation axis, 2D plot of reflections
 along one axis (say 5 reflections along (h00)) being mapped back to reciprocal
@@ -641,8 +633,8 @@ case consisting of a continuous rotation scan over 35 images with an angular
 width of $0.9^\circ$ per image, for a total scan range of $31.5^\circ$. We took
 the model for the indexed experiments and ``regularised'' the geometry of the
 beam and detector for the purposes of simulation, without changing the crystal
-model, which had an orthorhombic unit cell with dimensions $a=34.17$, $b=73.23$
-and $c=110.14$. To regularise the beam and detector models, we forced the beam
+model, which had an orthorhombic unit cell with dimensions $a=\SI{34.17}{\angstrom}$, $b=\SI{73.23}{\angstrom}$
+and $c=\SI{110.14}{\angstrom}$. To regularise the beam and detector models, we forced the beam
 direction to be exactly aligned to the $-Z$ direction and reoriented the
 detector model such that
 the beam intersected the detector in the centre of its square window, and the
@@ -656,7 +648,7 @@ for the regularised model detector, effectively assuming it consists of a
 perfectly sensitive plane of zero thickness. The updated electron diffraction
 geometry was written to a new \dxtbx experiment list and then altered a second
 time to produce regularised geometry for an X-ray experiment. This involved
-changing the wavelength from 0.0251~\AA\ to 1.0332~\AA\ and the detector model such
+changing the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.0332}{\angstrom}$ and the detector model such
 that the total extent and pixel size was equivalent to a Pilatus 6M detector at
 a distance of $\SI{200}{\milli\metre}$ from the sample. This model was also written to a \dxtbx
 experiment list. The differences between the model geometries are shown in
@@ -836,7 +828,7 @@ changed between them, and so on.} \TG{Would you agree to simply omit the last
 sentence [``However, \ldots{} experiment'']? Then the section would make better
 sense to me. Probably because I start to understand the 'model' terminology in
 the sense of programming/optimisation, but I fear that for crystallographers it
-may be more conrusing rather than helpful.} 
+may be more conrusing rather than helpful.}
 
 Electron crystallography takes place at nanometre scale. The required precision
 is available, but has so far not been assembled for electron microscopes
@@ -966,6 +958,30 @@ counts that are truncated to zero \cite{Hattne2016}.
      % Simple tables should use the tabular environment according to this
      % model
 
+\begin{figure}
+  \label{fig:invert_axis}
+  \centering
+  \caption{
+    Five reciprocal lattice points are shown (in black and labelled) along the
+    $a^*$ axis for a crystal with unit cell dimension $a=\SI{10}{\angstrom}$.
+    Arcs representing the surface of the Ewald sphere with a typical X-ray
+    wavelength of $\lambda=\SI{1.0332}{\angstrom}$ intersect these points at
+    rotation angles between $15.0^\circ$ for $h=1$ to $27.0^\circ$ for $h=5$,
+    where rotations are assumed to be clockwise from vertical in the plane of
+    the figure. If the modelled rotation axis is inverted then $\phi$-centroids
+    of observed spots would be mapped onto Ewald spheres rotated between
+    $-15.0^\circ$ and $-27.0^\circ$, resulting in a distinct curvature to the
+    reconstructed reciprocal lattice (points shown in blue). In the case of
+    electron diffraction at $\lambda=\SI{0.02508}{\angstrom}$ the spots are
+    almost observed simultaneously, at rotation angles between $12.1^\circ$ and
+    $12.4^\circ$. For clarity a single Ewald arc is shown, for $h=3$. If the
+    assumed axis is inverted then $\phi$-centroids between $-12.1^\circ$ and
+    $-12.4^\circ$ still result in almost a straight line (points shown in
+    green). It is therefore difficult to determine the correct direction of
+    rotation from the appearance of the reconstructed reciprocal lattice alone.
+  }
+  \includegraphics[width=0.5\textwidth]{Figures/relps_inverted_axis.pdf}
+\end{figure}
 
 \appendix
 
