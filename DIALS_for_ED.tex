@@ -395,8 +395,8 @@ is more difficult to determine. For an X-ray experiment, the curvature of the
 Ewald sphere makes the incorrect choice obvious, for example using a visual
 tool such as \dialsreciprocallatticeviewer \cite{Winter2017}. By contrast, the
 flatness of the Ewald sphere in electron diffraction ensures that either choice
-of handedness of rotation will produce regular reciprocal lattice positions
-(see Figure~\ref{fig:invert_axis}).  If indexing is successful, it is likely to work
+of handedness of rotation will produce regular reciprocal lattice positions,
+as shown by Figure~\ref{fig:invert_axis}.  If indexing is successful, it is likely to work
 either way. For any case where there is ambiguity, the inverse direction should
 also be tested and results compared. The correct solution will have a lower
 RMSD for the angular residual between the predicted and observed positions of
@@ -411,17 +411,9 @@ can then be modelled as part of the scan-varying refinement of the crystal.
 \TG{Mauro Gemmi pointed me at his calibration method in the cited paper,
 therefore I shortened the paragraph}
 
-\DW{Figure - to show effect of inverted rotation axis, 2D plot of reflections
-along one axis (say 5 reflections along (h00)) being mapped back to reciprocal
-space for MX vs ED, with right and wrong rotation directions. Calculate the
-expected reflection angles for each relp (formula in dials.refine paper, or an
-alternative in para 2.2 of Kabsch 2010b (see reference in dials.refine paper))
-Compare situation when the angles are positive from the scan start (straight
-line of relps) with situation when angles are negative (curved line)}
-
 \section{Indexing}
 
-Provided sufficient number of strong spots has been collected (\emph{cf.}
+Provided a sufficient number of strong spots have been collected (\emph{cf.}
 Sec.~\ref{sec:spot_finding}), indexing of electron diffraction works with
 similar reliability as with X--ray diffraction data. Difficulties mostly arise
 from systematic errors like stability of the rotation axis and, mostly, the
@@ -477,11 +469,12 @@ refinement tasks with challenging electron diffraction data, when only a single
 data set is considered. Section~\ref{sec:group_cell_restraints} presents an
 example where the combination of multiple datasets alongside prior
 knowledge that the unit cells should be similar is used during refinement as
-another way to mitigate difficulties imposed by the diffraction geometry. In
+another way to mitigate difficulties imposed by the diffraction geometry.
+\DW{Perhaps remove this senstence entirely: In
 general high quality data sets can be processed with standard protocols taken
 from macromolecular X-ray crystallography and the more cautious protocols
 suggested here are only required when the data quality does not reach a
-sufficiently high standard.
+sufficiently high standard.}
 
 The most noticeable problem seen with electron diffraction geometry refinement
 is that the accuracy of the refined unit cell may be poor. With $2\theta$ ranges
@@ -492,7 +485,8 @@ across the detector surface. The smaller $2\theta_\text{max}$, the more linear
 the deviation becomes and thus more difficult to detect: unit cell volume and
 detector distance can be scaled together while maintaining precise spot prediction.
 In cases where unit cell imprecision does not prevent structure solution, the
-parameters can be refined as recently implemented in Refmac5.  While a change in
+parameters can be refined, as recently implemented in Refmac5 \DW{Note to add a
+citation}.  While a change in
 the detector parameters can only result in a projective transformation of the
 positions of the recorded spots on any image, changes in the cell parameters
 will act to move the reciprocal lattice points towards or away from the surface
@@ -570,12 +564,12 @@ refined. An alternative method of restraining unit cells does not rely on an
 external target, but ensures similarity across multiple unit cell models
 simultaneously optimised during multi-experiment joint refinement. An example
 of this is presented in Section~\ref{sec:group_cell_restraints} and example
-\code{PHIL} parameter files for restrained refinement are given in the
+\code{PHIL} parameter files for restrained refinement are given in
 Appendix~\ref{app:PHIL_example}.
 
 The difficulties with refinement inherent to electron diffraction geometry are
 exacerbated during scan-varying refinement of a crystal model, when this is
-done with joint refinement of a static beam and detector model. Like static
+done jointly with refinement of a static beam and detector model. Like static
 refinement, scan-varying refinement in \dials is also global, in that data from
 the full rotation scan is used in a single optimisation procedure. However, at
 any point in the scan the local values for the crystal unit cell and angular
@@ -616,6 +610,8 @@ intervals, will ensure a greater degree of smoothing.
 
 \section{Diagnostics for problematic diffraction geometry refinement}
 
+\subsection{Simulating data for comparison}
+
 Section~\ref{sec:refinement} describes parameters that need to be adjusted in
 difficult cases. To date, even electron diffraction data sets from standard
 proteins can be difficult \cite{Clabbers2017,Hattne2015}. At this early
@@ -648,7 +644,7 @@ for the regularised model detector, effectively assuming it consists of a
 perfectly sensitive plane of zero thickness. The updated electron diffraction
 geometry was written to a new \dxtbx experiment list and then altered a second
 time to produce regularised geometry for an X-ray experiment. This involved
-changing the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.0332}{\angstrom}$ and the detector model such
+changing the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.033}{\angstrom}$ and the detector model such
 that the total extent and pixel size was equivalent to a Pilatus 6M detector at
 a distance of $\SI{200}{\milli\metre}$ from the sample. This model was also written to a \dxtbx
 experiment list. The differences between the model geometries are shown in
@@ -674,7 +670,9 @@ We wanted the differences in refinement runs to be caused only by the
 diffraction geometry and not obscured by different sets of input spots.
 Therefore, we first found the subset of 2749 reflections from the original spot
 list of 2814 reflections that could be predicted by both versions of the
-diffraction geometry. For the electron diffraction geometry, these reflections
+diffraction geometry.
+\DW{Perhaps the remainder of this paragraph should be removed. I found it
+interesting, but it is perhaps irrelevant: For the electron diffraction geometry, these reflections
 covered a total scan range of $33.7^\circ$. Because the indices of strong spots
 came from a real electron diffraction experiment, their reciprocal lattice
 points lie within a double wedge shaped volume of reciprocal space, bounded by
@@ -695,7 +693,7 @@ that is relevant. Although the spot list going into refinement for the X-ray
 geometry simulation was not realistic for an X-ray scan, using the same spots
 for both the X-ray and electron diffraction simulations was a simple way to
 ensure that the differences we see in refinement behaviour were due only to the
-modelling of the diffraction geometry.
+modelling of the diffraction geometry.}
 
 Simulated centroid positions were calculated for each version of the geometry
 by predicting their positions then adding random error. The random errors were
@@ -713,6 +711,14 @@ estimates from spot-finding on the real data set to give a realistic
 distribution of weights. The centroid $X$, $Y$ positions and their errors were
 rescaled to units of millimetres for use in refinement using the pixel sizes
 shown in Table~\DW{ref Table above: diffraction geometry simulation models}.
+
+\subsection{Refinement diagnostics}
+
+\DW{Introduce this section differently. Both types of diagnostic are based on
+the Jacobian matrix. Introduce that briefly first, then describe the
+complementary information from the qualitative corrgrams and the
+condition number, without implying that the development of the second diagnostic
+was a response to deficiencies in the first.}
 
 Refinement was performed for both versions of the geometry, using default
 settings in \dialsrefine. In each case, 13 parameters were refined in total:
@@ -818,20 +824,10 @@ restricted tilt range of commonly used sample stages, many of the protein
 structures reported to date have been refined against data merged from multiple
 crystals \cite{Yonekura2015,Clabbers2017,DelaCruz2017}. It would seem therefore
 that multi-experiment joint refinement has a place in electron crystallography,
-too. However, sharing models between experiments for joint refinement is only
-valid if those models have not changed between data collection runs, otherwise
-different models are required for each experiment. \TG{I don't understand this
-sentence: what is the point of multi--experiement refinement, when you assume
-that things don't change?} \DW{I reworded - does it make more sense? e.g. Exp 1
-and Exp 2 can only share a detector model if the detector distance hasn't
-changed between them, and so on.} \TG{Would you agree to simply omit the last
-sentence [``However, \ldots{} experiment'']? Then the section would make better
-sense to me. Probably because I start to understand the 'model' terminology in
-the sense of programming/optimisation, but I fear that for crystallographers it
-may be more conrusing rather than helpful.}
+too.
 
 Electron crystallography takes place at nanometre scale. The required precision
-is available, but has so far not been assembled for electron microscopes
+is available, but has so far not been assembled for electron microscope
 \cite{nm_gonio:2013,prigo:2015} instruments, and electron microscopes are not
 dedicated for diffraction.  Generally, it is safer to assume that truly
 reproducible experimental geometry cannot be achieved between runs, and models
