@@ -99,8 +99,16 @@ dials.refine bravais_setting_5.json indexed.pickle refine.phil \
 # fixed at the geometry of the static refinement run. Integration results are
 # apparently better with default smoothness of the refinement rather than
 # allowing the beam and crystal to vary more sharply
+#FIXME - currently compose_model_per=image does not work correctly
+#dials.refine static.json static.pickle scan_varying=True \
+#  compose_model_per=image \
+#  detector.fix=all \
+#  beam.fix="all in_spindle_plane out_spindle_plane *wavelength" \
+#  beam.force_static=False \
+#  output.experiments=varying.json \
+#  output.reflections=varying.pickle
+#FIXME - use default compose_model_per=block instead
 dials.refine static.json static.pickle scan_varying=True \
-  compose_model_per=image \
   detector.fix=all \
   beam.fix="all in_spindle_plane out_spindle_plane *wavelength" \
   beam.force_static=False \
