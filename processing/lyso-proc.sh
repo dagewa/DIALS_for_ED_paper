@@ -107,9 +107,11 @@ dials.refine bravais_setting_5.json indexed.pickle refine.phil \
 #  beam.force_static=False \
 #  output.experiments=varying.json \
 #  output.reflections=varying.pickle
-#FIXME - use default compose_model_per=block instead
+#FIXME - use default compose_model_per=block instead and set
+#reflections.block_width=0.25
 dials.refine static.json static.pickle scan_varying=True \
   detector.fix=all \
+  reflections.block_width=0.25 \
   beam.fix="all in_spindle_plane out_spindle_plane *wavelength" \
   beam.force_static=False \
   output.experiments=varying.json \
