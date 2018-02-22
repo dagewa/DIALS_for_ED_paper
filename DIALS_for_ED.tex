@@ -120,6 +120,13 @@
    {\color{green}{\textbf{TG \#\arabic{TGCounter}: }#1}}%
   }
 
+  % Comments from MC:
+  \newcounter{MCCounter}
+  \newcommand{\MC}[1]{%
+   \stepcounter{MCCounter}%
+   {\color{blue}{\textbf{MC \#\arabic{MCCounter}: }#1}}%
+  }
+
 \begin{document}
 
   %----------------------------------------------------------------------------
@@ -129,30 +136,43 @@
   \shorttitle{\dials for ED}
 
   %----------------------------------------------------------------------------
-  \cauthor[a,b]{David G.}{Waterman}{david.waterman@stfc.ac.uk}{}
-  \author[c]{Tim}{Gruene}
+  \author[a]{Max T.B.}{Clabbers}
+  \author[b]{Tim}{Gruene}
+  \author[c]{James M.}{Parkhurst}
+  \cauthor[d,e]{David G.}{Waterman}{david.waterman@stfc.ac.uk}{}
 
   %----------------------------------------------------------------------------
   % Affiliations
   %----------------------------------------------------------------------------
 
-  \aff[a]{STFC Rutherford Appleton Laboratory,
+  \aff[a]{Center for Cellular Imaging and NanoAnalytics (C-CINA),
+    Biozentrum, University of Basel,
+    Mattenstrasse 26,
+    4058 Basel, Switzerland}
+
+  \aff[b]{Paul Scherrer Institute,
+    5232 Villigen PSI,
+    Switzerland}
+
+  \aff[c]{Diamond Light Source Ltd,
+    Harwell Science and Innovation Campus,
+    Didcot,
+    OX11 0DE,
+    UK}
+
+  \aff[d]{STFC Rutherford Appleton Laboratory,
     Didcot,
     OX11 0FA,
     UK}
 
-  \aff[b]{CCP4,
+  \aff[e]{CCP4,
     Research Complex at Harwell,
     Rutherford Appleton Laboratory,
     Didcot,
     OX11 0FA,
     UK}
 
-  \aff[c]{Paul Scherrer Institute,
-    5232 Villigen PSI,
-    Switzerland}
-
-  \shortauthor{Waterman \& Gruene}
+  \shortauthor{Clabbers, Gruene, Parkhurst \& Waterman}
 
   %----------------------------------------------------------------------------
   % Create the title
@@ -196,17 +216,18 @@ However, several studies show that model accuracy compares with X--ray
 structures \cite{weirich:1996,zeo_adt:2014,dorset:1992,palatinus:2017}. Only
 about one and a half decades ago, electron diffraction of 3D crystals was
 pioneered with automated diffraction tomography ADT and further refined with
-(continuous) rotation electron diffraction RED
+rotation electron diffraction RED
 \cite{adt:2007,rotmethod_e:2010}. Recently, single crystal 3D electron
 diffraction has also been applied for protein crystals
-\cite{microed_method:2015}. Indicative for the parallel and independent
-development of electron diffraction is also the very recent use of integration
-software with profile fitting and scaling. This not only produces diffraction
-intensities, but also their standard uncertainties and enables heuristic
+\cite{microed_method:2015}. The very recent use of integration
+software with profile fitting and scaling is indicative of the independent
+development of electron diffraction. These methods have been in use for decades
+in X--ray crystallography, improving the quality of diffraction
+intensities and their standard uncertainties, whilst enabling heuristic
 correction for systematic errors \cite{pflugrath:1999,leslie1999integration}.
 
 \dials is a relatively new package for diffraction integration
-\cite{Winter2017}, designed as an extensible toolkit for the implementation of
+\cite{Winter2018}, designed as an extensible toolkit for the implementation of
 algorithms relevant to diffraction data analysis. The core set of algorithms
 are presented as a suite of command-line programs that can be used following
 simple protocols to integrate datasets collected using the rotation method
@@ -218,24 +239,6 @@ algorithms \cite{Gildea2014,Parkhurst2016,Parkhurst2017}. \dials is an
 open-source project, allowing scientists from outside the core collaboration to
 contribute software, or to use \dials within their own projects \DW{REF
 cctbx.xfel, IOTA, any others?}
-
-A common feature shared between \dials programs is the global modelling of an
-experiment, in which data are assumed to be complete before analysis begins.
-This has some advantages over the traditional approach of processing data by
-means of a moving window that passes over the complete data set in blocks of a
-local range of images. One is that the expensive step of integration can be
-performed with a high level of parallelism as the experimental model is
-determined completely ahead of time. A second is that the programs can consider
-multiple experiments simultaneously without losing track of the connections
-between them. This feature has particular relevance to the global refinement of
-diffraction geometry, for which experiments may share some models
-\cite{Waterman2016}, certain parameters may be constrained to shift together,
-or restraints may be applied between multiple crystal models. These features
-may be important for the analysis of electron diffraction datasets, for which
-determining accurate diffraction geometry may be challenging
-\cite{review_adt_red:2015},, and current
-technology usually imposes the collection of incomplete wedges of data for each
-crystal.
 
 To date, \dials development has focused on macromolecular and chemical
 crystallography datasets, optimised for continuous rotation data collected in
@@ -253,9 +256,27 @@ No artificial restrictions on the diffraction geometry are imposed, allowing the
 modelling of diffraction experiments using a generic vectorial description
 \cite{Waterman2016}. By default, two measurements are made for each reflection:
 summation integration and three dimensional profile fitting, along with
-estimated errors \cite{Winter2017}. The simplicity of this approach, avoiding
+estimated errors \cite{Winter2018}. The simplicity of this approach, avoiding
 assumptions inherent in the details of any particular technique, mean that
 \dials is readily adapted for analysis beyond the original scope of its design.
+
+A common feature shared between \dials programs is the global modelling of an
+experiment, in which data are assumed to be complete before analysis begins.
+This has some advantages over the traditional approach of processing data by
+means of a moving window that passes over the complete data set in blocks of a
+local range of images. One is that the expensive step of integration can be
+performed with a high level of parallelism, as the experimental model is
+determined completely ahead of time. A second is that the programs can consider
+multiple experiments simultaneously without losing track of the connections
+between them. This feature has particular relevance to the global refinement of
+diffraction geometry, for which experiments may share some models
+\cite{Waterman2016}, certain parameters may be constrained to shift together,
+or restraints may be applied between multiple crystal models. These features
+can be important for the analysis of electron diffraction datasets, for which
+determining accurate diffraction geometry may be challenging
+\cite{review_adt_red:2015}, and current
+technology usually imposes the collection of incomplete wedges of data for each
+crystal.
 Here we discuss the use of \dials for the analysis of electron diffraction data
 that has been collected using the rotation method.
 
@@ -278,8 +299,7 @@ import electron diffraction data into \dials.
   This is the usual approach that has been adopted for data processing with
   other programs such as \mosflm~\cite{leslie2007} and
   \xds~\cite{kabsch2010xds}. For example, data sets have been converted to SMV
-  \cite{Hattne2015}, PCK images \cite{Clabbers2017}, or CBF
-  \cite[\textcolor{red}{Only if it accepted}]{Gruene:2017}.  CBF, the
+  \cite{Hattne2015}, PCK images \cite{Clabbers2017}, or CBF {Gruene2018}.  CBF, the
   Crystallographic Binary Format, \cite{Bernstein2005}, is probably the most
   widely used nowadays. It is a self-describing format combining text strings
   that conform to the imgCIF dictionary to provide comprehensive metadata with
@@ -320,6 +340,8 @@ import electron diffraction data into \dials.
 
 \end{enumerate}
 
+\MC{We can add an image of one 1k frame with the correct description and correct geometric positions of each segment as defined in the import plugin for the Timepix cbf’s}
+
 \section{Spot finding \label{sec:spot_finding}}
 
 The spot finding algorithm used in \dials is rather sensitive to the detector
@@ -348,17 +370,12 @@ diffraction geometry. The short wavelength of an electron beam ($\SI{0.02508}{\a
 for 200 keV electrons compared to $\SI{1.0332}{\angstrom}$ for 12 keV X-rays) \TG{changed
 0.0251 to 0.02508 to match precision} implies a correspondingly large Ewald
 sphere, with a small $2\theta$ scattering angle even for the highest resolution
-reflections.  At an X-ray beamline the sample to detector distance is easily
-calibrated with reliable rest crystals. With electron diffraction, lens
-distortions increase the uncertainty, and radiation hard calibration crystals
-suitable for unit cell parameters suitable for proteins are difficult to find.
-For an X-ray experiment, the sample to detector distance is limited by the
-desire to record the high angle reflections around the base of the diffraction
-cone simultaneously. Large detectors are advantageous for X-ray crystallography
-because they allow this distance limit to be increased to both reduce diffuse
-X-ray background and to improve spatial separation of peaks \cite{Stanton1993}.
+reflections. At an X-ray beamline the sample to detector distance is easily
+calibrated with reliable test crystals. Large detectors are advantageous for X-ray crystallography
+because they allow the sample to detector distance to be increased, which both reduces diffuse
+X-ray background and improves spatial separation of peaks \cite{Stanton1993}.
 By contrast, large detector size is a less important factor for electron
-diffraction experiments.  In that case, the low diffraction angles imply that a
+diffraction experiments. In that case, the low diffraction angles imply that a
 large effective sample to detector distance is required to magnify the
 diffraction pattern to fill the detector surface, even for the much smaller area
 detectors in use within electron microscopes.  The effective detector distance
@@ -385,7 +402,9 @@ cross-CC between X-rays and electrons. That has also been part of your talk.}
 Another potential source of inaccuracy in the initial model for the diffraction
 geometry arises because of the relatively poor characteristics of the sample
 positioning stage of electron microscopes compared to X-ray goniometers for the
-purpose of rotation method experiments. \DW{more details here?} There may be
+purpose of rotation method experiments. Improved set ups are possible
+\cite{Yonekura2015} but are not widely available. \DW{more details here?}
+Generally, there may be
 uncertainty regarding the orientation of the rotation axis, the direction of
 rotation, and the rotation range per image. A reasonable estimate of the
 rotation axis orientation in the plane of the images can be made by finding a
@@ -393,7 +412,7 @@ line through the beam centre along which reflections have the widest reflecting
 range, and few reflections are found. The direction of rotation around the axis
 is more difficult to determine. For an X-ray experiment, the curvature of the
 Ewald sphere makes the incorrect choice obvious, for example using a visual
-tool such as \dialsreciprocallatticeviewer \cite{Winter2017}. By contrast, the
+tool such as \dialsreciprocallatticeviewer \cite{Winter2018}. By contrast, the
 flatness of the Ewald sphere in electron diffraction ensures that either choice
 of handedness of rotation will produce regular reciprocal lattice positions,
 as shown by Figure~\ref{fig:invert_axis}.  If indexing is successful, it is likely to work
@@ -429,7 +448,7 @@ can be used that is particularly successful for very narrow wedges of data
 Unless a model space group was chosen by the user, the indexing results are
 presented with triclinic symmetry. The compatibility of other choices of
 Bravais lattice with the triclinic solution can be tested using the program
-\dialsrefinebravaislattice \cite{Winter2017,Sauter2006}. There is no difference
+\dialsrefinebravaislattice \cite{Winter2018,Sauter2006}. There is no difference
 in usage compared with X-ray data, however for electron diffraction data the
 results might be more difficult to interpret. In particular, the metric fit
 reported for each trial solution \cite{LePage1982} may be large (e.g. greater
@@ -470,11 +489,6 @@ data set is considered. Section~\ref{sec:group_cell_restraints} presents an
 example where the combination of multiple datasets alongside prior
 knowledge that the unit cells should be similar is used during refinement as
 another way to mitigate difficulties imposed by the diffraction geometry.
-\DW{Perhaps remove this senstence entirely: In
-general high quality data sets can be processed with standard protocols taken
-from macromolecular X-ray crystallography and the more cautious protocols
-suggested here are only required when the data quality does not reach a
-sufficiently high standard.}
 
 The most noticeable problem seen with electron diffraction geometry refinement
 is that the accuracy of the refined unit cell may be poor. With $2\theta$ ranges
@@ -924,14 +938,15 @@ most cases with electron diffraction data sets, joint refinement with a few
 tens of crystals is tractable without this approximation.
 
 To demonstrate the use of unit cell similarity restraints with electron
-diffraction data, we processed 10 publicly-available datasets from crystals of
-Trypsin \cite{sbdb288}, downloaded from
-\url{http://dx.doi.org/10.15785/SBGRID/288} and converted to SMV format
-following the instructions provided, including a correction for low pixel
-counts that are truncated to zero \cite{Hattne2016}.
+diffraction data, \DW{Finish section based on Max's lysozyme data}
+%we processed 10 publicly-available datasets from crystals of
+%Trypsin \cite{sbdb288}, downloaded from
+%\url{http://dx.doi.org/10.15785/SBGRID/288} and converted to SMV format
+%following the instructions provided, including a correction for low pixel
+%counts that are truncated to zero \cite{Hattne2016}.
 
-\DW{Finish section}
-
+\section{Discussion}
+\DW{discussion and conclusions here.}
 
 %------------------------------------------------------------------------------
 % Acknowledgements
