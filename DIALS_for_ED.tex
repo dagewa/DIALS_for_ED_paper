@@ -203,7 +203,7 @@
 
 Electron diffraction allows structural analysis of nanometre-sized samples of
 crystalline material. Since the maximal radiation dose is proportional to sample
-volume, electron diffraction of organic and macrmolecular compounds was long
+volume, electron diffraction of organic and macrmolecular \MC{macro} compounds was long
 limited to 2D samples\footnote{S. Hovm{\"o}ller, Workshop "Electron
 Crystallography of Macromolecular Compounds, 2017}\cite{unwin-henderson:1975}.
 In contrast to X--ray crystallography,  the three domains, inorganic, organic,
@@ -211,7 +211,8 @@ and macromolecular electron crystallography were developed rather independent of
 each other
 \cite{vainshtein:1964,dorset:1995,glaeser_downing_derosier:2007,zou:2011}.
 Physical and instrumental limitation, like miniature sample size or dynamic
-scattering effects and lens distortions, lead to much worse data precision.
+scattering effects and lens distortions, lead to much worse \MC{repalce 'lead to much 
+worse' with 'affect} data precision.
 However, several studies show that model accuracy compares with X--ray
 structures \cite{weirich:1996,zeo_adt:2014,dorset:1992,palatinus:2017}. Only
 about one and a half decades ago, electron diffraction of 3D crystals was
@@ -242,7 +243,8 @@ cctbx.xfel, IOTA, any others?}
 
 To date, \dials development has focused on macromolecular and chemical
 crystallography datasets, optimised for continuous rotation data collected in
-fine slices using photon counting detectors at synchrotron light sources.
+fine slices using photon counting detectors at synchrotron light sources.\MC{maybe this
+paragraph could ne omitted?} 
 Despite this emphasis, with suitable modification of parameters at certain
 steps, high quality results have also been obtained for wide-sliced X-ray
 datasets recorded on CCD detectors \cite{dials_adsc:2016a,dials_adsc:2016b}. The common
@@ -276,8 +278,7 @@ can be important for the analysis of electron diffraction datasets, for which
 determining accurate diffraction geometry may be challenging
 \cite{review_adt_red:2015}, and current
 technology usually imposes the collection of incomplete wedges of data for each
-crystal.
-Here we discuss the use of \dials for the analysis of electron diffraction data
+crystal. Here we discuss the use of \dials for the analysis of electron diffraction data
 that has been collected using the rotation method.
 
 \section{Image formats}
@@ -370,7 +371,39 @@ diffraction geometry. The short wavelength of an electron beam ($\SI{0.02508}{\a
 for 200 keV electrons compared to $\SI{1.0332}{\angstrom}$ for 12 keV X-rays) \TG{changed
 0.0251 to 0.02508 to match precision} implies a correspondingly large Ewald
 sphere, with a small $2\theta$ scattering angle even for the highest resolution
-reflections. At an X-ray beamline the sample to detector distance is easily
+reflections. The low diffraction angles imply a
+large effective sample to detector distance to magnify the
+diffraction pattern and achieve sufficient spatial separation of peaks. 
+Large detectors are advantageous for crystallography
+because they allow the sample to detector distance to be increased, which both reduces diffuse
+background and improves spatial separation of peaks \cite{Stanton1993}. However, 
+in a TEM the detector distance is limited by the largest possible magnification
+and the relatively small detectors. Whilst the true detector position underneath the column is
+always at a fixed distance, the effective detector distance
+is set by the objective lens and does not correspond directly to a quantity that
+can be measured mechanically. Similar to an X-ray beamline, the sample to detector distance in
+a TEM is easily calibrated with reliable test crystals. However,
+inaccuracy in the recorded effective distance may be difficult to correct by the
+usual process of diffraction geometry refinement due to the high correlation
+between unit cell parameters and the detector distance when
+$2\theta_{\text{max}}$ is small, when the Ewald sphere construction becomes
+invariant of linear scaling (see Section~\ref{sec:refinement}) \cite{VanGenderen2016}. In addition,
+imperfections in the lens system may introduce distortions in the recorded
+diffraction images. Possible distortions include
+anisotropic magnification where the diffraction pattern pattern is elongated
+in one direction, transforming a circular powder pattern to an ellipse \cite{lenscorr_2dx:2006,Clabbers2017}.
+With disregard of lens defects, 
+the processing software can ignore these
+distinctions and model the experiment with an effective detector. The differences between the diffraction
+geometry of typical X-ray and electron diffraction cases in real and reciprocal
+space are summarised in Figure~\DW{mixed reciprocal-real space Ewald sphere
+diagram with detector geometry - like cartoons from the talk? If this can be
+done in a way that fits within 2 columns} \TG{the differences are small, but the
+consequences are larger - how about a figure that compares the paramters
+cross-CC between X-rays and electrons. That has also been part of your talk.}
+\DW{I think that is the figure I mean to put in the Diagnostics section}
+
+\MC{rephrased: At an X-ray beamline the sample to detector distance is easily
 calibrated with reliable test crystals. Large detectors are advantageous for X-ray crystallography
 because they allow the sample to detector distance to be increased, which both reduces diffuse
 X-ray background and improves spatial separation of peaks \cite{Stanton1993}.
@@ -397,7 +430,7 @@ diagram with detector geometry - like cartoons from the talk? If this can be
 done in a way that fits within 2 columns} \TG{the differences are small, but the
 consequences are larger - how about a figure that compares the paramters
 cross-CC between X-rays and electrons. That has also been part of your talk.}
-\DW{I think that is the figure I mean to put in the Diagnostics section}
+\DW{I think that is the figure I mean to put in the Diagnostics section}}
 
 Another potential source of inaccuracy in the initial model for the diffraction
 geometry arises because of the relatively poor characteristics of the sample
