@@ -392,8 +392,8 @@ imperfections in the lens system may introduce distortions in the recorded
 diffraction images. Possible distortions include
 anisotropic magnification where the diffraction pattern pattern is elongated
 in one direction, transforming a circular powder pattern to an ellipse \cite{lenscorr_2dx:2006,Clabbers2017}.
-With disregard of lens defects, 
-the processing software can ignore these
+Careful alignment of the TEM diffraction setup can reduce these distortions to a minimum.
+With disregard of lens defects, the processing software can ignore these
 distinctions and model the experiment with an effective detector. The differences between the diffraction
 geometry of typical X-ray and electron diffraction cases in real and reciprocal
 space are summarised in Figure~\DW{mixed reciprocal-real space Ewald sphere
@@ -436,7 +436,16 @@ Another potential source of inaccuracy in the initial model for the diffraction
 geometry arises because of the relatively poor characteristics of the sample
 positioning stage of electron microscopes compared to X-ray goniometers for the
 purpose of rotation method experiments. Improved set ups are possible
-\cite{Yonekura2015} but are not widely available. \DW{more details here?}
+but are not widely available \cite{Yonekura2015,Shi2016}. \DW{more details here?}
+\MC{added shi et al 2016, moved the paragraph below to here}
+The rotation range per image is generally assumed constant and accurate. This
+parameter is not refined by current integration programs. Instruments for used
+for electron diffraction should therefore be well calibrated
+\cite{gemmi_adt:2015}. Small, smooth deviations from the expected rotation angle
+can then be modelled as part of the scan-varying refinement of the crystal.
+\TG{Mauro Gemmi pointed me at his calibration method in the cited paper,
+therefore I shortened the paragraph}
+
 Generally, there may be
 uncertainty regarding the orientation of the rotation axis, the direction of
 rotation, and the rotation range per image. A reasonable estimate of the
@@ -448,20 +457,14 @@ Ewald sphere makes the incorrect choice obvious, for example using a visual
 tool such as \dialsreciprocallatticeviewer \cite{Winter2018}. By contrast, the
 flatness of the Ewald sphere in electron diffraction ensures that either choice
 of handedness of rotation will produce regular reciprocal lattice positions,
-as shown by Figure~\ref{fig:invert_axis}.  If indexing is successful, it is likely to work
+as shown by Figure~\ref{fig:invert_axis}. If indexing is successful, it is likely to work
 either way. For any case where there is ambiguity, the inverse direction should
 also be tested and results compared. The correct solution will have a lower
 RMSD for the angular residual between the predicted and observed positions of
 the reflections.\TG{I removed my reference to AD3DT and 'uncertainty', and
 therefore our both comments.}
 
-The rotation range per image is generally assumed constant and accurate. This
-parameter is not refined by current integration programs. Instruments for used
-for electron diffraction should therefore be well calibrated
-\cite{gemmi_adt:2015} Small, smooth deviations from the expected rotation angle
-can then be modelled as part of the scan-varying refinement of the crystal.
-\TG{Mauro Gemmi pointed me at his calibration method in the cited paper,
-therefore I shortened the paragraph}
+
 
 \section{Indexing}
 
