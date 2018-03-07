@@ -200,9 +200,9 @@ Electron diffraction is a relatively novel alternative to X-ray crystallography 
 structure determination of macromolecules from nanometre-sized crystalline sample. 
 The short wavelength implies a nearly flat Ewald sphere, affecting the diffraction 
 geometry having a low diffraction angle and high sample to detector distance. 
-Nevertheless, the DIALS software package can, with specific adaptations, deal with 
-continuous rotation electron diffraction data. Common pathologies often encountered 
-in electron diffraction make the data integration more challenging. Uncertainties 
+Nevertheless, the DIALS software package can, with specific adaptations, deal with the different geometry 
+and successfully proces continuous rotation electron diffraction data. However, pathologies encountered 
+specifically in electron diffraction make the data integration more challenging. Uncertainties 
 can  arise from instrumentation, e.g. influencing the rotation range per image, or 
 lead to distorted diffraction patterns from lens errors.  Dynamic scattering,
 Radiation damage, beam drift, uncertainty of rotation axis direction, incomplete wedges 
@@ -212,7 +212,7 @@ for electron diffraction, allowing refinement with a varying beam model, applyin
 corrections for distorted diffraction images, and enabling joint refinement of multiple 
 incomplete wedges of rotation data. These novel features, combined with the existing tools 
 in DIALS, make data integration and refinement feasible for electron crystallography, 
-even in highly pathological cases.
+even in difficult cases.
 
 \end{abstract}
 
@@ -222,7 +222,7 @@ even in highly pathological cases.
 
 Electron diffraction allows structural analysis of nanometre-sized samples of
 crystalline material. Since the maximal radiation dose is proportional to sample
-volume, electron diffraction of organic and macrmolecular \MC{macro} compounds was long
+volume, electron diffraction of organic and macromolecular compounds was long
 limited to 2D samples\footnote{S. Hovm{\"o}ller, Workshop "Electron
 Crystallography of Macromolecular Compounds, 2017}\cite{unwin-henderson:1975}.
 In contrast to X--ray crystallography,  the three domains, inorganic, organic,
@@ -230,16 +230,16 @@ and macromolecular electron crystallography were developed rather independent of
 each other
 \cite{vainshtein:1964,dorset:1995,glaeser_downing_derosier:2007,zou:2011}.
 Physical and instrumental limitation, like miniature sample size or dynamic
-scattering effects and lens distortions, lead to much worse \MC{repalce 'lead to much 
+scattering effects and lens distortions, affect \MC{repalce 'lead to much 
 worse' with 'affect} data precision.
 However, several studies show that model accuracy compares with X--ray
 structures \cite{weirich:1996,zeo_adt:2014,dorset:1992,palatinus:2017}. Only
 about one and a half decades ago, electron diffraction of 3D crystals was
 pioneered with automated diffraction tomography ADT and further refined with
 rotation electron diffraction RED
-\cite{adt:2007,rotmethod_e:2010}. Recently, single crystal 3D electron
+\cite{adt:2007,rotmethod_e:2010,gemmi_adt:2015}. Recently, single crystal 3D electron
 diffraction has also been applied for protein crystals
-\cite{microed_method:2015}. The very recent use of integration
+\cite{microed_method:2015,Clabbers2017}. The very recent use of integration
 software with profile fitting and scaling is indicative of the independent
 development of electron diffraction. These methods have been in use for decades
 in X--ray crystallography, improving the quality of diffraction
