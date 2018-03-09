@@ -195,24 +195,34 @@
 
   \DW{abstract}
   \MC{added idea for abstract}
-  
-Electron diffraction is a relatively novel alternative to X-ray crystallography for the 
-structure determination of macromolecules from nanometre-sized crystalline sample. 
-The short wavelength implies a nearly flat Ewald sphere, affecting the diffraction 
-geometry having a low diffraction angle and high sample to detector distance. 
-Nevertheless, the DIALS software package can, with specific adaptations, deal with the different geometry 
-and successfully proces continuous rotation electron diffraction data. However, pathologies encountered 
-specifically in electron diffraction make the data integration more challenging. Uncertainties 
-can  arise from instrumentation, e.g. influencing the rotation range per image, or 
-lead to distorted diffraction patterns from lens errors.  Dynamic scattering,
-Radiation damage, beam drift, uncertainty of rotation axis direction, incomplete wedges 
-of data, and strong correlation between lattice parameters and detector distance are a
-dditional factors that complicate data integration. Here we show recent features of DIALS 
-for electron diffraction, allowing refinement with a varying beam model, applying 
-corrections for distorted diffraction images, and enabling joint refinement of multiple 
-incomplete wedges of rotation data. These novel features, combined with the existing tools 
-in DIALS, make data integration and refinement feasible for electron crystallography, 
-even in difficult cases.
+
+Electron diffraction is a relatively novel alternative to X-ray crystallography
+for the structure determination of macromolecules from three-dimensional
+nanometre-sized crystals. The standard rotation method of data collection has
+been adapted for the electron microscope, however there are important
+differences in geometry that must be considered for successful data
+integration. The wavelength of electrons in a TEM is typically around forty
+times shorter than X-rays at a macromolecular crystallography (MX) synchrotron
+beamline, implying a nearly flat Ewald sphere, consequently low diffraction
+angles and a high effective sample to detector distance. Nevertheless, the
+DIALS software package can, with specific adaptations, successfully process
+continuous rotation electron diffraction data. Pathologies encountered
+specifically in electron diffraction make the data integration more
+challenging. Errors can arise from instrumentation, such as distorted
+diffraction patterns from lens imperfections, or beam drift. The diffraction
+geometry brings additional challenges such as strong correlation between
+lattice parameters and detector distance. These issues are compounded if
+calibration is incomplete leading to uncertainty in experimental geometry, such
+as the effective detector distance and the rotation rate or direction. Dynamic
+scattering, absorption, radiation damage and incomplete wedges of data are
+additional factors that complicate data processing. Here we show recent
+features of DIALS as adapted to electron diffraction processing, including
+diagnostics for problematic diffraction geometry refinement, refinement of a
+smoothly-varying beam model and corrections for distorted diffraction images.
+\DW{TBC: ...enabling joint refinement of multiple incomplete wedges of rotation
+data}. These novel features, combined with the existing tools in DIALS, make
+data integration and refinement feasible for electron crystallography, even in
+difficult cases.
 
 \end{abstract}
 
@@ -221,28 +231,27 @@ even in difficult cases.
 \section{Introduction}
 
 Electron diffraction allows structural analysis of nanometre-sized samples of
-crystalline material. Since the maximal radiation dose is proportional to sample
-volume, electron diffraction of organic and macromolecular compounds was long
-limited to 2D samples\footnote{S. Hovm{\"o}ller, Workshop "Electron
+crystalline material. Since the maximal radiation dose is proportional to
+sample volume, electron diffraction of organic and macromolecular compounds was
+long limited to 2D samples\footnote{S. Hovm{\"o}ller, Workshop "Electron
 Crystallography of Macromolecular Compounds, 2017}\cite{unwin-henderson:1975}.
-In contrast to X--ray crystallography,  the three domains, inorganic, organic,
-and macromolecular electron crystallography were developed rather independent of
-each other
+In contrast to X--ray crystallography, the three domains, inorganic, organic,
+and macromolecular electron crystallography were developed rather independent
+of each other
 \cite{vainshtein:1964,dorset:1995,glaeser_downing_derosier:2007,zou:2011}.
-Physical and instrumental limitation, like miniature sample size or dynamic
-scattering effects and lens distortions, affect \MC{repalce 'lead to much 
-worse' with 'affect} data precision.
-However, several studies show that model accuracy compares with X--ray
-structures \cite{weirich:1996,zeo_adt:2014,dorset:1992,palatinus:2017}. Only
-about one and a half decades ago, electron diffraction of 3D crystals was
-pioneered with automated diffraction tomography ADT and further refined with
-rotation electron diffraction RED
-\cite{adt:2007,rotmethod_e:2010,gemmi_adt:2015}. Recently, single crystal 3D electron
-diffraction has also been applied for protein crystals
-\cite{microed_method:2015,Clabbers2017}. The very recent use of integration
-software with profile fitting and scaling is indicative of the independent
-development of electron diffraction. These methods have been in use for decades
-in X--ray crystallography, improving the quality of diffraction
+Physical and instrumental limitations, like miniature sample size or dynamic
+scattering effects and lens distortions, affect data precision. However,
+several studies show that model accuracy compares with X--ray structures
+\cite{weirich:1996,zeo_adt:2014,dorset:1992,palatinus:2017}. Only about one and
+a half decades ago, electron diffraction of 3D crystals was pioneered with
+automated diffraction tomography ADT and further refined with rotation electron
+diffraction RED \cite{adt:2007,rotmethod_e:2010,gemmi_adt:2015}. Recently,
+single crystal 3D electron diffraction has also been applied to protein
+crystals, by adapting the standard rotation method used at MX beamlines
+\cite{microed_method:2015,Clabbers2017}. The only very recent use of
+integration software with profile fitting and scaling is indicative of the
+independent development of electron diffraction. These methods have been in use
+for decades in X--ray crystallography, improving the quality of diffraction
 intensities and their standard uncertainties, whilst enabling heuristic
 correction for systematic errors \cite{pflugrath:1999,leslie1999integration}.
 
@@ -260,26 +269,26 @@ open-source project, allowing scientists from outside the core collaboration to
 contribute software, or to use \dials within their own projects \DW{REF
 cctbx.xfel, IOTA, any others?}
 
-To date, \dials development has focused on macromolecular and chemical
-crystallography datasets, optimised for continuous rotation data collected in
-fine slices using photon counting detectors at synchrotron light sources.\MC{maybe this
-paragraph could ne omitted?} 
-Despite this emphasis, with suitable modification of parameters at certain
-steps, high quality results have also been obtained for wide-sliced X-ray
-datasets recorded on CCD detectors \cite{dials_adsc:2016a,dials_adsc:2016b}. The common
-fundamental assumption is that reciprocal lattice points pass through the Ewald
-sphere by constant-velocity rotation around a single axis.
-%Reciprocal lattice
-%points have a finite extent and the total scattered intensity for one
-%reflection is the integration over the reflecting range of slices of
-%the reciprocal lattice point that instantaneously satisfy Bragg's law.
-No artificial restrictions on the diffraction geometry are imposed, allowing the
-modelling of diffraction experiments using a generic vectorial description
-\cite{Waterman2016}. By default, two measurements are made for each reflection:
-summation integration and three dimensional profile fitting, along with
-estimated errors \cite{Winter2018}. The simplicity of this approach, avoiding
-assumptions inherent in the details of any particular technique, mean that
-\dials is readily adapted for analysis beyond the original scope of its design.
+%To date, \dials development has focused on macromolecular and chemical
+%crystallography datasets, optimised for continuous rotation data collected in
+%fine slices using photon counting detectors at synchrotron light sources.\MC{maybe this
+%paragraph could ne omitted?}
+%Despite this emphasis, with suitable modification of parameters at certain
+%steps, high quality results have also been obtained for wide-sliced X-ray
+%datasets recorded on CCD detectors \cite{dials_adsc:2016a,dials_adsc:2016b}. The common
+%fundamental assumption is that reciprocal lattice points pass through the Ewald
+%sphere by constant-velocity rotation around a single axis.
+%%Reciprocal lattice
+%%points have a finite extent and the total scattered intensity for one
+%%reflection is the integration over the reflecting range of slices of
+%%the reciprocal lattice point that instantaneously satisfy Bragg's law.
+%No artificial restrictions on the diffraction geometry are imposed, allowing the
+%modelling of diffraction experiments using a generic vectorial description
+%\cite{Waterman2016}. By default, two measurements are made for each reflection:
+%summation integration and three dimensional profile fitting, along with
+%estimated errors \cite{Winter2018}. The simplicity of this approach, avoiding
+%assumptions inherent in the details of any particular technique, mean that
+%\dials is readily adapted for analysis beyond the original scope of its design.
 
 A common feature shared between \dials programs is the global modelling of an
 experiment, in which data are assumed to be complete before analysis begins.
@@ -295,10 +304,10 @@ diffraction geometry, for which experiments may share some models
 or restraints may be applied between multiple crystal models. These features
 can be important for the analysis of electron diffraction datasets, for which
 determining accurate diffraction geometry may be challenging
-\cite{review_adt_red:2015}, and current
-technology usually imposes the collection of incomplete wedges of data for each
-crystal. Here we discuss the use of \dials for the analysis of electron diffraction data
-that has been collected using the rotation method.
+\cite{review_adt_red:2015}, and current technology usually imposes the
+collection of incomplete wedges of data for each crystal. Here we discuss the
+use of \dials for the analysis of electron diffraction data that has been
+collected using the rotation method.
 
 \section{Image formats}
 
@@ -392,10 +401,10 @@ for 200 keV electrons compared to $\SI{1.0332}{\angstrom}$ for 12 keV X-rays) \T
 sphere, with a small $2\theta$ scattering angle even for the highest resolution
 reflections. The low diffraction angles imply a
 large effective sample to detector distance to magnify the
-diffraction pattern and achieve sufficient spatial separation of peaks. 
+diffraction pattern and achieve sufficient spatial separation of peaks.
 Large detectors are advantageous for crystallography
 because they allow the sample to detector distance to be increased, which both reduces diffuse
-background and improves spatial separation of peaks \cite{Stanton1993}. However, 
+background and improves spatial separation of peaks \cite{Stanton1993}. However,
 in a TEM the detector distance is limited by the largest possible magnification
 and the relatively small detectors. Whilst the true detector position underneath the column is
 always at a fixed distance, the effective detector distance
