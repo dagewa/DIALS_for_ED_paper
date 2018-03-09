@@ -53,6 +53,7 @@
   \newcommand{\dialsreport}{\emph{dials.report}\xspace}
   \newcommand{\dialsestimategain}{\emph{dials.estimate\_gain}\xspace}
   \newcommand{\dialsfindspots}{\emph{dials.find\_spots}\xspace}
+  \newcommand{\dialsimport}{\emph{dials.import}\xspace}
   \newcommand{\dialsindex}{\emph{dials.index}\xspace}
   \newcommand{\dialsrefinebravaislattice}{\emph{dials.refine\_bravais\_lattice}\xspace}
   \newcommand{\dialsrefine}{\emph{dials.refine}\xspace}
@@ -307,9 +308,13 @@ determining accurate diffraction geometry may be challenging
 \cite{review_adt_red:2015}, and current technology usually imposes the
 collection of incomplete wedges of data for each crystal. Here we discuss the
 use of \dials for the analysis of electron diffraction data that has been
-collected using the rotation method.
+collected using the rotation method. As a motivational example we describe the
+stages of data processing with reference to 7 datasets collected on
+orthorhombic crystals of a dimeric form of hen egg-white lysozyme, previously
+reported in \citeasnoun{Clabbers2017}.
 
-\section{Image formats}
+\section{Methods and results}
+\subsection{Image formats}
 
 The first stage in processing rotation data with \dials is to import the images
 constituting the data set to form a \code{DataBlock}, using the \dxtbx library
@@ -318,49 +323,63 @@ majority of common file formats used in X-ray crystallography. The classes are
 arranged in a hierarchy, from generic classes that contain code to read image
 data and construct an experimental model solely from metadata contained in the
 image headers, to specific classes that may recognise a particular instrument
-and can override for incorrect or missing metadata. This is important for
-reading file formats used in electron microscopy because current instruments
-usually do not transfer all the information that is required to reconstruct the
-experimental geometry. There are three main approaches that can be taken to
-import electron diffraction data into \dials.
+and can override for incorrect or missing metadata. This feature is important
+for reading file formats used in electron microscopy because current
+instruments usually do not transfer all the information that is required to
+reconstruct the experimental geometry. There are three main approaches that can
+be taken to import electron diffraction data into \dials.
 \begin{enumerate}
   \item Externally convert the native format into a format more common for MX.
   This is the usual approach that has been adopted for data processing with
   other programs such as \mosflm~\cite{leslie2007} and
   \xds~\cite{kabsch2010xds}. For example, data sets have been converted to SMV
-  \cite{Hattne2015}, PCK images \cite{Clabbers2017}, or CBF {Gruene2018}.  CBF, the
-  Crystallographic Binary Format, \cite{Bernstein2005}, is probably the most
-  widely used nowadays. It is a self-describing format combining text strings
-  that conform to the imgCIF dictionary to provide comprehensive metadata with
-  binary blocks of image data. The reliance on an external conversion tool has
-  additional drawbacks.  The possibility of the proliferation of such tools and
-  conversion scripts adds complication for the user. As more intermediate steps
-  are added the potential for mistakes increases. The fidelity of the conversion
-  process must be checked. For example, image export functions within microscope
-  vendor-supplied software to common formats such as TIFF might not preserve
-  the real pixel intensities, and this fact may not be clear to the user.
+  \cite{Hattne2015}, PCK images \cite{Clabbers2017}, or CBF {Gruene2018}.
+  %%CBF, the
+  %Crystallographic Binary Format, \cite{Bernstein2005}, is probably the most
+  %widely used nowadays. It is a self-describing format combining text strings
+  %that conform to the imgCIF dictionary to provide comprehensive metadata with
+  %binary blocks of image data.
+  Where external conversion programs exist, this has the advantage that no
+  coding or understanding of the original file format is required by the user.
+  Often, missing metadata can be supplied during the conversion so the
+  resulting images contain a proper description of the experiment and no
+  additional overrides are required when importing the dataset into \dials. The
+  same set of images can then also be used with other data processing packages.
+  However, the reliance on an external conversion tool has some drawbacks.
+  There is the scope for errors when metadata are introduced manually during
+  the conversion. The proliferation of conversion tools adds complication for
+  the user and the fidelity of the conversion process must be checked. For
+  example, image export functions within microscope vendor-supplied software to
+  common formats such as TIFF might not preserve the real pixel intensities,
+  and this fact may not be clear to the user. Even when data are properly
+  converted, the generic readers for standard MX formats may contain
+  assumptions that are not appropriate for electron diffraction, such as the
+  creation of a polarised beam model. Generic readers might also not allow the
+  desired interpretation for sophisticated cases, such as splitting a data
+  array for a multiple panel detector model or defining masks for certain
+  regions of images.
 
   \item Extend the \dxtbx library to recognise native data formats. This
   approach entails writing a format class (typically a single, small Python
   module) to contribute to \dxtbx, following the published description
-  \cite{Parkhurst2014} and existing examples. In fact, this may be necessary
-  even for data externally converted into a standard MX format. For example, a
-  new class derived from a standard MX format base class may be required in
-  order to define a mask for certain regions of the images, split a data array
-  into multiple panels or ensure appropriate models are created, such as an
-  unpolarised beam model. Missing elements of the model can be provided during
-  data import by providing parameters at the command line or in a file in the
-  PHIL format, a simple data interchange format used within the
-  \cctbx~\cite{Grosse-Kunstleve2002}. Appendix~\ref{app:PHIL_example} contains
-  an example of such a file. Format classes for native file types that have now
-  been added to the dxtbx include image stacks in the TIA Series Data (ESD)
-  format used by software provided with FEI microscopes and image stacks in
-  Gatan DM4 format.
+  \cite{Parkhurst2014}, and existing examples. This requires knowledge of the
+  native data format and conventions used by \dxtbx, as well as coordination
+  with the \dials developers. The advantage of investing this effort is that
+  once included in the library, the native data format will be supported for
+  all users with no additional conversion steps. In practice, however, where
+  native formats lack the metadata describing the diffraction experiment, this
+  will have to be supplied each time during data import, either by providing
+  parameters at the command line or in a file in the PHIL format, a simple data
+  interchange format used within the \cctbx~\cite{Grosse-Kunstleve2002}.
+  Appendix~\ref{app:PHIL_example} contains an example of such a file. Format
+  classes for native file types that have now been added to the dxtbx include
+  image stacks in the TIA Series Data (ESD) format used by software provided
+  with FEI microscopes and image stacks in Gatan DM4 format.
 
-  \item For local installations, testing or one-off developments for a
+  \item For local installations, testing, or one-off developments for a
   particular data processing problem it may be more appropriate to create a
   format class as a plugin rather than contributing to the \dxtbx library.
-  There is no difference in the procedure required to implement the class, the
+  There is no difference in the procedure required to implement the class; the
   resulting Python module should simply be placed in a \code{.dxtbx} directory
   in the user's home area and this will automatically be picked up at runtime
   when required. Various plugins for electron diffraction are collected at
@@ -369,15 +388,21 @@ import electron diffraction data into \dials.
 
 \end{enumerate}
 
-\MC{We can add an image of one 1k frame with the correct description and correct geometric positions of each segment as defined in the import plugin for the Timepix cbf’s}
+\MC{We can add an image of one 1k frame with the correct description and
+correct geometric positions of each segment as defined in the import plugin for
+the Timepix cbf’s}
+\DW{It might be useful to combine such an image with a zoomed region duplicated
+with two different sets of spot-finding settings (see text below)}
 
-\section{Spot finding \label{sec:spot_finding}}
+\DW{End this section with a description of what was done for the 7 lyso datasets}
+
+\subsection{Spot finding \label{sec:spot_finding}}
 
 The spot finding algorithm used in \dials is rather sensitive to the detector
 gain. No automatic evaluation of the gain is performed prior to spot finding,
 although a value can be determined using the program \dialsestimategain. This
 uses the mean and variance of pixels within a region of interest
-\cite{leslie2006integration}  and may significantly underestimate the true gain
+\cite{leslie2006integration} and may significantly underestimate the true gain
 for detectors that have non-negligible point spread, or corrections applied
 that reapportion signal between neighbouring pixels \cite{Waterman2010}.
 Experience with CCD detectors shows that setting the gain correctly rather than
@@ -387,11 +412,9 @@ default gain set to an appropriate value, or a suitable value must be passed to
 \dialsfindspots for use by the spot finding algorithm. In cases where the
 detector gain is not known, the effect on the spot-finding algorithm of setting
 different values can be explored interactively using \dialsimageviewer, as shown
-in the Figure~\DW{Figure - spotfinding with different gain values. The SMV
-TVIPS images are a good example. What is the
-right gain for these though?}
+in the Figure~\DW{See above}
 
-\section{Experiment geometry}
+\subsection{Experiment geometry}
 
 The most substantial difference between the processing of rotation data from
 electron diffraction compared to X-ray diffraction lies in the modelling of the
@@ -492,9 +515,7 @@ RMSD for the angular residual between the predicted and observed positions of
 the reflections.\TG{I removed my reference to AD3DT and 'uncertainty', and
 therefore our both comments.}
 
-
-
-\section{Indexing}
+\subsection{Indexing}
 
 Provided a sufficient number of strong spots have been collected (\emph{cf.}
 Sec.~\ref{sec:spot_finding}), indexing of electron diffraction works with
@@ -527,7 +548,7 @@ RMSDs similar to the original triclinic solution are good candidates. Any
 solution resulting in a significant increase in RMSD is suggestive of an
 over-constrained lattice and should be discarded.
 
-\section{Refinement \label{sec:refinement}}
+\subsection{Joint refinement of the unit cell and instrument parameters \label{sec:refinement}}
 
 \TG{You mention to describe ``protocols''. A typical user would expect a listing
 or box that he can enter into Dials w/o too much reading. This section is much
@@ -686,9 +707,9 @@ intervals, will ensure a greater degree of smoothing.
 %importance of data far from a point in the scan on the values of parameters at
 %that point will be slower.
 
-\section{Diagnostics for problematic diffraction geometry refinement}
+\subsection{Diagnostics for problematic diffraction geometry refinement}
 
-\subsection{Simulating data for comparison}
+\subsubsection{Simulating data for comparison}
 
 Section~\ref{sec:refinement} describes parameters that need to be adjusted in
 difficult cases. To date, even electron diffraction data sets from standard
@@ -790,7 +811,7 @@ distribution of weights. The centroid $X$, $Y$ positions and their errors were
 rescaled to units of millimetres for use in refinement using the pixel sizes
 shown in Table~\DW{ref Table above: diffraction geometry simulation models}.
 
-\subsection{Refinement diagnostics}
+\subsubsection{Refinement diagnostics}
 
 \DW{Introduce this section differently. Both types of diagnostic are based on
 the Jacobian matrix. Introduce that briefly first, then describe the
@@ -886,6 +907,7 @@ without conflation with factors relating to implementation details of the
 algorithm used to perform the optimisation.
 
 \section{Multiple crystal restrained refinement \label{sec:group_cell_restraints}}
+\DW{Probably remove this section}
 
 A powerful feature of \dials is multiple experiment joint refinement, whereby
 models that can be shared between data sets are refined simultaneously with
@@ -1062,8 +1084,50 @@ diffraction data, \DW{Finish section based on Max's lysozyme data}
 
 \section{\code{PHIL} examples \label{app:PHIL_example}}
 
-\DW{PHIL example for overriding geometry on import}
+The following options were written to a file, which was passed to \dialsimport
+in order to override the initial model for experimental geometry of the example
+dataset 1.
 
-\DW{PHIL example for setting unit cell restraints}
+\begin{verbatim}
+geometry.scan.oscillation=0,0.076
+geometry.goniometer.axes=-0.018138,-0.999803,0.008012
+geometry.detector.hierarchy{
+  fast_axis=1,0,0
+  slow_axis=0,-1,0
+  origin=-26.3525,30.535,-1890
+}
+\end{verbatim}
+
+Unit cell restraints to an external target cell were created for dataset 6 of
+the example set by writing the following lines to a file and passing this in
+at \dialsindex and \dialsrefine steps.
+
+\begin{verbatim}
+refinement
+{
+  parameterisation
+  {
+    crystal
+    {
+      unit_cell
+      {
+        restraints
+        {
+          tie_to_target
+          {
+            values=32.05,68.05,104.56,90,90,90
+            sigmas=0.05,0.05,0.05,0.05,0.05,0.05
+          }
+        }
+      }
+    }
+  }
+}
+\end{verbatim}
+
+The correct format for these options may be explored interactively using
+command line switches for \dials programs. For example, the command
+\texttt{dials.import -c -a2 -e2} will show all configuration options along with
+types and help strings up to an `expert level' of 2.
 
 \end{document}
