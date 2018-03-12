@@ -397,7 +397,10 @@ representing the regions of the large gaps. We created a \dxtbx format class
 specific for these images, which represents each quad as a separate panel of a
 composite detector. In this way, no interpolation is required because each
 panel has an independent position and orientation, thus sub-pixel shifts and
-rotations can be represented precisely.
+rotations can be represented precisely. The \dialsimageviewer takes account
+of the relative position and orientation of independent panels and displays a
+composite image projected onto a viewing plane, as shown by
+Figure~\ref{fig:spotfinding}
 
 Each ASIC of a Timepix quad has an outer square of edge pixels that are
 $\SI{165}{\micro\metre}$ wide, i.e. exactly three times wider than the standard
@@ -412,12 +415,6 @@ images model a detector with a gain of exactly 3. This was recorded in the
 \dxtbx format class so that the correct gain value would be used automatically,
 e.g. in the calculation of error estimates for integrated intensities.
 
-\MC{We can add an image of one 1k frame with the correct description and
-correct geometric positions of each segment as defined in the import plugin for
-the Timepix cbf’s}
-\DW{It might be useful to combine such an image with a zoomed region duplicated
-with two different sets of spot-finding settings (see text below)}
-
 \subsection{Spot finding \label{sec:spot_finding}}
 
 The spot finding algorithm used in \dials is rather sensitive to the detector
@@ -427,14 +424,16 @@ uses the mean and variance of pixels within a region of interest
 \cite{leslie2006integration} and may significantly underestimate the true gain
 for detectors that have non-negligible point spread, or corrections applied
 that reapportion signal between neighbouring pixels \cite{Waterman2010}.
-Experience with CCD detectors shows that setting the gain correctly rather than
-estimating it in this manner gives much better spot finding results in \dials,
-with far fewer false positives. The format class used to import images must have a
-default gain set to an appropriate value, or a suitable value must be passed to
-\dialsfindspots for use by the spot finding algorithm. In cases where the
-detector gain is not known, the effect on the spot-finding algorithm of setting
-different values can be explored interactively using \dialsimageviewer, as shown
-in the Figure~\DW{See above}
+If the correct gain is known it is usual for this to be set by the format class
+used to import images. Otherwise, a suitable value should be passed to
+\dialsfindspots for use by the spot finding algorithm. In difficult cases it
+may be necessary to optimise the gain and other spot-finding parameters, the
+effects of which can be explored interactively using \dialsimageviewer. For
+the 7 example datasets we typically found that it was necessary to increase
+the sensitivity of spot-finding, and then reduce additional noise by using
+a global threshold. Appropriate spot-finding settings were determined manually
+for each dataset separately. The effect of these settings for dataset 1 is shown
+by Figure~\ref{fig:spotfinding}.
 
 \subsection{Experiment geometry}
 
@@ -1078,6 +1077,27 @@ diffraction data, \DW{Finish section based on Max's lysozyme data}
     rotation from the appearance of the reconstructed reciprocal lattice alone.
   }
   \includegraphics[width=0.5\textwidth]{Figures/relps_inverted_axis.pdf}
+\end{figure}
+
+\begin{figure}
+  \label{fig:spotfinding}
+  \centering
+  \caption{
+    A diffraction image from dataset 1 is shown using the \dialsimageviewer.
+    The four quads have independent geometry, such that these are not forced
+    to align on a single pixel grid. The upper inset panel shows a zoomed
+    region of the upper left quad where a clear row of diffraction spots is
+    visible. The middle inset panel shows the `threshold' image with default
+    spot-finding settings, which indicates which pixels will be marked as
+    strong during the spot-finding procedure. The lower inset panel shows the
+    same inset image after spot-finding settings were adjusted for this dataset.
+    In this case, that amounted to setting \texttt{gain=0.833},
+    \texttt{sigma\_strong=1.0} and \texttt{global\_threshold=1} as command-line
+    options to the \dialsfindspots program. The detector gain of 3.0 determined
+    by the format class is already applied before the spot-finding operation,
+    hence the spot-finding gain acts as a multiplier for this value.
+  }
+  \includegraphics[width=0.5\textwidth]{Figures/spotfinding/spot_finding.png}
 \end{figure}
 
 \appendix
