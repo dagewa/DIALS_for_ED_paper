@@ -1,0 +1,10 @@
+spotfinder {
+  threshold {
+    dispersion {
+      gain = 0.833
+      sigma_strong = 1
+      global_threshold = 1
+    }
+  }
+}
+

@@ -1,0 +1,7 @@
+geometry.scan.oscillation=0,0.076
+geometry.goniometer.axes=-0.018138,-0.999803,0.008012
+geometry.detector.hierarchy{
+  fast_axis=1,0,0
+  slow_axis=0,-1,0
+  origin=-26.3525,30.535,-1890
+}
