@@ -498,12 +498,11 @@ Ewald sphere makes the incorrect choice obvious, for example using a visual
 tool such as \dialsreciprocallatticeviewer \cite{Winter2018}. By contrast, the
 flatness of the Ewald sphere in electron diffraction ensures that either choice
 of handedness of rotation will produce regular reciprocal lattice positions,
-as shown by Figure~\ref{fig:invert_axis}. If indexing is successful, it is likely to work
-either way. For any case where there is ambiguity, the inverse direction should
-also be tested and results compared. The correct solution will have a lower
-RMSD for the angular residual between the predicted and observed positions of
-the reflections.\TG{I removed my reference to AD3DT and 'uncertainty', and
-therefore our both comments.}
+as shown by Figure~\ref{fig:invert_axis}. If indexing is successful, it is
+likely to work either way. For any case where there is ambiguity, the inverse
+direction should also be tested and results compared. The correct solution will
+have a lower RMSD for the angular residual between the predicted and observed
+positions of the reflections.
 
 \subsection{Image distortion due to lens effects \label{sec:distortion}}
 \DW{Complete section - add part on how dx, dy maps implemented in \dials,
@@ -546,53 +545,56 @@ RMSDs similar to the original triclinic solution are good candidates. Any
 solution resulting in a significant increase in RMSD is suggestive of an
 over-constrained lattice and should be discarded.
 
-\subsection{Global refinement of the unit cell and instrument parameters \label{sec:refinement}}
+\subsection{Global refinement of the unit cell and instrument parameters
+\label{sec:refinement}}
 
 Following indexing, the model for the diffraction experiment is refined as
 described previously \cite{Waterman2016}. In common with X--ray data processing
-with \dials, it is usual to first refine a ``static'' model for the whole data set,
-in which parameters such as the crystal unit cell and orientation angles
-are not allowed to vary across the scan. The global refinement of a data set improves the stability of the
-refinement procedure. However, the geometry of an electron diffraction
-experiment raises particular issues that should be taken into account,
-especially if data quality is limited by low resolution diffraction for some or
-all of the scan, poor quality spot centroids or the scan is an especially
-narrow wedge. In this section we offer some practical advice for \dials
-refinement tasks with challenging electron diffraction data.
+with \dials, it is usual to first refine a ``static'' model for the whole data
+set, in which parameters such as the crystal unit cell and orientation angles
+are not allowed to vary across the scan. The global refinement of a data set
+improves the stability of the refinement procedure. However, the geometry of an
+electron diffraction experiment raises particular issues that should be taken
+into account, especially if data quality is limited by low resolution
+diffraction for some or all of the scan, poor quality spot centroids or the
+scan is an especially narrow wedge. In this section we offer some practical
+advice for \dials refinement tasks with challenging electron diffraction data.
 
 The most noticeable problem seen with electron diffraction geometry refinement
-is that the accuracy of the refined unit cell may be poor. With $2\theta$ ranges
-typical for X--ray data collection, the Ewald sphere construction is gauged by
-the radius of the sphere \DW{What does this sentence mean?}. Deviations from the correct unit cell parameters or
-detector distance results in a non--linear deviation of predicted spot positions
-across the detector surface. The smaller $2\theta_\text{max}$, the more linear
-the deviation becomes and thus more difficult to detect: unit cell volume and
-detector distance can be scaled together while maintaining precise spot prediction.
-In cases where unit cell imprecision does not prevent structure solution, the
+is that the accuracy of the refined unit cell may be poor. With $2\theta$
+ranges typical for X--ray data collection, the Ewald sphere construction is
+gauged by the radius of the sphere \DW{What does this sentence mean?}.
+Deviations from the correct unit cell parameters or detector distance results
+in a non--linear deviation of predicted spot positions across the detector
+surface. The smaller $2\theta_\text{max}$, the more linear the deviation
+becomes and thus more difficult to detect: unit cell volume and detector
+distance can be scaled together while maintaining precise spot prediction. In
+cases where unit cell imprecision does not prevent structure solution, the
 parameters can be refined, as recently implemented in Refmac5 \DW{Note to add a
-citation. Also - we do this for our example datasets, link to relevant section}.  While a change in
-the detector parameters can only result in a projective transformation of the
-positions of the recorded spots on any image, changes in the cell parameters
-will act to move the reciprocal lattice points towards or away from the surface
-of the Ewald sphere, altering not only the predicted positions of the spots on
-the detector, but also rotation angle and therefore the predicted image number
-on which these spots are expected to appear. When the Ewald sphere is
-essentially flat, this distinguishing factor is much reduced and it is more
-difficult to separate the effects of the detector and unit cell parameters.
+citation. Also - we do this for our example datasets, link to relevant
+section}.  While a change in the detector parameters can only result in a
+projective transformation of the positions of the recorded spots on any image,
+changes in the cell parameters will act to move the reciprocal lattice points
+towards or away from the surface of the Ewald sphere, altering not only the
+predicted positions of the spots on the detector, but also rotation angle and
+therefore the predicted image number on which these spots are expected to
+appear. When the Ewald sphere is essentially flat, this distinguishing factor
+is much reduced and it is more difficult to separate the effects of the
+detector and unit cell parameters.
 
 The high level of correlation between parameters in diffraction geometry
 refinement problems has long been recognised. The method of eigenvalue
 filtering was proposed to allow refinement to proceed in such cases
 \cite{Reeke1984,LURE1986phase3}, by automatically selecting only those
 parameters, or linear combinations of parameters, that have the greatest effect
-at each step of refinement. This was deemed necessary at the time to refine crystal
-parameters using data from a single oscillation film. Within \dials, all
-available data is used for a global refinement. This reduces correlations and
-provides a better determination for parameters when the scan range is wide,
+at each step of refinement. This was deemed necessary at the time to refine
+crystal parameters using data from a single oscillation film. Within \dials,
+all available data is used for a global refinement. This reduces correlations
+and provides a better determination for parameters when the scan range is wide,
 thus the default behaviour is to refine simultaneously the beam, crystal and
-detector parameters, which works well for X--ray data. We have seen that
-when limited to a narrow wedge of data recorded with the geometry of the
-electron diffraction experiment, high correlations are again problematic. \dials
+detector parameters, which works well for X--ray data. We have seen that when
+limited to a narrow wedge of data recorded with the geometry of the electron
+diffraction experiment, high correlations are again problematic. \dials
 refinement does not use the eigenvalue filtering method, but by default uses a
 Levenberg Marquardt algorithm, which provides an alternative approach for
 dealing with near-singular least-squares problems. In practice, we find that
@@ -606,23 +608,23 @@ Marquardt algorithm (the limit can always be adjusted by the user via the
 \code{max\_iterations} parameter).
 
 If a good estimate for the unit cell is available as prior knowledge, this can
-be incorporated into refinement by the use of restraints, tying the
-unit cell model to an external target. Unit cell restraints are currently
-available for static refinement of unit cell models but not scan-varying
-refinement, as they were originally developed for XFEL serial crystallography
-where scan-varying refinement is irrelevant. The unit cell parameterisation in
-DIALS is expressed with metrical matrix elements as parameters
-\cite{Waterman2016}. However, for ease of use, restraints are specified in terms of
-the real space cell, as shown in Appendix~\ref{app:PHIL_example}.
-Each crystal included in refinement can add up to six
-restraint terms (for the triclinic case). Irrelevant restraints for cell
-parameters that are already constrained by lattice symmetry are automatically excluded. Every
-restraint term adds a pseudo-observation to refinement. Taking the cell
-parameter $a$ as an example, the pseudo-observation term $R_a$ consists of the squared
-residual between that parameter and its target value $a_t$, with a weighting
-factor. In common with the real observations, the first derivatives of the
-pseudo-observations with respect to the refinable parameters (here, arbitrarily
-denoted $p$) are also required for refinement by non-linear least-squares methods.
+be incorporated into refinement by the use of restraints, tying the unit cell
+model to an external target. Unit cell restraints are currently available for
+static refinement of unit cell models but not scan-varying refinement, as they
+were originally developed for XFEL serial crystallography where scan-varying
+refinement is irrelevant. The unit cell parameterisation in DIALS is expressed
+with metrical matrix elements as parameters \cite{Waterman2016}. However, for
+ease of use, restraints are specified in terms of the real space cell, as shown
+in Appendix~\ref{app:PHIL_example}. Each crystal included in refinement can add
+up to six restraint terms (for the triclinic case). Irrelevant restraints for
+cell parameters that are already constrained by lattice symmetry are
+automatically excluded. Every restraint term adds a pseudo-observation to
+refinement. Taking the cell parameter $a$ as an example, the pseudo-observation
+term $R_a$ consists of the squared residual between that parameter and its
+target value $a_t$, with a weighting factor. In common with the real
+observations, the first derivatives of the pseudo-observations with respect to
+the refinable parameters (here, arbitrarily denoted $p$) are also required for
+refinement by non-linear least-squares methods.
 
 \begin{equation}
 \label{eq:restraint_to_target}
@@ -654,41 +656,42 @@ the plane of the detector, similar to \mosflm's TILT and TWIST. Joint refinement
 of these parameters along with the beam direction and detector translations
 within the detector plane can be unstable.
 
-\DW{Remove this part?: An alternative method of restraining unit cells does not rely on an
-external target, but ensures similarity across multiple unit cell models
-simultaneously optimised during multi-experiment joint refinement. An example
-of this is presented in Section~\ref{sec:group_cell_restraints} and example
-\code{PHIL} parameter files for restrained refinement are given in
+\DW{Remove this part?: An alternative method of restraining unit cells does not
+rely on an external target, but ensures similarity across multiple unit cell
+models simultaneously optimised during multi-experiment joint refinement. An
+example of this is presented in Section~\ref{sec:group_cell_restraints} and
+example \code{PHIL} parameter files for restrained refinement are given in
 Appendix~\ref{app:PHIL_example}.}
 
 \DW{Finish with some details of how static refinement was done for the 7
 example datasets. Perhaps reference to a data processing table, in which
-information like refinement diagnostics, use of restraint, elliptical distortion,
-beam drift, unit cell, average unit cell from scan-varying refinement are all
-given?}
+information like refinement diagnostics, use of restraint, elliptical
+distortion, beam drift, unit cell, average unit cell from scan-varying
+refinement are all given?}
 
-\subsection{Scan-varying refinement of crystal and beam parameters \label{sec:sv-refinement}}
+\subsection{Scan-varying refinement of crystal and beam parameters
+\label{sec:sv-refinement}}
 
 In typical use, the global static model for a dataset is used as a starting
 point for scan-varying refinement. As originally implemented
 \cite{Waterman2016}, this was intended to capture changes to the crystal unit
-cell and orientation parameters during data collection. These parameters were allowed to vary in a
-smooth manner by evenly distributing sample points across the scan and
-interpolating values at any one position using a Gaussian smoother. The beam
-and detector parameters could be jointly refined to global, static values
-alongside the scan-varying crystal. The analysis of electron diffraction
-images raises a new issue in that instrument
-stability during the course of data collection cannot be simply assumed, as it
-is for MX data. In some cases, there is significant drift of the beam centre
-during data collection. \DW{comments on the cause of these drifts, other
-ways to handle it - cf. RED autocorrelation and writing out corrected images.
-Also mentioned in a Hattne reference?}. Beam drift in electron diffraction
-experiments, at least those collected by a continuous rotation protocol,
-appears to occur gradually. Therefore it appears reasonable to assume that a
-smoothly-varying model for the beam direction vector would suffice to represent
-this effect. For that reason, we extended the scan-varying refinement
-methodology from the crystal parameters to optionally apply also to the beam
-parameters, available from \dials version 1.9 onwards.
+cell and orientation parameters during data collection. These parameters were
+allowed to vary in a smooth manner by evenly distributing sample points across
+the scan and interpolating values at any one position using a Gaussian
+smoother. The beam and detector parameters could be jointly refined to global,
+static values alongside the scan-varying crystal. The analysis of electron
+diffraction images raises a new issue in that instrument stability during the
+course of data collection cannot be simply assumed, as it is for MX data. In
+some cases, there is significant drift of the beam centre during data
+collection. \DW{comments on the cause of these drifts, other ways to handle it
+- cf. RED autocorrelation and writing out corrected images. Also mentioned in a
+Hattne reference?}. Beam drift in electron diffraction experiments, at least
+those collected by a continuous rotation protocol, appears to occur gradually.
+Therefore it appears reasonable to assume that a smoothly-varying model for the
+beam direction vector would suffice to represent this effect. For that reason,
+we extended the scan-varying refinement methodology from the crystal parameters
+to optionally apply also to the beam parameters, available from \dials version
+1.9 onwards.
 
 The difficulties with refinement inherent to electron diffraction geometry are
 exacerbated during scan-varying refinement. Like static
@@ -735,7 +738,8 @@ RMSD values.
 
 \DW{finish with details of refinements done in the 7 lyso cases}
 
-\subsection{Diagnostics for problematic diffraction geometry refinement \label{sec:diag}}
+\subsection{Diagnostics for problematic diffraction geometry refinement
+\label{sec:diag}}
 
 \subsubsection{Simulating data for comparison}
 \DW{Perhaps move description of simulation to supplementary material}
@@ -744,39 +748,40 @@ Section~\ref{sec:refinement} describes parameters that need to be adjusted in
 difficult cases. To date, even electron diffraction data sets from standard
 proteins can be difficult \cite{Clabbers2017,Hattne2015}. At this early
 development stage, diagnostic tools are important for fine--tuning parameters.
-The program \dialsrefine provides some facilities for
-investigating the main issue we have identified, namely the high level of
-correlation between the effects of different parameters on the model.
-In this section we concentrate on
-difficulties arising specifically at very short wavelength typical for  electron
-diffraction.  To ensure that the differences we were investigating come as a
-result of only the shorter wavelength and greater detector distance, we elected
-to compare the results of refinement against simulated data. To generate
-simulated spot centroid positions, we started with a real electron diffraction
-case consisting of a continuous rotation scan over 35 images with an angular
-width of $0.9^\circ$ per image, for a total scan range of $31.5^\circ$. We took
-the model for the indexed experiments and ``regularised'' the geometry of the
-beam and detector for the purposes of simulation, without changing the crystal
-model, which had an orthorhombic unit cell with dimensions $a=\SI{34.17}{\angstrom}$, $b=\SI{73.23}{\angstrom}$
-and $c=\SI{110.14}{\angstrom}$. To regularise the beam and detector models, we forced the beam
-direction to be exactly aligned to the $-Z$ direction and reoriented the
-detector model such that
-the beam intersected the detector in the centre of its square window, and the
-detector plane was orthogonal to the beam vector. The detector distance
-remained at the value of $\SI{1570.98}{\milli\metre}$, which came from the indexing procedure
-from the real data set. The original detector model was for a Timepix quad
-assembly \cite{VanGenderen2016}, but for simplicity we replaced the four panel
-detector model with a single panel model with an equal total extent, thereby
-ignoring the gaps between panels. We also removed parallax correction effects
-for the regularised model detector, effectively assuming it consists of a
-perfectly sensitive plane of zero thickness. The updated electron diffraction
-geometry was written to a new \dxtbx experiment list and then altered a second
-time to produce regularised geometry for an X-ray experiment. This involved
-changing the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.033}{\angstrom}$ and the detector model such
-that the total extent and pixel size was equivalent to a Pilatus 6M detector at
-a distance of $\SI{200}{\milli\metre}$ from the sample. This model was also written to a \dxtbx
-experiment list. The differences between the model geometries are shown in
-Table~\DW{Table: diffraction geometry simulation models}.
+The program \dialsrefine provides some facilities for investigating the main
+issue we have identified, namely the high level of correlation between the
+effects of different parameters on the model. In this section we concentrate on
+difficulties arising specifically at very short wavelength typical for
+electron diffraction.  To ensure that the differences we were investigating
+come as a result of only the shorter wavelength and greater detector distance,
+we elected to compare the results of refinement against simulated data. To
+generate simulated spot centroid positions, we started with a real electron
+diffraction case consisting of a continuous rotation scan over 35 images with
+an angular width of $0.9^\circ$ per image, for a total scan range of
+$31.5^\circ$. We took the model for the indexed experiments and ``regularised''
+the geometry of the beam and detector for the purposes of simulation, without
+changing the crystal model, which had an orthorhombic unit cell with dimensions
+$a=\SI{34.17}{\angstrom}$, $b=\SI{73.23}{\angstrom}$ and
+$c=\SI{110.14}{\angstrom}$. To regularise the beam and detector models, we
+forced the beam direction to be exactly aligned to the $-Z$ direction and
+reoriented the detector model such that the beam intersected the detector in
+the centre of its square window, and the detector plane was orthogonal to the
+beam vector. The detector distance remained at the value of
+$\SI{1570.98}{\milli\metre}$, which came from the indexing procedure from the
+real data set. The original detector model was for a Timepix quad assembly
+\cite{VanGenderen2016}, but for simplicity we replaced the four panel detector
+model with a single panel model with an equal total extent, thereby ignoring
+the gaps between panels. We also removed parallax correction effects for the
+regularised model detector, effectively assuming it consists of a perfectly
+sensitive plane of zero thickness. The updated electron diffraction geometry
+was written to a new \dxtbx experiment list and then altered a second time to
+produce regularised geometry for an X-ray experiment. This involved changing
+the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.033}{\angstrom}$ and the
+detector model such that the total extent and pixel size was equivalent to a
+Pilatus 6M detector at a distance of $\SI{200}{\milli\metre}$ from the sample.
+This model was also written to a \dxtbx experiment list. The differences
+between the model geometries are shown in Table~\DW{Table: diffraction geometry
+simulation models}.
 
 \DW{Insert Table: diffraction geometry simulation models
 
@@ -800,28 +805,29 @@ Therefore, we first found the subset of 2749 reflections from the original spot
 list of 2814 reflections that could be predicted by both versions of the
 diffraction geometry.
 \DW{Perhaps the remainder of this paragraph should be removed. I found it
-interesting, but it is perhaps irrelevant: For the electron diffraction geometry, these reflections
-covered a total scan range of $33.7^\circ$. Because the indices of strong spots
-came from a real electron diffraction experiment, their reciprocal lattice
-points lie within a double wedge shaped volume of reciprocal space, bounded by
-two planes. The same reciprocal lattice points were also sampled for the
-simulation of centroid positions for the X-ray geometry. However, the change of
-the Ewald sphere radius means that a much wider total rotation range of
-$183.3^\circ$ is required for each of these points to intersect. This is a
-direct result of the different sampling volumes implied by the electron
-diffraction versus the X-ray diffraction experiment. 90\% of the reciprocal
-lattice points intersect the X-ray Ewald sphere within the central $48.9^\circ$
-of this range though, with the edges of the scan being much less efficient.
-Because the planar wedge of reciprocal lattice points is excited very unevenly
-during the simulated X-ray scan we should not use this method to simulate data
-for a test of scan-varying refinement. However, for global static refinement of
-beam, crystal and detector parameters, the rotation angle of each spot is not
-important; rather it is the difference between that and the predicted angle
-that is relevant. Although the spot list going into refinement for the X-ray
-geometry simulation was not realistic for an X-ray scan, using the same spots
-for both the X-ray and electron diffraction simulations was a simple way to
-ensure that the differences we see in refinement behaviour were due only to the
-modelling of the diffraction geometry.}
+interesting, but it is perhaps irrelevant: For the electron diffraction
+geometry, these reflections covered a total scan range of $33.7^\circ$. Because
+the indices of strong spots came from a real electron diffraction experiment,
+their reciprocal lattice points lie within a double wedge shaped volume of
+reciprocal space, bounded by two planes. The same reciprocal lattice points
+were also sampled for the simulation of centroid positions for the X-ray
+geometry. However, the change of the Ewald sphere radius means that a much
+wider total rotation range of $183.3^\circ$ is required for each of these
+points to intersect. This is a direct result of the different sampling volumes
+implied by the electron diffraction versus the X-ray diffraction experiment.
+90\% of the reciprocal lattice points intersect the X-ray Ewald sphere within
+the central $48.9^\circ$ of this range though, with the edges of the scan being
+much less efficient. Because the planar wedge of reciprocal lattice points is
+excited very unevenly during the simulated X-ray scan we should not use this
+method to simulate data for a test of scan-varying refinement. However, for
+global static refinement of beam, crystal and detector parameters, the rotation
+angle of each spot is not important; rather it is the difference between that
+and the predicted angle that is relevant. Although the spot list going into
+refinement for the X-ray geometry simulation was not realistic for an X-ray
+scan, using the same spots for both the X-ray and electron diffraction
+simulations was a simple way to ensure that the differences we see in
+refinement behaviour were due only to the modelling of the diffraction
+geometry.}
 
 Simulated centroid positions were calculated for each version of the geometry
 by predicting their positions then adding random error. The random errors were
@@ -940,8 +946,8 @@ compare refinement when detector and unit cell are refined simultaneously to
 refinement when detector distance is fixed. Condition number and corrgrams
 should improve}
 
-\section{Multiple crystal restrained refinement \label{sec:group_cell_restraints}}
-\DW{Probably remove this section}
+\section{Multiple crystal restrained refinement
+\label{sec:group_cell_restraints}} \DW{Probably remove this section}
 
 A powerful feature of \dials is multiple experiment joint refinement, whereby
 models that can be shared between data sets are refined simultaneously with
@@ -1003,14 +1009,14 @@ parameters is not compatible with the data.
 \TG{Question: does DIALS recommend integration in P1? XDS does so, but I don't
 think many protein crystallographers do that, me included. For ED this may
 improve data quality, and this would greatly support your point, because with
-P1, one still has to find the appropriate cell. Worth trying?}
-\DW{No, we don't usually recommend integrating in P1.
-In the very few cases I tried (MX data) constraining the cell symmetry
-tended to make slight improvements to integrated data quality. In the presence
-of systematic errors in the experiment geometry though, I can imagine how relaxing
-the lattice constraint may result in better data quality by ``mopping up'' some
-of these errors. When I find a good example for this section (288 not looking
-like the best candidate now) I will try both with and without lattice constraints}
+P1, one still has to find the appropriate cell. Worth trying?} \DW{No, we don't
+usually recommend integrating in P1. In the very few cases I tried (MX data)
+constraining the cell symmetry tended to make slight improvements to integrated
+data quality. In the presence of systematic errors in the experiment geometry
+though, I can imagine how relaxing the lattice constraint may result in better
+data quality by ``mopping up'' some of these errors. When I find a good example
+for this section (288 not looking like the best candidate now) I will try both
+with and without lattice constraints}
 
 \DW{Figure: choosing restraint strength - plot sigma versus average RMSD
 for multiple refinement trials to pick a suitable restraint strength}
@@ -1034,10 +1040,12 @@ restraints terms, expressed as pseudo-observations of the form
 R_{a_i} = \frac{\left( a_i - \langle a \rangle \right)^2}{\sigma_a^2}.
 \end{equation}
 
-The derivative of this pseudo-observation with respect to the parameters of crystal $i$ is
+The derivative of this pseudo-observation with respect to the parameters of
+crystal $i$ is
 
 \begin{equation}
-\pder[R_{a_i}]{p_i} = 2 \pder[a_i]{p_i} \left( 1 - \tfrac{1}{n} \right) \frac{\left( a_i - \langle a \rangle \right)}{\sigma_a^2}.
+\pder[R_{a_i}]{p_i} = 2 \pder[a_i]{p_i} \left( 1 - \tfrac{1}{n} \right)
+  \frac{\left( a_i - \langle a \rangle \right)}{\sigma_a^2}.
 \end{equation}
 
 Because the mean changes at each step, the derivative of the
@@ -1046,7 +1054,8 @@ crystal $i$ must also be calculated
 
 \begin{equation}
 \label{eq:cross-crystal-deriv}
-\pder[R_{a_j}]{p_i} = -\frac{2}{n} \pder[a_i]{p_i} \frac{\left( a_j - \langle a \rangle \right)}{\sigma_a^2}.
+\pder[R_{a_j}]{p_i} = -\frac{2}{n} \pder[a_i]{p_i}
+  \frac{\left( a_j - \langle a \rangle \right)}{\sigma_a^2}.
 \end{equation}
 
 This fact means that the restraints block of the Jacobian matrix used in
