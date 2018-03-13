@@ -686,15 +686,25 @@ some cases, there is significant drift of the beam centre during data
 collection. \DW{Caused by charging effects?}.
 Previous methods to handle this involve procedures to identify the shift
 for each image and write out corrected images in which the beam centre remains
-constant \cite{Wan2013,Nederlof2013,Hattne2015}.
+constant, effectively describing the drift in terms of shifts of the detector
+\cite{Wan2013,Nederlof2013,Hattne2015}. The procedures differ in the
+way that the beam centre is determined for each image. In the simplest case,
+the high scattering cross section for electrons allows, for some
+instrumentation, the direct beam to be
+recorded simultaneously with diffraction spots, avoiding the need for a beam
+stop and without overloading the detector.
 Beam drift in electron diffraction experiments, at least
 those collected by a continuous rotation protocol, appears to occur gradually.
-Therefore it appears reasonable to assume that a smoothly-varying model for the
-beam direction vector would suffice as an alternative representation
-of this effect. For that reason,
-we extended the scan-varying refinement methodology from the crystal parameters
+Therefore it seems reasonable to assume that a smoothly-varying model for the
+beam direction vector would suffice as an alternative \DW{better?} representation
+of this effect. For small magnitudes of the total drift, the difference between
+correction by implicit detector shifts and modelling of a drifting beam
+will be negligible. For the purposes of ED data processing,
+we extended the scan-varying refinement methodology from crystal parameters
 to optionally apply also to the beam parameters, available from \dials version
 1.9 onwards.
+
+\DW{Figure: scan-varying beam and observed beam plotted vs image number}
 
 The difficulties with refinement inherent to electron diffraction geometry are
 exacerbated during scan-varying refinement. Like static
