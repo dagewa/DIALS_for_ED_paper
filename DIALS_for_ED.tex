@@ -532,60 +532,45 @@ Unless a model space group was chosen by the user, the indexing results are
 presented with triclinic symmetry. The compatibility of other choices of
 Bravais lattice with the triclinic solution can be tested using the program
 \dialsrefinebravaislattice \cite{Winter2018,Sauter2006}. There is no difference
-in usage compared with X-ray data, however for electron diffraction data the
+in usage compared with X--ray data, however for electron diffraction data the
 results might be more difficult to interpret. In particular, the metric fit
 reported for each trial solution \cite{LePage1982} may be large (e.g. greater
 than $1^\circ$) even for a correct solution, whereas much smaller values are
-expected for good quality X-ray data. The correlation coefficients between
+expected for good quality X--ray data. The correlation coefficients between
 intensities related by symmetry operations of the lattice are affected by data
 incompleteness and by factors that cause deviation from expected intensities
 such as dynamic diffraction. As a result, these may not be as useful to decide
-on the correct lattice as they are in X-ray experiments. The key criterion then
+on the correct lattice as they are in X--ray experiments. The key criterion then
 is the RMSD between predictions and observations. A pool of solutions with
 RMSDs similar to the original triclinic solution are good candidates. Any
 solution resulting in a significant increase in RMSD is suggestive of an
 over-constrained lattice and should be discarded.
 
-\subsection{Joint refinement of the unit cell and instrument parameters \label{sec:refinement}}
-
-\DW{split into two parts, static refinement and scan-varying, see issue no. 8}
-
-\TG{You mention to describe ``protocols''. A typical user would expect a listing
-or box that he can enter into Dials w/o too much reading. This section is much
-more detailed and better addressed at developers. I would keep the letter but
-move the impression of 'protocols' to a different place, like a look-up section
-for the impatiend reader.}
+\subsection{Global refinement of the unit cell and instrument parameters \label{sec:refinement}}
 
 Following indexing, the model for the diffraction experiment is refined as
-described previously \cite{Waterman2016}. In common with X-ray data processing
-with \dials, it is usual to first refine a ``static'' model for the data set,
-in which crystal parameters are not allowed to vary across the scan. This
-static model is then used as a starting point for scan-varying refinement, in
-which the crystal model is allowed to vary in a smooth manner by splitting its
-static parameters across the scan and interpolating values using a Gaussian
-smoother. The global refinement of a data set improves the stability of the
+described previously \cite{Waterman2016}. In common with X--ray data processing
+with \dials, it is usual to first refine a ``static'' model for the whole data set,
+in which parameters such as the crystal unit cell and orientation angles
+are not allowed to vary across the scan. The global refinement of a data set improves the stability of the
 refinement procedure. However, the geometry of an electron diffraction
 experiment raises particular issues that should be taken into account,
 especially if data quality is limited by low resolution diffraction for some or
 all of the scan, poor quality spot centroids or the scan is an especially
 narrow wedge. In this section we offer some practical advice for \dials
-refinement tasks with challenging electron diffraction data, when only a single
-data set is considered. Section~\ref{sec:group_cell_restraints} presents an
-example where the combination of multiple datasets alongside prior
-knowledge that the unit cells should be similar is used during refinement as
-another way to mitigate difficulties imposed by the diffraction geometry.
+refinement tasks with challenging electron diffraction data.
 
 The most noticeable problem seen with electron diffraction geometry refinement
 is that the accuracy of the refined unit cell may be poor. With $2\theta$ ranges
 typical for X--ray data collection, the Ewald sphere construction is gauged by
-the radius of the sphere. Deviations from the correct unit cell parameters or
+the radius of the sphere \DW{What does this sentence mean?}. Deviations from the correct unit cell parameters or
 detector distance results in a non--linear deviation of predicted spot positions
 across the detector surface. The smaller $2\theta_\text{max}$, the more linear
 the deviation becomes and thus more difficult to detect: unit cell volume and
 detector distance can be scaled together while maintaining precise spot prediction.
 In cases where unit cell imprecision does not prevent structure solution, the
 parameters can be refined, as recently implemented in Refmac5 \DW{Note to add a
-citation}.  While a change in
+citation. Also - we do this for our example datasets, link to relevant section}.  While a change in
 the detector parameters can only result in a projective transformation of the
 positions of the recorded spots on any image, changes in the cell parameters
 will act to move the reciprocal lattice points towards or away from the surface
@@ -600,10 +585,12 @@ refinement problems has long been recognised. The method of eigenvalue
 filtering was proposed to allow refinement to proceed in such cases
 \cite{Reeke1984,LURE1986phase3}, by automatically selecting only those
 parameters, or linear combinations of parameters, that have the greatest effect
-at each step of refinement. This was deemed necessary to refine crystal
-parameters using data from a single oscillation film. Within \dials, we use all
-the data available for global refinement, but we usually attempt to refine
-simultaneously the beam, crystal and detector parameters. We have seen that
+at each step of refinement. This was deemed necessary at the time to refine crystal
+parameters using data from a single oscillation film. Within \dials, all
+available data is used for a global refinement. This reduces correlations and
+provides a better determination for parameters when the scan range is wide,
+thus the default behaviour is to refine simultaneously the beam, crystal and
+detector parameters, which works well for X--ray data. We have seen that
 when limited to a narrow wedge of data recorded with the geometry of the
 electron diffraction experiment, high correlations are again problematic. \dials
 refinement does not use the eigenvalue filtering method, but by default uses a
@@ -615,8 +602,8 @@ electron diffraction geometry may need many steps before convergence is
 achieved, where this is defined as a negligible further reduction in RMSDs. For
 this reason, from \dials version 1.8 the maximum number of iterations before
 refinement terminates has been raised to 100 from 20 for the Levenberg
-Marquardt algorithm. This limit can always be adjusted by the user via the
-\code{max\_iterations} parameter.
+Marquardt algorithm (the limit can always be adjusted by the user via the
+\code{max\_iterations} parameter).
 
 If a good estimate for the unit cell is available as prior knowledge, this can
 be incorporated into refinement by the use of restraints, tying the
@@ -624,11 +611,12 @@ unit cell model to an external target. Unit cell restraints are currently
 available for static refinement of unit cell models but not scan-varying
 refinement, as they were originally developed for XFEL serial crystallography
 where scan-varying refinement is irrelevant. The unit cell parameterisation in
-DIALS is expressed by using metrical matrix elements as parameters
-\cite{Waterman2016}, however for ease of use the restraints are specified in terms of
-the real space cell. Each crystal included in refinement can add up to six
+DIALS is expressed with metrical matrix elements as parameters
+\cite{Waterman2016}. However, for ease of use, restraints are specified in terms of
+the real space cell, as shown in Appendix~\ref{app:PHIL_example}.
+Each crystal included in refinement can add up to six
 restraint terms (for the triclinic case). Irrelevant restraints for cell
-parameters that are already constrained by lattice symmetry are automatically excluded. Each
+parameters that are already constrained by lattice symmetry are automatically excluded. Every
 restraint term adds a pseudo-observation to refinement. Taking the cell
 parameter $a$ as an example, the pseudo-observation term $R_a$ consists of the squared
 residual between that parameter and its target value $a_t$, with a weighting
@@ -658,23 +646,60 @@ the high correlation between these parameters means that the problem of
 distinguishing between cell volume and detector distance remains salient, and
 indeed the unit cell can be driven towards a target cell of incorrect volume
 with minimal increase in refined RMSDs if the detector distance is also
-refined. An alternative method of restraining unit cells does not rely on an
+refined. It is generally advisable to accurately calibrate the effective
+detector distance prior to ED data collection and then to fix this during
+data processing. Other parameters that it may be prudent to fix include the
+detector $\tau_2$ and $\tau_3$ values, which describe rotations around axes in
+the plane of the detector, similar to \mosflm's TILT and TWIST. Joint refinement
+of these parameters along with the beam direction and detector translations
+within the detector plane can be unstable.
+
+\DW{Remove this part?: An alternative method of restraining unit cells does not rely on an
 external target, but ensures similarity across multiple unit cell models
 simultaneously optimised during multi-experiment joint refinement. An example
 of this is presented in Section~\ref{sec:group_cell_restraints} and example
 \code{PHIL} parameter files for restrained refinement are given in
-Appendix~\ref{app:PHIL_example}.
+Appendix~\ref{app:PHIL_example}.}
+
+\DW{Finish with some details of how static refinement was done for the 7
+example datasets. Perhaps reference to a data processing table, in which
+information like refinement diagnostics, use of restraint, elliptical distortion,
+beam drift, unit cell, average unit cell from scan-varying refinement are all
+given?}
+
+\subsection{Scan-varying refinement of crystal and beam parameters \label{sec:sv-refinement}}
+
+In typical use, the global static model for a dataset is used as a starting
+point for scan-varying refinement. As originally implemented
+\cite{Waterman2016}, this was intended to capture changes to the crystal unit
+cell and orientation parameters during data collection. These parameters were allowed to vary in a
+smooth manner by evenly distributing sample points across the scan and
+interpolating values at any one position using a Gaussian smoother. The beam
+and detector parameters could be jointly refined to global, static values
+alongside the scan-varying crystal. The analysis of electron diffraction
+images raises a new issue in that instrument
+stability during the course of data collection cannot be simply assumed, as it
+is for MX data. In some cases, there is significant drift of the beam centre
+during data collection. \DW{comments on the cause of these drifts, other
+ways to handle it - cf. RED autocorrelation and writing out corrected images.
+Also mentioned in a Hattne reference?}. Beam drift in electron diffraction
+experiments, at least those collected by a continuous rotation protocol,
+appears to occur gradually. Therefore it appears reasonable to assume that a
+smoothly-varying model for the beam direction vector would suffice to represent
+this effect. For that reason, we extended the scan-varying refinement
+methodology from the crystal parameters to optionally apply also to the beam
+parameters, available from \dials version 1.9 onwards.
 
 The difficulties with refinement inherent to electron diffraction geometry are
-exacerbated during scan-varying refinement of a crystal model, when this is
-done jointly with refinement of a beam and detector model. Like static
+exacerbated during scan-varying refinement. Like static
 refinement, scan-varying refinement in \dials is also global, in that data from
 the full rotation scan is used in a single optimisation procedure. However, at
-any point in the scan the local values for the crystal unit cell and angular
-misset parameters are dominated by the data close to that point. Spot centroids
+any point in the scan the local values for the crystal unit cell, angular
+misset and potentially the beam direction parameters are dominated by the data
+close to that point. Spot centroids
 at rotation angles further from that point have a diminishing effect on the
-local crystal model, controlled by a Gaussian smoother. While this allows the
-model to express genuine smooth changes to the cell or orientation parameters,
+local model, controlled by a Gaussian smoother. While this allows the
+model to express genuine smooth changes,
 it reduces the stability of the refinement procedure. This has been seen in
 cases where a static crystal model allows global refinement of both the
 detector and crystal parameters to reasonable values, but scan-varying
@@ -684,31 +709,36 @@ still preferable to static refinement of the beam, crystal and detector models
 within local narrow wedges, which suffers even more from high parameter
 correlations. To stabilise a problematic scan-varying refinement task we must
 either restrain or constrain (fix) some parameters of the model. Currently,
-there is no facility available in \dials to restrain the scan-varying unit cell
-to the static cell, which is the best (in a least squares sense) overall unit
-cell for the dataset. However, such restraints would act to dampen unit cell
-variation that may be genuine. A robust alternative approach is already
-possible, which is to refine the detector distance only during the static
-refinement phase, then fix this parameter during scan-varying refinement. For
-particularly recalcitrant cases the detector distance can be fixed for indexing
-and again during subsequent refinement jobs so that it remains at the original
-nominal value assumed during the import of the data set. This may be
-appropriate if the effective distance is well-calibrated. Another option to
-improve stability is to modify options for the smoother used in scan-varying
+there is no facility available in \dials to restrain scan-varying models to
+the best (in a least squares sense) overall values for the dataset,
+as determined during global, static refinement. One way to improve stability
+is to modify options for the smoother used in scan-varying
 refinement. Each parameterisation of a model that is to be refined in a
-scan-varying manner (for example, the crystal unit cell and the crystal
-orientation are separate parameterisations) has an associated interval width
+scan-varying manner has an associated interval width
 parameter that controls the number of refinable subparameters that will be used
 to describe changes during the scan. The default interval width is $36^\circ$.
 Increasing this value, or directly setting a small absolute number of
-intervals, will ensure a greater degree of smoothing.
-% because the fall off of
-%importance of data far from a point in the scan on the values of parameters at
-%that point will be slower.
+intervals, will ensure a greater degree of smoothing by reducing the number of
+parameters in refinement. The most robust method for stabilising refinement
+is to fix parameters of the static models that have high degrees of correlation
+with parameters of the scan-varying models. For example, if detector distance
+is optimised during the static refinement phase (or even better, known in
+advance by accurate calibration), then this parameter can be fixed for
+scan-varying refinement of the unit cell. If a smoothly-varying beam direction
+is refined then fixing the detector in-plane translations and the orientation
+angles $\tau_2$ and $\tau_3$ helps to stabilise refinement. There is no
+automatic determination of a suitable parameterisation for refinement in
+\dialsrefine. Diagnostics (see Section~\ref{sec:diag}) may help to understand
+the details of a particular case and guide choices, however ultimately the user
+must inspect the resulting models for reasonable geometry as well as the final
+RMSD values.
 
-\subsection{Diagnostics for problematic diffraction geometry refinement}
+\DW{finish with details of refinements done in the 7 lyso cases}
+
+\subsection{Diagnostics for problematic diffraction geometry refinement \label{sec:diag}}
 
 \subsubsection{Simulating data for comparison}
+\DW{Perhaps move description of simulation to supplementary material}
 
 Section~\ref{sec:refinement} describes parameters that need to be adjusted in
 difficult cases. To date, even electron diffraction data sets from standard
@@ -905,6 +935,11 @@ of problems with the set up of the diffraction geometry refinement itself,
 without conflation with factors relating to implementation details of the
 algorithm used to perform the optimisation.
 
+\DW{Show condition numbers for refinements of the real example data. Perhaps
+compare refinement when detector and unit cell are refined simultaneously to
+refinement when detector distance is fixed. Condition number and corrgrams
+should improve}
+
 \section{Multiple crystal restrained refinement \label{sec:group_cell_restraints}}
 \DW{Probably remove this section}
 
@@ -1066,8 +1101,8 @@ diffraction data, \DW{Finish section based on Max's lysozyme data}
     spot-finding settings, which indicates which pixels will be marked as
     strong during the spot-finding procedure. The lower inset panel shows the
     same region after spot-finding settings were adjusted for this dataset.
-    In this case, that amounted to setting \texttt{gain=0.833},
-    \texttt{sigma\_strong=1.0} and \texttt{global\_threshold=1} as command-line
+    In this case, that amounted to setting \code{gain=0.833},
+    \code{sigma\_strong=1.0} and \code{global\_threshold=1} as command-line
     options to the \dialsfindspots program. The detector gain of 3.0 determined
     by the format class is already applied before the spot-finding operation,
     hence the spot-finding gain acts as a multiplier for this value.
