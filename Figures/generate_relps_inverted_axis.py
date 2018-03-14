@@ -69,8 +69,8 @@ plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 
 # Create axes as large as the figure and set appropriate data limits
 ax = fig.add_axes([0.0, 0.0, 1.0, 1.0], frameon=False, aspect=1)
-ax.set_xlim(-0.4,0.3)
-ax.set_ylim(-0.1,0.7)
+ax.set_xlim(-0.5,0.3)
+ax.set_ylim(-0.00,0.8)
 
 # Do not show tickmarks
 ax.get_xaxis().set_visible(False)
@@ -245,6 +245,28 @@ for h, ang in zip(hkl_list, angles):
   circle.set_transform(tr + ax.transData)
 
   ax.add_patch(circle)
+
+# Create a custom legend
+#legend_elements = [
+#    patches.Circle((0,0), 0.01, alpha=1.0, fc='black', label='correct rotation'),
+#    patches.Circle((0,0), 0.01, alpha=0.5, label='inverted rotation, MX'),
+#    patches.Circle((0,0), 0.01, alpha=0.5, fc='green', label='inverted rotation, ED')]
+#ax.legend(handles=legend_elements, loc='upper center', frameon=False)
+
+x, y = (-0.4,0.75)
+circle1 = patches.Circle((x,y), 0.01, alpha=1.0, fc='black')
+ax.add_patch(circle1)
+ax.text(x+0.03, y -0.01, "correct rotation")
+
+x, y = (-0.4,0.7)
+circle3 = patches.Circle((x,y), 0.01, alpha=0.5, fc='green')
+ax.add_patch(circle3)
+ax.text(x+0.03, y -0.01, "inverse rotation, MX")
+
+x, y = (-0.4,0.65)
+circle2 = patches.Circle((x,y), 0.01, alpha=0.5)
+ax.add_patch(circle2)
+ax.text(x+0.03, y -0.01, "inverse rotation, ED")
 
 fig.savefig('relps_inverted_axis.pdf')
 plt.show()
