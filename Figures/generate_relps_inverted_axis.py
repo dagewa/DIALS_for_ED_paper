@@ -70,7 +70,7 @@ plt.rcParams['mathtext.fontset'] = 'dejavuserif'
 # Create axes as large as the figure and set appropriate data limits
 ax = fig.add_axes([0.0, 0.0, 1.0, 1.0], frameon=False, aspect=1)
 ax.set_xlim(-0.5,0.3)
-ax.set_ylim(-0.00,0.8)
+ax.set_ylim(-0.1,0.8)
 
 # Do not show tickmarks
 ax.get_xaxis().set_visible(False)
