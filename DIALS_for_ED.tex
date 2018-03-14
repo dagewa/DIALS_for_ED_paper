@@ -694,12 +694,16 @@ way that the beam centre is determined for each image. In the simplest case,
 the high scattering cross section for electrons allows, for some
 instrumentation, the direct beam to be
 recorded simultaneously with diffraction spots, avoiding the need for a beam
-stop and without overloading the detector.
+stop and without overloading the detector. When images are not corrected,
+software such as \mosflm or \xds can be set to independently refine the beam
+centre for each image, or within small blocks of images \DW{what are the
+keywords required for \mosflm and \xds?}. The focus on global refinement in
+\dials means that an alternative approach was sought.
 Beam drift in electron diffraction experiments, at least
 those collected by a continuous rotation protocol, appears to occur gradually.
 Therefore it seems reasonable to assume that a smoothly-varying model for the
-beam direction vector would suffice as an alternative \DW{better?} representation
-of this effect. For small magnitudes of the total drift, the difference between
+beam direction vector would suffice to \DW{better?} represent this effect.
+For small magnitudes of the total drift, the difference between
 correction by implicit detector shifts and modelling of a drifting beam
 will be negligible. For the purposes of ED data processing,
 we extended the scan-varying refinement methodology from crystal parameters
