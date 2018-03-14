@@ -46,12 +46,13 @@ Now a simple MX geometry is constructed:
   distance of 200 mm, with the beam centre in the middle of the panel.
 
 In either case, the rotation axis is not changed from its original direction,
-which for ``experiments_ED.json`` is unusual, being about (-0.755, -0.656, 0).
-The reason to not change this to something conventional such as (1, 0, 0) is
-that the crystal model orientation would have to be changed so that the same
-reflections as contained in ``observed.pickle`` would be observed by rotation
-around the new axis. This way is simpler and should still demonstrate the
-differences between MX and ED refinement that I'm interested in.
+which for ``static.json`` is slightly off from the Y axis
+(-0.018138,-0.999803,0.008012). The reason to not regularise this to something
+conventional such as (0, -1, 0) is that the crystal model orientation would
+have to be changed so that the same reflections as contained in
+``observed.pickle`` would be observed by rotation around the new axis. This way
+is simpler and should still demonstrate the differences between MX and ED
+refinement that I'm interested in.
 
 Simulate observations
 ---------------------

@@ -432,8 +432,8 @@ effects of which can be explored interactively using \dialsimageviewer. For the
 seven example datasets discussed here we typically found that it was necessary
 to increase the sensitivity of spot-finding, and then reduce additional noise
 by using a global threshold. Appropriate spot-finding settings were determined
-manually for each dataset separately. The effect of these settings for dataset
-1 is shown by Figure~\ref{fig:spotfinding}.
+manually for each dataset separately. The effect of these settings for
+\emph{dataset 1} is shown by Figure~\ref{fig:spotfinding}.
 
 \subsection{Experiment geometry}
 
@@ -1030,11 +1030,11 @@ diffraction data, \DW{Finish section based on Max's lysozyme data}
 
 
 The structure was determined as descibred \cite{Clabbers2017}, with the additional
-step of refining the lattice in REFMAC5 \cite{Murshudov2011}. Lattice refinement 
+step of refining the lattice in REFMAC5 \cite{Murshudov2011}. Lattice refinement
 allows refining the unit cell by a single scaling factor independent of the sample
-to detetor distance, thus removing the ambigiuty between detector distance and lattice 
+to detetor distance, thus removing the ambigiuty between detector distance and lattice
 parameters. The newly found unit cell was then used for structure refinement and validation
-\MC{add here a table with the stats and new cell?}. Electron scattering factors were used 
+\MC{add here a table with the stats and new cell?}. Electron scattering factors were used
 for molecular replacement \cite{McCoy2007}, refinement \cite{Murshudov2011}, and validation
 \cite{Joosten2014}.
 
@@ -1068,7 +1068,7 @@ for molecular replacement \cite{McCoy2007}, refinement \cite{Murshudov2011}, and
   \label{fig:spotfinding}
   \centering
   \caption{
-    A diffraction image from dataset 1 is shown using the \dialsimageviewer.
+    A diffraction image from \emph{dataset 1} is shown using the \dialsimageviewer.
     The four quads have independent geometry, such that these are not forced
     to align on a single pixel grid. The upper inset panel shows a zoomed
     region of the upper left quad where a clear row of diffraction spots is
@@ -1157,7 +1157,7 @@ for molecular replacement \cite{McCoy2007}, refinement \cite{Murshudov2011}, and
 
 The following options were written to a file, which was passed to \dialsimport
 in order to override the initial model for experimental geometry of the example
-dataset 1.
+\emph{dataset 1}.
 
 \begin{verbatim}
 geometry.scan.oscillation=0,0.076
@@ -1169,7 +1169,8 @@ geometry.detector.hierarchy{
 }
 \end{verbatim}
 
-Unit cell restraints to an external target cell were created for dataset 6 of
+Unit cell restraints to an external target cell were created for
+\emph{dataset 6} of
 the example set by writing the following lines to a file and passing this in
 at \dialsindex and \dialsrefine steps.
 
@@ -1206,73 +1207,41 @@ types and help strings up to an `expert level' of 2.
 \DW{This may move to supplementary material rather than an appendix}
 \DW{Requires rewriting for the dataset 1 example anyway}
 
-To generate simulated spot centroid positions, we started with a real electron
-diffraction case consisting of a continuous rotation scan over 35 images with
-an angular width of $0.9^\circ$ per image, for a total scan range of
-$31.5^\circ$. We took the model for the indexed experiments and ``regularised''
+To generate simulated spot centroid positions, we started with the real electron
+diffraction example \emph{dataset 1}, consisting of a continuous rotation scan over 503 images with
+an angular width of $0.076^\circ$ per image, for a total scan range of
+$38.2^\circ$. We took the model for the indexed experiments and ``regularised''
 the geometry of the beam and detector for the purposes of simulation, without
 changing the crystal model, which had an orthorhombic unit cell with dimensions
-$a=\SI{34.17}{\angstrom}$, $b=\SI{73.23}{\angstrom}$ and
-$c=\SI{110.14}{\angstrom}$. To regularise the beam and detector models, we
+$a=\SI{31.97}{\angstrom}$, $b=\SI{69.41}{\angstrom}$ and
+$c=\SI{104.62}{\angstrom}$. To regularise the beam and detector models, we
 forced the beam direction to be exactly aligned to the $-Z$ direction and
 reoriented the detector model such that the beam intersected the detector in
 the centre of its square window, and the detector plane was orthogonal to the
 beam vector. The detector distance remained at the value of
-$\SI{1570.98}{\milli\metre}$, which came from the indexing procedure from the
-real data set. The original model was for a detector consisting of a single
-Timepix quad \cite{VanGenderen2016}. We removed parallax correction effects for the
-regularised model detector, effectively assuming it consists of a perfectly
+$\SI{1890}{\milli\metre}$, as previously determined and stored in the CBF headers
+for the images. The real detector consists of $2\times2$ Timepix quads with
+large gaps between the active regions. For simplicity we replaced this model
+with a single panel covering the total extent of the real detector, with
+no parallax correction, effectively assuming it consists of a perfectly
 sensitive plane of zero thickness. The updated electron diffraction geometry
 was written to a new \dxtbx experiment list and then altered a second time to
 produce regularised geometry for an X-ray experiment. This involved changing
-the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.033}{\angstrom}$ and the
+the wavelength from $\SI{0.02508}{\angstrom}$ to $\SI{1.0332}{\angstrom}$ and the
 detector model such that the total extent and pixel size was equivalent to a
 Pilatus 6M detector at a distance of $\SI{200}{\milli\metre}$ from the sample.
 This model was also written to a \dxtbx experiment list. The differences
 between the model geometries are shown in Table~\DW{Table: diffraction geometry
 simulation models}.
 
-\TG{The following (until the end of this section) reads very complicated to me.
-As though you describe your learning process: you simulated, faced and overcame
-problems, simulated better, with new problems, etc. Maybe you could forget about
-your learning process, concentrate on the result and describe only what is
-really necessary to understand the underlying model?}
-\DW{Yes, I will rewrite this section}
-
-The regularised models were then used alongside the indexed spot list from the
+The regularised models were used alongside the indexed spot list from the
 real data set to simulate observed centroid positions for both versions of the
 experimental geometry. By using the spot list from a real experiment we ensured
-a realistic distribution of strong spots versus resolution. Not all of the
-originally found spots can be predicted with the regularised geometry though.
-We wanted the differences in refinement runs to be caused only by the
-diffraction geometry and not obscured by different sets of input spots.
-Therefore, we first found the subset of 2749 reflections from the original spot
-list of 2814 reflections that could be predicted by both versions of the
+a realistic distribution of strong spots versus resolution. In order to ensure
+that the differences in refinement runs are caused only by the
+diffraction geometry and not obscured by different sets of input spots, we
+selected 1571 reflections that could be predicted by both versions of the
 diffraction geometry.
-\DW{Perhaps the remainder of this paragraph should be removed. I found it
-interesting, but it is perhaps irrelevant: For the electron diffraction
-geometry, these reflections covered a total scan range of $33.7^\circ$. Because
-the indices of strong spots came from a real electron diffraction experiment,
-their reciprocal lattice points lie within a double wedge shaped volume of
-reciprocal space, bounded by two planes. The same reciprocal lattice points
-were also sampled for the simulation of centroid positions for the X-ray
-geometry. However, the change of the Ewald sphere radius means that a much
-wider total rotation range of $183.3^\circ$ is required for each of these
-points to intersect. This is a direct result of the different sampling volumes
-implied by the electron diffraction versus the X-ray diffraction experiment.
-90\% of the reciprocal lattice points intersect the X-ray Ewald sphere within
-the central $48.9^\circ$ of this range though, with the edges of the scan being
-much less efficient. Because the planar wedge of reciprocal lattice points is
-excited very unevenly during the simulated X-ray scan we should not use this
-method to simulate data for a test of scan-varying refinement. However, for
-global static refinement of beam, crystal and detector parameters, the rotation
-angle of each spot is not important; rather it is the difference between that
-and the predicted angle that is relevant. Although the spot list going into
-refinement for the X-ray geometry simulation was not realistic for an X-ray
-scan, using the same spots for both the X-ray and electron diffraction
-simulations was a simple way to ensure that the differences we see in
-refinement behaviour were due only to the modelling of the diffraction
-geometry.}
 
 Simulated centroid positions were calculated for each version of the geometry
 by predicting their positions then adding random error. The random errors were
@@ -1285,10 +1254,12 @@ convergence with realistic final RMSDs. The centroid positions from
 spot-finding result from a centre-of-gravity calculation, which also provides
 estimated errors in these positions that are used to set weights in
 refinement. These errors have a dependence on the found spot intensity. Rather
-than simulating new error estimates, for simplicity we kept the original error
+than simulating new error estimates, we kept the original error
 estimates from spot-finding on the real data set to give a realistic
 distribution of weights. The centroid $X$, $Y$ positions and their errors were
 rescaled to units of millimetres for use in refinement using the pixel sizes
 shown in Table~\DW{ref Table above: diffraction geometry simulation models}.
+
+\DW{Supplementary figure: all corrgrams}
 
 \end{document}
