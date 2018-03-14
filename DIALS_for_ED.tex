@@ -901,135 +901,13 @@ electron diffraction geometry against simulated data this reduces to $\kappa
 \left( \mat{J}_{\textrm{ED}} \right) \approx 8 \times 10^3$, a two order of
 magnitude improvement of the problem condition.
 
-\section{Multiple crystal restrained refinement
-\label{sec:group_cell_restraints}} \DW{Probably remove this section}
+\subsection{Integration and data reduction}
 
-A powerful feature of \dials is multiple experiment joint refinement, whereby
-models that can be shared between data sets are refined simultaneously with
-models that differ between data sets. A typical use case for X-ray
-crystallography would be for multiple data sets of crystals that were collected
-without changes to the beam, goniometer and detector between data collection
-runs. In such a case, the beam, goniometer and detector models can be refined
-against the combined data from all of the runs, whilst the crystal models are
-simultaneously refined against the data specific to each run. This reduces
-correlation between the parameters of the shared and individual models,
-improving the parameter estimates for every model \cite{Waterman2016}. As
-electron diffraction data sets are often individually incomplete due to the
-restricted tilt range of commonly used sample stages, many of the protein
-structures reported to date have been refined against data merged from multiple
-crystals \cite{Yonekura2015,Clabbers2017,DelaCruz2017}. It would seem therefore
-that multi-experiment joint refinement has a place in electron crystallography,
-too.
+\DW{TODO}
 
-Electron crystallography takes place at nanometre scale. The required precision
-is available, but has so far not been assembled for electron microscope
-\cite{nm_gonio:2013,prigo:2015} instruments, and electron microscopes are not
-dedicated for diffraction.  Generally, it is safer to assume that truly
-reproducible experimental geometry cannot be achieved between runs, and models
-cannot be shared. Even so, it is still possible to benefit from joint
-refinement by providing other links across
-experiments. \dials allows two approaches to this.
+\subsection{Structure solution and refinement}
 
-\begin{enumerate}
-  \item Constraints, in which equivalent parameters (such as the detector
-  distance) are linked between separate models such that their values will
-  shift by equal amounts at each step of refinement. This has not been explored
-  yet in the context of electron diffraction and will not be discussed further.
-  \item Unit cell restraints, in which equivalent cell parameter values across
-  multiple crystals are linked by a similarity restraint.
-\end{enumerate}
-
-%The difficulties in refining accurate unit cell parameters for electron
-%diffraction experiments may cause uncertainty when it comes to choosing
-%datasets for joint scaling and merging. Indeed, the program \blend
-%\cite{Foadi2013} relies on cell parameters to perform hierarchical cluster
-%analysis that can be used to identify probable outliers. For
-%individually-refined electron diffraction datasets, differences in the cells
-%due to problematic refinement is likely to mask true differences due to
-%non-isomorphism.
-
-Electron diffraction experiments yield very large uncertainties for the unit
-cell parameters. By jointly refining multiple data sets with a restraint that
-ties the individual cell parameters to their mean values, the overall variation
-in the cell parameter values will be reduced. The strength of each restraint can
-be adjusted by setting $\sigma$ values, as described before in
-Section~\ref{sec:refinement}. These can be optimised to find the point that
-minimises the variation in cell parameter values whilst retaining acceptable
-refined RMSDs \DW{Figure: choosing restraint strength}. Setting $\sigma$
-values below that point would decrease the variation in the cells further, but
-at a cost of poor RMSD, indicating that such a small variation in cell
-parameters is not compatible with the data.
-
-\TG{Question: does DIALS recommend integration in P1? XDS does so, but I don't
-think many protein crystallographers do that, me included. For ED this may
-improve data quality, and this would greatly support your point, because with
-P1, one still has to find the appropriate cell. Worth trying?} \DW{No, we don't
-usually recommend integrating in P1. In the very few cases I tried (MX data)
-constraining the cell symmetry tended to make slight improvements to integrated
-data quality. In the presence of systematic errors in the experiment geometry
-though, I can imagine how relaxing the lattice constraint may result in better
-data quality by ``mopping up'' some of these errors. When I find a good example
-for this section (288 not looking like the best candidate now) I will try both
-with and without lattice constraints}
-
-\DW{Figure: choosing restraint strength - plot sigma versus average RMSD
-for multiple refinement trials to pick a suitable restraint strength}
-
-No external target cell is required, so this method is suitable for new
-projects without prior knowledge of cell parameters. Because the mean values
-change as the cell parameters are refined, there is essentially a moving target
-that changes at each step of refinement. In principle then, this method is
-unable to break the ambiguity between individual cell volumes and their
-associated detector distances. However, in practice the combination of multiple
-datasets seems to help avoid these correlated features drifting to clearly
-erroneous values, possibly by resampling systematic errors that may drive such
-drifts in individual cases, or by determining the cell parameters against data
-with overall greater completeness.
-
-In common with restraints to target shown by
-Equation~\ref{eq:restraint_to_target}, each crystal $i$ can add up to six
-restraints terms, expressed as pseudo-observations of the form
-
-\begin{equation}
-R_{a_i} = \frac{\left( a_i - \langle a \rangle \right)^2}{\sigma_a^2}.
-\end{equation}
-
-The derivative of this pseudo-observation with respect to the parameters of
-crystal $i$ is
-
-\begin{equation}
-\pder[R_{a_i}]{p_i} = 2 \pder[a_i]{p_i} \left( 1 - \tfrac{1}{n} \right)
-  \frac{\left( a_i - \langle a \rangle \right)}{\sigma_a^2}.
-\end{equation}
-
-Because the mean changes at each step, the derivative of the
-pseudo-observations of each other crystal $j$ with respect to the parameters of
-crystal $i$ must also be calculated
-
-\begin{equation}
-\label{eq:cross-crystal-deriv}
-\pder[R_{a_j}]{p_i} = -\frac{2}{n} \pder[a_i]{p_i}
-  \frac{\left( a_j - \langle a \rangle \right)}{\sigma_a^2}.
-\end{equation}
-
-This fact means that the restraints block of the Jacobian matrix used in
-refinement is a dense matrix. This has performance implications for joint
-refinement where group restraints are applied over large numbers of crystals,
-for example with XFEL data sets. In such cases, an option is provided to ignore
-the cross-crystal gradient terms of Equation~\ref{eq:cross-crystal-deriv}. For
-most cases with electron diffraction data sets, joint refinement with a few
-tens of crystals is tractable without this approximation.
-
-To demonstrate the use of unit cell similarity restraints with electron
-diffraction data, \DW{Finish section based on Max's lysozyme data}
-%we processed 10 publicly-available datasets from crystals of
-%Trypsin \cite{sbdb288}, downloaded from
-%\url{http://dx.doi.org/10.15785/SBGRID/288} and converted to SMV format
-%following the instructions provided, including a correction for low pixel
-%counts that are truncated to zero \cite{Hattne2016}.
-
-
-The structure was determined as descibred \cite{Clabbers2017}, with the additional
+The structure was determined as described \cite{Clabbers2017}, with the additional
 step of refining the lattice in REFMAC5 \cite{Murshudov2011}. Lattice refinement
 allows refining the unit cell by a single scaling factor independent of the sample
 to detetor distance, thus removing the ambigiuty between detector distance and lattice
@@ -1037,8 +915,6 @@ parameters. The newly found unit cell was then used for structure refinement and
 \MC{add here a table with the stats and new cell?}. Electron scattering factors were used
 for molecular replacement \cite{McCoy2007}, refinement \cite{Murshudov2011}, and validation
 \cite{Joosten2014}.
-
-
 
 \section{Discussion}
 \DW{discussion and conclusions here.}
