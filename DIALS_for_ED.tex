@@ -464,15 +464,14 @@ inaccuracy in the recorded effective distance may be difficult to correct by
 the usual process of diffraction geometry refinement due to the high
 correlation between unit cell parameters and the detector distance when
 $2\theta_{\text{max}}$ is small, where the Ewald sphere construction becomes
-invariant of linear scaling (see Section~\ref{sec:refinement}). The differences
-between the diffraction geometry of typical X-ray and electron diffraction
-cases in real and reciprocal space are summarised in Figure~\DW{mixed
-reciprocal-real space Ewald sphere diagram with detector geometry - like
-cartoons from the talk? If this can be done in a way that fits within 2
-columns} \TG{the differences are small, but the consequences are larger - how
-about a figure that compares the paramters cross-CC between X-rays and
-electrons. That has also been part of your talk.} \DW{I think that is the
-figure I mean to put in the Diagnostics section}
+invariant of linear scaling (see Section~\ref{sec:refinement}). The relatively
+extreme geometry of the electron diffraction is unfamiliar to many X--ray
+crystallographers. It is instructive to compare graphical schematics, such as
+Figure 6 in \DW{reference to Clabbers 2018, Electron diffraction and
+three-dimensional crystallography for structural biology,
+10.1080/0889311X.2018.1446427} for the real space geometry of the instruments
+and Figure~\ref{fig:ewald} for a comparison of the Ewald construction in
+reciprocal space for the two cases.
 
 Another potential source of inaccuracy in the initial model for the diffraction
 geometry arises because of the relatively poor characteristics of the sample
@@ -757,157 +756,20 @@ RMSD values.
 \subsection{Diagnostics for problematic diffraction geometry refinement
 \label{sec:diag}}
 
-\subsubsection{Simulating data for comparison}
-\DW{Perhaps move description of simulation to supplementary material}
-
 Section~\ref{sec:refinement} describes parameters that need to be adjusted in
 difficult cases. To date, even electron diffraction data sets from standard
 proteins can be difficult \cite{Clabbers2017,Hattne2015}. At this early
 development stage, diagnostic tools are important for fine--tuning parameters.
 The program \dialsrefine provides some facilities for investigating the main
 issue we have identified, namely the high level of correlation between the
-effects of different parameters on the model. In this section we concentrate on
-difficulties arising specifically at very short wavelength typical for
-electron diffraction.  To ensure that the differences we were investigating
-come as a result of only the shorter wavelength and greater detector distance,
-we elected to compare the results of refinement against simulated data. To
-generate simulated spot centroid positions, we started with a real electron
-diffraction case consisting of a continuous rotation scan over 35 images with
-an angular width of $0.9^\circ$ per image, for a total scan range of
-$31.5^\circ$. We took the model for the indexed experiments and ``regularised''
-the geometry of the beam and detector for the purposes of simulation, without
-changing the crystal model, which had an orthorhombic unit cell with dimensions
-$a=\SI{34.17}{\angstrom}$, $b=\SI{73.23}{\angstrom}$ and
-$c=\SI{110.14}{\angstrom}$. To regularise the beam and detector models, we
-forced the beam direction to be exactly aligned to the $-Z$ direction and
-reoriented the detector model such that the beam intersected the detector in
-the centre of its square window, and the detector plane was orthogonal to the
-beam vector. The detector distance remained at the value of
-$\SI{1570.98}{\milli\metre}$, which came from the indexing procedure from the
-real data set. The original detector model was for a Timepix quad assembly
-\cite{VanGenderen2016}, but for simplicity we replaced the four panel detector
-model with a single panel model with an equal total extent, thereby ignoring
-the gaps between panels. We also removed parallax correction effects for the
-regularised model detector, effectively assuming it consists of a perfectly
-sensitive plane of zero thickness. The updated electron diffraction geometry
-was written to a new \dxtbx experiment list and then altered a second time to
-produce regularised geometry for an X-ray experiment. This involved changing
-the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.033}{\angstrom}$ and the
-detector model such that the total extent and pixel size was equivalent to a
-Pilatus 6M detector at a distance of $\SI{200}{\milli\metre}$ from the sample.
-This model was also written to a \dxtbx experiment list. The differences
-between the model geometries are shown in Table~\DW{Table: diffraction geometry
-simulation models}.
+effects of different parameters on the model. This information is contained
+within the Jacobian matrix built up as part of each step taken by a non-linear
+least squares optimisation algorithm. In this section we present two
+diagnostics based on analysis of the Jacobian matrix and pick out the salient
+differences that occur simply as a feature of the refinement of geometry at the
+very short wavelength typical for electron diffraction.
 
-\DW{Insert Table: diffraction geometry simulation models
-
-Pixel size, distance, wavelength}
-
-\TG{The following (until the end of this section) reads very complicated to me.
-As though you describe your learning process: you simulated, faced and overcame
-problems, simulated better, with new problems, etc. Maybe you could forget about
-your learning process, concentrate on the result and describe only what is
-really necessary to understand the underlying model?}
-\DW{Yes, I will rewrite this section}
-
-The regularised models were then used alongside the indexed spot list from the
-real data set to simulate observed centroid positions for both versions of the
-experimental geometry. By using the spot list from a real experiment we ensured
-a realistic distribution of strong spots versus resolution. Not all of the
-originally found spots can be predicted with the regularised geometry though.
-We wanted the differences in refinement runs to be caused only by the
-diffraction geometry and not obscured by different sets of input spots.
-Therefore, we first found the subset of 2749 reflections from the original spot
-list of 2814 reflections that could be predicted by both versions of the
-diffraction geometry.
-\DW{Perhaps the remainder of this paragraph should be removed. I found it
-interesting, but it is perhaps irrelevant: For the electron diffraction
-geometry, these reflections covered a total scan range of $33.7^\circ$. Because
-the indices of strong spots came from a real electron diffraction experiment,
-their reciprocal lattice points lie within a double wedge shaped volume of
-reciprocal space, bounded by two planes. The same reciprocal lattice points
-were also sampled for the simulation of centroid positions for the X-ray
-geometry. However, the change of the Ewald sphere radius means that a much
-wider total rotation range of $183.3^\circ$ is required for each of these
-points to intersect. This is a direct result of the different sampling volumes
-implied by the electron diffraction versus the X-ray diffraction experiment.
-90\% of the reciprocal lattice points intersect the X-ray Ewald sphere within
-the central $48.9^\circ$ of this range though, with the edges of the scan being
-much less efficient. Because the planar wedge of reciprocal lattice points is
-excited very unevenly during the simulated X-ray scan we should not use this
-method to simulate data for a test of scan-varying refinement. However, for
-global static refinement of beam, crystal and detector parameters, the rotation
-angle of each spot is not important; rather it is the difference between that
-and the predicted angle that is relevant. Although the spot list going into
-refinement for the X-ray geometry simulation was not realistic for an X-ray
-scan, using the same spots for both the X-ray and electron diffraction
-simulations was a simple way to ensure that the differences we see in
-refinement behaviour were due only to the modelling of the diffraction
-geometry.}
-
-Simulated centroid positions were calculated for each version of the geometry
-by predicting their positions then adding random error. The random errors were
-drawn from a normal distribution with a standard deviation of 0.25 pixels for
-the $X$ and $Y$ positions and 0.25 images for the $Z$ position. For real data,
-the centroid position errors in $X$, $Y$ and $Z$ are neither independent, nor
-normally-distributed. However, the purpose of adding displacements to the
-centroid positions was merely to ensure than refinement would proceed to
-convergence with realistic final RMSDs. The centroid positions from
-spot-finding result from a centre-of-gravity calculation, which also provides
-estimated errors in these positions that are used to set weights in
-refinement. These errors have a dependence on the found spot intensity. Rather
-than simulating new error estimates, for simplicity we kept the original error
-estimates from spot-finding on the real data set to give a realistic
-distribution of weights. The centroid $X$, $Y$ positions and their errors were
-rescaled to units of millimetres for use in refinement using the pixel sizes
-shown in Table~\DW{ref Table above: diffraction geometry simulation models}.
-
-\subsubsection{Refinement diagnostics}
-
-\DW{Introduce this section differently. Both types of diagnostic are based on
-the Jacobian matrix. Introduce that briefly first, then describe the
-complementary information from the qualitative corrgrams and the
-condition number, without implying that the development of the second diagnostic
-was a response to deficiencies in the first.}
-
-Refinement was performed for both versions of the geometry, using default
-settings in \dialsrefine. In each case, 13 parameters were refined in total:
-six to describe the detector position and orientation, one beam orientation
-angle, three crystal orientation angles and three metrical matrix parameters
-for the unit cell. Graphical ``corrgrams'' were created for the final step of
-refinement in each case. These diagrams are a way of rapidly assessing
-correlations between the parameters of refinement in a visual manner. Since
-their introduction, described in \citeasnoun{Waterman2016}, this diagnostic has
-been improved. Rather than combining data in a single corrgram, the three
-dimensional nature of the centroid data is respected and three corrgrams are
-produced: one for each of the dimensions $X$, $Y$ and $\phi$. These separate
-figures are more appropriate for assessing the levels of correlations between
-parameters implied by the data, whereas a single corrgram can obscure these
-features because the derivatives of calculated centroid positions with respect
-to some parameter $\pder[X]{p}$, $\pder[Y]{p}$ and $\pder[\phi]{p}$ come from
-different distributions and thus should not be combined in a meaningful
-calculation of correlation.
-
-The two sets of three corrgrams are shown in the supplementary figure
-\DW{reference to this}. The pattern of high correlations between parameters
-that affect the predicted reflection positions $(X, Y)$ on the detector
-plane are similar in the cases of electron and X-ray diffraction
-geometries. However, in general, the absolute values of correlations are higher
-for the electron diffraction geometry. The most striking difference between the
-two cases is shown on the corrgram for the parameters that affect the predicted
-rotation angle, $\phi_c$. None of the detector parameters affect $\phi_c$, so
-only the beam and crystal parameters are of interest. The relevant subset of
-the corrgram is reproduced in Figure~\DW{see below}, which shows that absolute
-correlations between all parameters in this block are high for the electron
-diffraction geometry.
-
-The inspection of corrgrams may provide a qualitative indication of parameters
-that may cause problems during geometry refinement, but it can be difficult to
-interpret the details of these plots. Seeing as certain correlations are high
-anyway even in unproblematic cases, it is also not easy to determine simply
-from these plots which cases actually will be troublesome. For these reasons,
-we investigated an alternative diagnostic with a simpler interpretation. Each
-step of a non-linear least squares problem is expressed as a linearised
+Each step of a non-linear least squares problem is expressed as a linearised
 sub-problem of the form
 
 \begin{equation}
@@ -923,44 +785,99 @@ the residuals with respect to each parameter of the problem, is thus similarly
 formed in blocks, with the upper third of the matrix corresponding to
 $\pder[X]{p}$ values, the second to $\pder[Y]{p}$ and the lower third to
 $\pder[\phi]{p}$. The vector $\vec{\Delta p}$ is the parameter shift vector to
-be determined for the step. The corrgram diagnostic investigates correlation
-between columns within each block of the Jacobian, identifying which parameters
-are the least distinguishable from each other, but might not give a clear
-indication of which refinement cases will actually cause problems. By contrast,
-calculating the condition number of $\mat{J}$ provides a measure of how
-well-posed is the sub-problem given by Equation~\ref{eq:linearised_step}, but
-does not pick out which parameters are culpable. A condition number $\kappa
-\left( \mat{J} \right)$ of infinity means that $\mat{J}$ is singular, while a
-finite value of $\kappa \left( \mat{J} \right)$ gives a bound on the accuracy
-of the solution to Equation~\ref{eq:linearised_step}. We added an optional
-diagnostic to \dialsrefine to calculate $\kappa \left( \mat{J} \right)$ for
-each step of refinement, and used this during the refinement of the two cases
-presented here. For the final step of refinement prior to termination at RMSD
-convergence the condition number for the electron diffraction geometry $\kappa
-\left( \mat{J}_{\textrm{ED}} \right) \approx 5 \times 10^5$ while for the X-ray
-diffraction geometry $\kappa \left( \mat{J}_{\textrm{MX}} \right) \approx 2
-\times 10^3$. This clearly indicates that the electron diffraction geometry
-presents a considerably less well-posed problem for refinement.
+be determined for the step.
+
+The first diagnostic consists of graphical ``corrgrams'', which are a way of
+rapidly assessing correlations between the parameters of refinement in a visual
+manner. The data represented by a corrgram consists of the matrix of pairwise
+correlation values calculated between columns of the Jacobian. Since their
+introduction, described in \citeasnoun{Waterman2016}, this diagnostic has been
+improved. Rather than calculating a single corrgram using correlation between
+each full column of the Jacobian, the three dimensional nature of the centroid
+data is respected and three corrgrams are produced: one for each of the blocks
+of the Jacobian, corresponding to the dimensions $X$, $Y$ and $\phi$. These
+separate figures are more appropriate for assessing the levels of correlations
+between parameters implied by the data, whereas a single corrgram can obscure
+these features. That is because derivatives of calculated centroid positions
+with respect to some parameter $\pder[X]{p}$, $\pder[Y]{p}$ and
+$\pder[\phi]{p}$ come from different distributions and thus should not be
+combined in a meaningful calculation of correlation.
+
+While the corrgram diagnostic qualitatively identifies which parameters are the
+least distinguishable from each other, it might still not give a clear
+indication of which refinement cases will actually cause problems. Certain
+correlations are high anyway even in unproblematic cases. For this reason we
+also investigated an alternative, quantitative, diagnostic with a simpler
+interpretation, namely the \emph{condition number} of the Jacobian matrix,
+$\mat{J}$. This provides a measure of how well-posed is the sub-problem given
+by Equation~\ref{eq:linearised_step}, but does not pick out which parameters
+are culpable. A condition number $\kappa \left( \mat{J} \right)$ of infinity
+means that $\mat{J}$ is singular, while a finite value of $\kappa \left(
+\mat{J} \right)$ gives a bound on the accuracy of the solution to
+Equation~\ref{eq:linearised_step}.
 
 The Jacobian used to calculate both the corrgram and the condition number
-diagnostics does not include blocks related to pseudo-observations that may be
-used as restraints in refinement. For that reason, it should be noted that the
-diagnostics give information about underlying degeneracy of parameters
-determined only by the geometry of the problem, not including the effects of
-modifications to the problem that may have been introduced to improve the
-robustness of the procedure. Similarly, the diagnostics inform us directly
-about properties of the normal equations of the Gauss-Newton problem implied by
-Equation~\ref{eq:linearised_step} rather than the modified normal equations of
-the default Levenberg-Marquardt algorithm that is typically in fact used to
-find the solution. This ensures that these diagnostics can be used to warn us
-of problems with the set up of the diffraction geometry refinement itself,
-without conflation with factors relating to implementation details of the
-algorithm used to perform the optimisation.
+diagnostics does not include any additional blocks related to
+pseudo-observations that may be used as restraints in refinement. For that
+reason, it should be noted that the diagnostics give information about
+underlying degeneracy of parameters determined only by the geometry of the
+problem, not including the effects of modifications to the problem that may
+have been introduced to improve the robustness of the procedure. Similarly, the
+diagnostics inform us directly about properties of the normal equations of the
+Gauss-Newton problem implied by Equation~\ref{eq:linearised_step} rather than
+the modified normal equations of the default Levenberg-Marquardt algorithm that
+is typically in fact used to find the solution. This ensures that these
+diagnostics can be used to warn us of problems with the set up of the
+diffraction geometry refinement itself, without conflation with factors
+relating to implementation details of the algorithm used to perform the
+optimisation.
 
-\DW{Show condition numbers for refinements of the real example data. Perhaps
-compare refinement when detector and unit cell are refined simultaneously to
-refinement when detector distance is fixed. Condition number and corrgrams
-should improve}
+To investigate the difficulties faced with refinement problems that are solely
+a result of the electron diffraction geometry, we elected to perform refinement
+against simulated data. That way, we could compare two refinement procedures,
+using an identical crystal model, beam direction and rotation axis, while
+altering the wavelength and detector distance to match typical values for
+electron diffraction in one case, and X--ray diffraction in the other. The
+differences between the model geometries are summarised in Table~\DW{Table:
+diffraction geometry simulation models} and details about how the simulated
+data was constructed are presented in Appendix~\ref{app:simulation}. Refinement
+was performed for both versions of the geometry, using default settings in
+\dialsrefine. In each case, 13 parameters were refined in total: six to
+describe the detector position and orientation, one beam orientation angle,
+three crystal orientation angles and three metrical matrix parameters for the
+unit cell. For the final step of refinement prior to termination at RMSD
+convergence, corrgrams were produced and the condition number calculated for
+comparisons.
+
+\DW{Insert Table: diffraction geometry simulation models.
+
+Pixel size, distance, wavelength}
+
+The two sets of three corrgrams are shown in the Figure
+\DW{FIXME, recalculate for geometry based on dataset 1 of the current examples.
+Check the conclusions remain the same}. The pattern of high correlations between parameters
+that affect the predicted reflection positions $(X, Y)$ on the detector
+plane are similar in the cases of electron and X-ray diffraction
+geometries. However, in general, the absolute values of correlations are higher
+for the electron diffraction geometry. The most striking difference between the
+two cases is shown on the corrgram for the parameters that affect the predicted
+rotation angle, $\phi_c$. None of the detector parameters affect $\phi_c$, so
+only the beam and crystal parameters are of interest. The relevant subset of
+the corrgram is reproduced in Figure~\DW{see below}, which shows that absolute
+correlations between all parameters in this block are high for the electron
+diffraction geometry.
+
+The condition number at the final step of refinement for the electron
+diffraction geometry $\kappa \left( \mat{J}_{\textrm{ED}} \right) \approx 5
+\times 10^5$ while for the X-ray diffraction geometry $\kappa \left(
+\mat{J}_{\textrm{MX}} \right) \approx 2 \times 10^3$. \DW{Update for new
+example}. This clearly indicates that the electron diffraction geometry presents
+a considerably less well-posed problem for refinement.
+
+\DW{Compare with condition numbers and corrgrams for refinements of real
+example data. Perhaps compare refinement when detector and unit cell are
+refined simultaneously to refinement when detector distance is fixed. Condition
+number and corrgrams should improve}
 
 \section{Multiple crystal restrained refinement
 \label{sec:group_cell_restraints}} \DW{Probably remove this section}
@@ -1008,7 +925,6 @@ experiments. \dials allows two approaches to this.
 %individually-refined electron diffraction datasets, differences in the cells
 %due to problematic refinement is likely to mask true differences due to
 %non-isomorphism.
-
 
 Electron diffraction experiments yield very large uncertainties for the unit
 cell parameters. By jointly refining multiple data sets with a restraint that
@@ -1136,6 +1052,29 @@ diffraction data, \DW{Finish section based on Max's lysozyme data}
 \end{figure}
 
 \begin{figure}
+  \label{fig:ewald}
+  \centering
+  \caption{
+    The Ewald construction for the electron diffraction and the X--ray cases are
+    compared. The cross-hatched circle represents the reciprocal lattice within
+    a limiting sphere of $\SI{1}{\angstrom}$ resolution. The Ewald
+    sphere for 12 keV X--rays with a wavelength of $\SI{1.0332}{\angstrom}$ is
+    represented as a complete circle, with the scattering vector $\vec{s}_1$
+    drawn at the $\SI{1}{\angstrom}$ limit, forming an angle of
+    $2\theta_X=62.2^\circ$ from the incident beam direction along $\vec{s}_0$.
+    At this scale, the Ewald sphere for 200 keV electrons, with a wavelength of
+    $\SI{0.02508}{\angstrom}$ cannot be shown as a complete circle as it has
+    radius of over forty times greater. The equivalent scattering vector
+    $\vec{s}_1$ for $\SI{1}{\angstrom}$ diffraction forms an angle of only
+    $2\theta_e=1.44^\circ$ from the incident beam direction. It is worth noting
+    that reciprocal lattice is sampled along an almost planar surface,
+    implying that data from a single image contains no information about the
+    reciprocal lattice dimension in the direction along the incident beam.
+  }
+  \includegraphics[width=0.5\textwidth]{Figures/geometry/ewald.png}
+\end{figure}
+
+\begin{figure}
   \label{fig:invert_axis}
   \centering
   \caption{
@@ -1209,5 +1148,95 @@ The correct format for these options may be explored interactively using
 command line switches for \dials programs. For example, the command
 \texttt{dials.import -c -a2 -e2} will show all configuration options along with
 types and help strings up to an `expert level' of 2.
+
+\section{Simulation for comparison of ED versus MX geometry refinement
+  \label{app:simulation}}
+\DW{This may move to supplementary material rather than an appendix}
+\DW{Requires rewriting for the dataset 1 example anyway}
+
+To generate simulated spot centroid positions, we started with a real electron
+diffraction case consisting of a continuous rotation scan over 35 images with
+an angular width of $0.9^\circ$ per image, for a total scan range of
+$31.5^\circ$. We took the model for the indexed experiments and ``regularised''
+the geometry of the beam and detector for the purposes of simulation, without
+changing the crystal model, which had an orthorhombic unit cell with dimensions
+$a=\SI{34.17}{\angstrom}$, $b=\SI{73.23}{\angstrom}$ and
+$c=\SI{110.14}{\angstrom}$. To regularise the beam and detector models, we
+forced the beam direction to be exactly aligned to the $-Z$ direction and
+reoriented the detector model such that the beam intersected the detector in
+the centre of its square window, and the detector plane was orthogonal to the
+beam vector. The detector distance remained at the value of
+$\SI{1570.98}{\milli\metre}$, which came from the indexing procedure from the
+real data set. The original model was for a detector consisting of a single
+Timepix quad \cite{VanGenderen2016}. We removed parallax correction effects for the
+regularised model detector, effectively assuming it consists of a perfectly
+sensitive plane of zero thickness. The updated electron diffraction geometry
+was written to a new \dxtbx experiment list and then altered a second time to
+produce regularised geometry for an X-ray experiment. This involved changing
+the wavelength from $\SI{0.0251}{\angstrom}$ to $\SI{1.033}{\angstrom}$ and the
+detector model such that the total extent and pixel size was equivalent to a
+Pilatus 6M detector at a distance of $\SI{200}{\milli\metre}$ from the sample.
+This model was also written to a \dxtbx experiment list. The differences
+between the model geometries are shown in Table~\DW{Table: diffraction geometry
+simulation models}.
+
+\TG{The following (until the end of this section) reads very complicated to me.
+As though you describe your learning process: you simulated, faced and overcame
+problems, simulated better, with new problems, etc. Maybe you could forget about
+your learning process, concentrate on the result and describe only what is
+really necessary to understand the underlying model?}
+\DW{Yes, I will rewrite this section}
+
+The regularised models were then used alongside the indexed spot list from the
+real data set to simulate observed centroid positions for both versions of the
+experimental geometry. By using the spot list from a real experiment we ensured
+a realistic distribution of strong spots versus resolution. Not all of the
+originally found spots can be predicted with the regularised geometry though.
+We wanted the differences in refinement runs to be caused only by the
+diffraction geometry and not obscured by different sets of input spots.
+Therefore, we first found the subset of 2749 reflections from the original spot
+list of 2814 reflections that could be predicted by both versions of the
+diffraction geometry.
+\DW{Perhaps the remainder of this paragraph should be removed. I found it
+interesting, but it is perhaps irrelevant: For the electron diffraction
+geometry, these reflections covered a total scan range of $33.7^\circ$. Because
+the indices of strong spots came from a real electron diffraction experiment,
+their reciprocal lattice points lie within a double wedge shaped volume of
+reciprocal space, bounded by two planes. The same reciprocal lattice points
+were also sampled for the simulation of centroid positions for the X-ray
+geometry. However, the change of the Ewald sphere radius means that a much
+wider total rotation range of $183.3^\circ$ is required for each of these
+points to intersect. This is a direct result of the different sampling volumes
+implied by the electron diffraction versus the X-ray diffraction experiment.
+90\% of the reciprocal lattice points intersect the X-ray Ewald sphere within
+the central $48.9^\circ$ of this range though, with the edges of the scan being
+much less efficient. Because the planar wedge of reciprocal lattice points is
+excited very unevenly during the simulated X-ray scan we should not use this
+method to simulate data for a test of scan-varying refinement. However, for
+global static refinement of beam, crystal and detector parameters, the rotation
+angle of each spot is not important; rather it is the difference between that
+and the predicted angle that is relevant. Although the spot list going into
+refinement for the X-ray geometry simulation was not realistic for an X-ray
+scan, using the same spots for both the X-ray and electron diffraction
+simulations was a simple way to ensure that the differences we see in
+refinement behaviour were due only to the modelling of the diffraction
+geometry.}
+
+Simulated centroid positions were calculated for each version of the geometry
+by predicting their positions then adding random error. The random errors were
+drawn from a normal distribution with a standard deviation of 0.25 pixels for
+the $X$ and $Y$ positions and 0.25 images for the $Z$ position. For real data,
+the centroid position errors in $X$, $Y$ and $Z$ are neither independent, nor
+normally-distributed. However, the purpose of adding displacements to the
+centroid positions was merely to ensure that refinement would proceed to
+convergence with realistic final RMSDs. The centroid positions from
+spot-finding result from a centre-of-gravity calculation, which also provides
+estimated errors in these positions that are used to set weights in
+refinement. These errors have a dependence on the found spot intensity. Rather
+than simulating new error estimates, for simplicity we kept the original error
+estimates from spot-finding on the real data set to give a realistic
+distribution of weights. The centroid $X$, $Y$ positions and their errors were
+rescaled to units of millimetres for use in refinement using the pixel sizes
+shown in Table~\DW{ref Table above: diffraction geometry simulation models}.
 
 \end{document}
