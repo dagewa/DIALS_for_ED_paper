@@ -615,7 +615,7 @@ model to an external target. Unit cell restraints are currently available for
 static refinement of unit cell models but not scan-varying refinement, as they
 were originally developed for XFEL serial crystallography where scan-varying
 refinement is irrelevant. The unit cell parameterisation in DIALS is expressed
-with metrical matrix elements as parameters \cite{Waterman2016}. However, for
+with reciprocal metrical matrix elements as parameters \cite{Waterman2016}. However, for
 ease of use, restraints are specified in terms of the real space cell, as shown
 in Appendix~\ref{app:PHIL_example}. Each crystal included in refinement can add
 up to six restraint terms (for the triclinic case). Irrelevant restraints for
@@ -755,7 +755,8 @@ the details of a particular case and guide choices, however ultimately the user
 must inspect the resulting models for reasonable geometry as well as the final
 RMSD values.
 
-\DW{finish with details of refinements done in the 7 lyso cases}
+\DW{finish with details of scan-varying refinements done in the 7 lyso cases -
+detector parameters all fixed at static values, default smoothness, etc.}
 
 \subsection{Diagnostics for problematic diffraction geometry refinement
 \label{sec:diag}}
@@ -848,40 +849,57 @@ data was constructed are presented in Appendix~\ref{app:simulation}. Refinement
 was performed for both versions of the geometry, using default settings in
 \dialsrefine. In each case, 13 parameters were refined in total: six to
 describe the detector position and orientation, one beam orientation angle,
-three crystal orientation angles and three metrical matrix parameters for the
-unit cell. For the final step of refinement prior to termination at RMSD
-convergence, corrgrams were produced and the condition number calculated for
-comparisons.
+three crystal orientation angles and three reciprocal metrical matrix elements
+for the unit cell. For the final step of refinement prior to termination at
+RMSD convergence, corrgrams were produced and the condition number calculated
+for comparisons.
 
 \DW{Insert Table: diffraction geometry simulation models.
 
 Pixel size, distance, wavelength}
 
-The two sets of three corrgrams are shown in the Figure
-\DW{FIXME, recalculate for geometry based on dataset 1 of the current examples.
-Check the conclusions remain the same}. The pattern of high correlations between parameters
-that affect the predicted reflection positions $(X, Y)$ on the detector
-plane are similar in the cases of electron and X-ray diffraction
-geometries. However, in general, the absolute values of correlations are higher
-for the electron diffraction geometry. The most striking difference between the
-two cases is shown on the corrgram for the parameters that affect the predicted
-rotation angle, $\phi_c$. None of the detector parameters affect $\phi_c$, so
-only the beam and crystal parameters are of interest. The relevant subset of
-the corrgram is reproduced in Figure~\DW{see below}, which shows that absolute
-correlations between all parameters in this block are high for the electron
-diffraction geometry.
+The two sets of three corrgrams are shown complete in the Supplementary Figure
+\DW{ref to suppl. fig.}. The pattern of high correlations between parameters
+that affect the predicted reflection positions $(X, Y)$ on the detector plane
+are similar in the cases of electron and X-ray diffraction geometries. However,
+in general, the absolute values of correlations are higher for the electron
+diffraction geometry. The most striking difference between the two cases is
+shown on the corrgram for the parameters that affect the predicted rotation
+angle, $\phi_c$. None of the detector parameters affect $\phi_c$, so only the
+beam and crystal parameters are of interest. The relevant subset of the
+corrgram is reproduced in Figure~\ref{fig:corrgram}. This figure shows that
+absolute correlations between certain parameters are high in either case, but
+that the electron diffraction geometry shows increased absolute correlations
+between $\phi_3$, the crystal orientation around the $Z$ axis, and other
+parameters. In general, absolute correlations are smallest between the
+parameter $g^*_{11}$, here corresponding to the short axis of the cell, and
+other parameters for either version of the geometry. For this dataset, the
+short cell axis was aligned closest to the rotation axis. As a result, this
+dimension is relatively well-determined by centroid data from images throughout
+the dataset. However, even for this parameter the electron diffraction geometry
+produces larger absolute correlations with other parameters, except one,
+$g^*_{33}$, which parameterises the long axis of the cell. Detailed
+interpretation of these plots is difficult and requires complete knowledge of
+the definitions of each of the parameters including the directions about which
+they are defined and the order in which they act to compose the final model.
+Broadly, however, we can immediately see a pattern of greater magnitude
+correlations for the electron diffraction case, and would expect a
+correspondingly more challenging refinement problem.
 
-The condition number at the final step of refinement for the electron
-diffraction geometry $\kappa \left( \mat{J}_{\textrm{ED}} \right) \approx 5
-\times 10^5$ while for the X-ray diffraction geometry $\kappa \left(
-\mat{J}_{\textrm{MX}} \right) \approx 2 \times 10^3$. \DW{Update for new
-example}. This clearly indicates that the electron diffraction geometry presents
-a considerably less well-posed problem for refinement.
-
-\DW{Compare with condition numbers and corrgrams for refinements of real
-example data. Perhaps compare refinement when detector and unit cell are
-refined simultaneously to refinement when detector distance is fixed. Condition
-number and corrgrams should improve}
+The second diagnostic provides a measure to quantify that effect. The condition
+number at the final step of refinement for the electron diffraction geometry
+$\kappa \left( \mat{J}_{\textrm{ED}} \right) \approx 8 \times 10^5$ while for
+the X-ray diffraction geometry $\kappa \left( \mat{J}_{\textrm{MX}} \right)
+\approx 2 \times 10^3$. This clearly indicates that the electron diffraction
+geometry presents a considerably less well-posed problem for refinement. With
+the simulated data we jointly refined 13 parameters simultaneously, however for
+the processing of the real 7 example datasets we fixed the detector distance,
+$\tau_2$ and $\tau_3$ parameters to stabilise refinement and avoid the cell
+volume drifting away from reasonable values. The condition number quantifies
+this stabilisation. When the same parameters are fixed during refinement of the
+electron diffraction geometry against simulated data this reduces to $\kappa
+\left( \mat{J}_{\textrm{ED}} \right) \approx 8 \times 10^3$, a two order of
+magnitude improvement of the problem condition.
 
 \section{Multiple crystal restrained refinement
 \label{sec:group_cell_restraints}} \DW{Probably remove this section}
@@ -1113,6 +1131,24 @@ for molecular replacement \cite{McCoy2007}, refinement \cite{Murshudov2011}, and
     rotation from the appearance of the reconstructed reciprocal lattice alone.
   }
   \includegraphics[width=0.5\textwidth]{Figures/relps_inverted_axis.pdf}
+\end{figure}
+
+\begin{figure}
+  \label{fig:corrgram}
+  \centering
+  \caption{
+    Geometry refinement against simulated data was performed assuming either
+    typical electron diffraction geometry or X--ray diffraction geometry, as
+    described in the text. Corrgrams were produced for the final step of
+    refinement. Here, corrgrams indicating the correlation between effects of
+    different parameters on the angular residuals $(\phi - \phi_o)$ are shown,
+    with the refined detector parameters excluded from the plots as they have
+    no effect on the $\phi$ residuals. The parameter labels are as defined in
+    \citeasnoun{Waterman2016}. The upper panel shows the corrgram for the
+    electron diffraction geometry and the lower panel shows the equivalent for
+    the X--ray diffraction geometry.
+  }
+  \includegraphics[width=0.5\textwidth]{Figures/simulation/corrgrams_phi.png}
 \end{figure}
 
 \appendix
