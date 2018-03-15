@@ -462,15 +462,12 @@ usual process of diffraction geometry refinement due to the high correlation
 between unit cell parameters and the detector distance when
 $2\theta_{\text{max}}$ is small, when the Ewald sphere construction becomes
 invariant of linear scaling (see Section~\ref{sec:refinement}) \cite{VanGenderen2016}.
-
 In addition,
 imperfections in the lens system may introduce distortions in the recorded
-diffraction images. Possible distortions include
-anisotropic magnification where the diffraction pattern pattern is elongated
-in one direction, transforming a circular powder pattern to an ellipse \cite{lenscorr_2dx:2006,Clabbers2017}.
-With disregard of lens defects, discussed further in Section~\ref{sec:distortion},
-the processing software can ignore these
-distinctions and model the experiment with an effective detector.
+diffraction images.
+With disregard of such defects, discussed further in Section~\ref{sec:distortion},
+the processing software can ignore the lens system and model the experiment
+with an effective detector.
 
 The relatively
 extreme geometry of the electron diffraction is unfamiliar to many X--ray
@@ -512,7 +509,7 @@ positions of the reflections.
 \subsection{Image distortion due to lens effects \label{sec:distortion}}
 \DW{Complete section - add part on how dx, dy maps implemented in \dials,
 the \dials equivalent of geocorr and reference to the 7 lyso datasets}
-Possible distortions include
+...Possible distortions include
 anisotropic magnification where the diffraction pattern pattern is elongated
 in one direction, transforming a circular powder pattern to an ellipse
 \cite{lenscorr_2dx:2006,Clabbers2017}.
