@@ -443,28 +443,42 @@ diffraction geometry. The short wavelength of an electron beam
 ($\SI{0.02508}{\angstrom}$ for 200 keV electrons compared to
 $\SI{1.0332}{\angstrom}$ for 12 keV X-rays) implies a correspondingly large 
 Ewald sphere, with a small
-$2\theta$ scattering angle even for the highest resolution reflections. The low
-diffraction angles imply a large effective sample to detector distance,
-required to magnify the diffraction pattern and achieve sufficient spatial
-separation of peaks. At an X-ray beamline the sample to detector distance is
-easily calibrated with reliable test crystals. Large detectors are advantageous
-for X-ray crystallography because they allow the sample to detector distance to
-be increased, which both reduces diffuse X-ray background and improves spatial
-separation of peaks \cite{Stanton1993}. By contrast, large detector size is a
-less important factor for electron diffraction experiments. In that case, the
-low diffraction angles imply that a large effective sample to detector distance
-is required to magnify the diffraction pattern to fill the detector surface,
-even for the much smaller area detectors in use within electron microscopes.
-The effective detector distance is set by the objective lens and does not
-correspond directly to a quantity that can be measured mechanically. With
-disregard of lens defects \cite{lenscorr_2dx:2006,Clabbers2017}, discussed
-further in Section~\ref{sec:distortion}, the processing software can ignore
-this distinction and model the experiment with an effective detector. However,
-inaccuracy in the recorded effective distance may be difficult to correct by
+$2\theta$ scattering angle even for the highest resolution reflections. 
+
+The low
+diffraction angles imply a large effective sample to detector distance needed to magnify 
+the diffraction pattern and achieve sufficient spatial
+separation between peaks. Large detectors are advantageous
+for crystallography because they allow the sample to detector distance to
+be increased, which both reduces diffuse background and improves spatial
+separation of peaks \cite{Stanton1993}. However, 
+in a TEM the detector distance is limited by the largest possible magnification,
+and the relatively small size of the detectors. Whilst the true camera position underneath the 
+TEM column is always at a fixed distance, the effective detector distance
+is set by the objective lens and does not correspond directly to a quantity that
+can be measured mechanically. Similar to an X-ray beamline, the sample to detector distance in
+a TEM is easily calibrated with reliable test crystals. However,
+inaccuracy in the recorded effective distance may be difficult to correct by the
+usual process of diffraction geometry refinement due to the high correlation
+between unit cell parameters and the detector distance when
+$2\theta_{\text{max}}$ is small, when the Ewald sphere construction becomes
+invariant of linear scaling (see Section~\ref{sec:refinement}) \cite{VanGenderen2016}. 
+
+In addition,
+imperfections in the lens system may introduce distortions in the recorded
+diffraction images. Possible distortions include
+anisotropic magnification where the diffraction pattern pattern is elongated
+in one direction, transforming a circular powder pattern to an ellipse \cite{lenscorr_2dx:2006,Clabbers2017}.
+With disregard of lens defects, discussed further in Section~\ref{sec:distortion},
+the processing software can ignore these
+distinctions and model the experiment with an effective detector. 
+However,inaccuracy in the recorded effective distance may be difficult to correct by
 the usual process of diffraction geometry refinement due to the high
 correlation between unit cell parameters and the detector distance when
 $2\theta_{\text{max}}$ is small, where the Ewald sphere construction becomes
-invariant of linear scaling (see Section~\ref{sec:refinement}). The relatively
+invariant of linear scaling (see Section~\ref{sec:refinement}). 
+
+The relatively
 extreme geometry of the electron diffraction is unfamiliar to many X--ray
 crystallographers. It is instructive to compare graphical schematics, such as
 Figure 6 in \DW{reference to Clabbers 2018, Electron diffraction and
