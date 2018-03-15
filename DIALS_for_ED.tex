@@ -550,6 +550,16 @@ RMSDs similar to the original triclinic solution are good candidates. Any
 solution resulting in a significant increase in RMSD is suggestive of an
 over-constrained lattice and should be discarded.
 
+For 6 of the 7 datasets of our example, indexing with an approximately correct
+orthorhombic cell was successful with default options apart from fixing some
+detector parameters, as described in Section~\ref{sec:refinement}. For
+\emph{dataset 6} we additionally fixed the beam orientation parameters and
+provided the expected unit cell and a restraint to this target cell during
+refinement. This dataset shows relatively poor diffraction and particularly
+high RMSDs between the predicted and observed rotation angles for indexed
+spots. The action of both constraints and restraints help to stabilise and
+guide refinement in such difficult cases.
+
 \subsection{Global refinement of the unit cell and instrument parameters
 \label{sec:refinement}}
 
