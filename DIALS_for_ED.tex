@@ -206,8 +206,8 @@ angles and a high effective sample to detector distance. Nevertheless, the
 DIALS software package can, with specific adaptations, successfully process
 continuous rotation electron diffraction data. Pathologies encountered
 specifically in electron diffraction make the data integration more
-challenging. Errors can arise from instrumentation, such as distorted
-diffraction patterns from lens imperfections, or beam drift. The diffraction
+challenging. Errors can arise from instrumentation, such as beam drift or
+distorted diffraction patterns from lens imperfections. The diffraction
 geometry brings additional challenges such as strong correlation between
 lattice parameters and detector distance. These issues are compounded if
 calibration is incomplete leading to uncertainty in experimental geometry, such
@@ -217,8 +217,7 @@ additional factors that complicate data processing. Here we show recent
 features of DIALS as adapted to electron diffraction processing, including
 diagnostics for problematic diffraction geometry refinement, refinement of a
 smoothly-varying beam model and corrections for distorted diffraction images.
-\DW{TBC: ...enabling joint refinement of multiple incomplete wedges of rotation
-data}. These novel features, combined with the existing tools in DIALS, make
+These novel features, combined with the existing tools in DIALS, make
 data integration and refinement feasible for electron crystallography, even in
 difficult cases.
 
@@ -330,7 +329,7 @@ be taken to import electron diffraction data into \dials.
   This is the usual approach that has been adopted for data processing with
   other programs such as \mosflm~\cite{leslie2007} and
   \xds~\cite{kabsch2010xds}. For example, data sets have been converted to SMV
-  \cite{Hattne2015}, PCK images \cite{Clabbers2017}, or CBF {Gruene2018}.
+  \cite{Hattne2015}, PCK \cite{Clabbers2017}, or CBF images \cite{Gruene2018}.
   %%CBF, the
   %Crystallographic Binary Format, \cite{Bernstein2005}, is probably the most
   %widely used nowadays. It is a self-describing format combining text strings
@@ -386,7 +385,7 @@ be taken to import electron diffraction data into \dials.
 \end{enumerate}
 
 The seven lysozyme datasets discussed here consist of images from a
-$1024\times1024$ pixel detector composed of four Timepix quad detectors
+$1024\times1024$ pixel detector composed of a $2\times2$ array of Timepix quad detectors
 \cite{Clabbers2017}. Large gaps between the Timepix quads are imposed by the
 form factor of each quad. For the original \xds processing of these data, the
 images were converted into PCK format, in which pixel values were interpolated
@@ -406,10 +405,10 @@ Each ASIC of a Timepix quad has an outer square of edge pixels that are
 $\SI{165}{\micro\metre}$ wide, i.e. exactly three times wider than the standard
 pixel size of $\SI{55}{\micro\metre}$. During conversion of the images to CBF,
 these edge pixels were split into three standard width pixels, such that the
-array size for the $2\times2$ quad detector is actually $1032\times1032$
+array size for the full $2\times2$ quad detector is actually $1032\times1032$
 pixels. In order to correctly distribute the pixel values into the three split
 pixels while retaining integer type for the image array, the value of a wide
-pixel was copied into the three pixels it was split into, whilst the values of
+pixel was copied into each of the three pixels it was split into, whilst the values of
 all other pixels were multiplied by three. This implies that the converted
 images model a detector with a gain of exactly 3. This was recorded in the
 \dxtbx format class so that the correct gain value would be used automatically,
@@ -433,7 +432,7 @@ seven example datasets discussed here we typically found that it was necessary
 to increase the sensitivity of spot-finding, and then reduce additional noise
 by using a global threshold. Appropriate spot-finding settings were determined
 manually for each dataset separately. The effect of these settings for
-\emph{dataset 1} is shown by Figure~\ref{fig:spotfinding}.
+\emph{dataset 1} is shown on Figure~\ref{fig:spotfinding}.
 
 \subsection{Experiment geometry}
 
@@ -441,19 +440,19 @@ The most substantial difference between the processing of rotation data from
 electron diffraction compared to X-ray diffraction lies in the modelling of the
 diffraction geometry. The short wavelength of an electron beam
 ($\SI{0.02508}{\angstrom}$ for 200 keV electrons compared to
-$\SI{1.0332}{\angstrom}$ for 12 keV X-rays) implies a correspondingly large 
+$\SI{1.0332}{\angstrom}$ for 12 keV X-rays) implies a correspondingly large
 Ewald sphere, with a small
-$2\theta$ scattering angle even for the highest resolution reflections. 
+$2\theta$ scattering angle even for the highest resolution reflections.
 
 The low
-diffraction angles imply a large effective sample to detector distance needed to magnify 
+diffraction angles imply a large effective sample to detector distance needed to magnify
 the diffraction pattern and achieve sufficient spatial
 separation between peaks. Large detectors are advantageous
 for crystallography because they allow the sample to detector distance to
 be increased, which both reduces diffuse background and improves spatial
-separation of peaks \cite{Stanton1993}. However, 
+separation of peaks \cite{Stanton1993}. However,
 in a TEM the detector distance is limited by the largest possible magnification,
-and the relatively small size of the detectors. Whilst the true camera position underneath the 
+and the relatively small size of the detectors. Whilst the true camera position underneath the
 TEM column is always at a fixed distance, the effective detector distance
 is set by the objective lens and does not correspond directly to a quantity that
 can be measured mechanically. Similar to an X-ray beamline, the sample to detector distance in
@@ -462,7 +461,7 @@ inaccuracy in the recorded effective distance may be difficult to correct by the
 usual process of diffraction geometry refinement due to the high correlation
 between unit cell parameters and the detector distance when
 $2\theta_{\text{max}}$ is small, when the Ewald sphere construction becomes
-invariant of linear scaling (see Section~\ref{sec:refinement}) \cite{VanGenderen2016}. 
+invariant of linear scaling (see Section~\ref{sec:refinement}) \cite{VanGenderen2016}.
 
 In addition,
 imperfections in the lens system may introduce distortions in the recorded
@@ -471,12 +470,12 @@ anisotropic magnification where the diffraction pattern pattern is elongated
 in one direction, transforming a circular powder pattern to an ellipse \cite{lenscorr_2dx:2006,Clabbers2017}.
 With disregard of lens defects, discussed further in Section~\ref{sec:distortion},
 the processing software can ignore these
-distinctions and model the experiment with an effective detector. 
-However,inaccuracy in the recorded effective distance may be difficult to correct by
+distinctions and model the experiment with an effective detector.
+However, inaccuracy in the recorded effective distance may be difficult to correct by
 the usual process of diffraction geometry refinement due to the high
 correlation between unit cell parameters and the detector distance when
 $2\theta_{\text{max}}$ is small, where the Ewald sphere construction becomes
-invariant of linear scaling (see Section~\ref{sec:refinement}). 
+invariant of linear scaling (see Section~\ref{sec:refinement}).
 
 The relatively
 extreme geometry of the electron diffraction is unfamiliar to many X--ray
