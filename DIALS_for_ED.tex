@@ -578,24 +578,23 @@ advice for \dials refinement tasks with challenging electron diffraction data.
 The most noticeable problem seen with electron diffraction geometry refinement
 is that the accuracy of the refined unit cell may be poor. With $2\theta$
 ranges typical for X--ray data collection, the Ewald sphere construction is
-gauged by the radius of the sphere \DW{What does this sentence mean?}.
+gauged by the radius of the sphere \DW{What does that sentence mean?}.
 Deviations from the correct unit cell parameters or detector distance results
 in a non--linear deviation of predicted spot positions across the detector
 surface. The smaller $2\theta_\text{max}$, the more linear the deviation
 becomes and thus more difficult to detect: unit cell volume and detector
 distance can be scaled together while maintaining precise spot prediction. In
 cases where unit cell imprecision does not prevent structure solution, the
-parameters can be refined, as recently implemented in Refmac5 \DW{Note to add a
-citation. Also - we do this for our example datasets, link to relevant
-section}.  While a change in the detector parameters can only result in a
-projective transformation of the positions of the recorded spots on any image,
-changes in the cell parameters will act to move the reciprocal lattice points
-towards or away from the surface of the Ewald sphere, altering not only the
-predicted positions of the spots on the detector, but also rotation angle and
-therefore the predicted image number on which these spots are expected to
-appear. When the Ewald sphere is essentially flat, this distinguishing factor
-is much reduced and it is more difficult to separate the effects of the
-detector and unit cell parameters.
+parameters can be refined, as recently implemented in REFMAC5 (see
+Section~\ref{sec:phase-refine}).  While a change in the detector parameters can
+only result in a projective transformation of the positions of the recorded
+spots on any image, changes in the cell parameters will act to move the
+reciprocal lattice points towards or away from the surface of the Ewald sphere,
+altering not only the predicted positions of the spots on the detector, but
+also the rotation angle and therefore the predicted image number on which these
+spots are expected to appear. When the Ewald sphere is essentially flat, this
+distinguishing factor is much reduced and it is more difficult to separate the
+effects of the detector and unit cell parameters.
 
 The high level of correlation between parameters in diffraction geometry
 refinement problems has long been recognised. The method of eigenvalue
@@ -614,7 +613,7 @@ refinement does not use the eigenvalue filtering method, but by default uses a
 Levenberg Marquardt algorithm, which provides an alternative approach for
 dealing with near-singular least-squares problems. In practice, we find that
 this algorithm is robust even in the presence of very high parameter
-correlations. However, experience shows that the more challenging problems with
+correlations. However, experience shows that the most challenging problems with
 electron diffraction geometry may need many steps before convergence is
 achieved, where this is defined as a negligible further reduction in RMSDs. For
 this reason, from \dials version 1.8 the maximum number of iterations before
@@ -628,18 +627,19 @@ model to an external target. Unit cell restraints are currently available for
 static refinement of unit cell models but not scan-varying refinement, as they
 were originally developed for XFEL serial crystallography where scan-varying
 refinement is irrelevant. The unit cell parameterisation in DIALS is expressed
-with reciprocal metrical matrix elements as parameters \cite{Waterman2016}. However, for
-ease of use, restraints are specified in terms of the real space cell, as shown
-in Appendix~\ref{app:PHIL_example}. Each crystal included in refinement can add
-up to six restraint terms (for the triclinic case). Irrelevant restraints for
-cell parameters that are already constrained by lattice symmetry are
-automatically excluded. Every restraint term adds a pseudo-observation to
-refinement. Taking the cell parameter $a$ as an example, the pseudo-observation
-term $R_a$ consists of the squared residual between that parameter and its
-target value $a_t$, with a weighting factor. In common with the real
-observations, the first derivatives of the pseudo-observations with respect to
-the refinable parameters (here, arbitrarily denoted $p$) are also required for
-refinement by non-linear least-squares methods.
+with reciprocal metrical matrix elements as parameters \cite{Waterman2016}.
+However, for ease of use, restraints are specified in terms of the real space
+cell, as shown by the example given in Appendix~\ref{app:PHIL_example}. Each
+crystal included in refinement can add up to six restraint terms (for the
+triclinic case). Irrelevant restraints for cell parameters that are already
+constrained by lattice symmetry are automatically excluded. Every restraint
+term adds a pseudo-observation to refinement. Taking the cell parameter $a$ as
+an example, the pseudo-observation term $R_a$ consists of the squared residual
+between that parameter and its target value $a_t$, with a weighting factor. In
+common with the real observations, the first derivatives of the
+pseudo-observations with respect to the refinable parameters (here, arbitrarily
+denoted $p$) are also required for refinement by non-linear least-squares
+methods.
 
 \begin{equation}
 \label{eq:restraint_to_target}
@@ -911,7 +911,7 @@ magnitude improvement of the problem condition.
 
 \DW{TODO}
 
-\subsection{Structure solution and refinement}
+\subsection{Structure solution and refinement \label{sec:phase-refine}}
 
 The structure was determined as described \cite{Clabbers2017}, with the additional
 step of refining the lattice in REFMAC5 \cite{Murshudov2011}. Lattice refinement
