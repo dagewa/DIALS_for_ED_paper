@@ -671,7 +671,7 @@ the plane of the detector, similar to \mosflm's TILT and TWIST. Joint refinement
 of these parameters along with the beam direction and detector translations
 within the detector plane can be unstable.
 
-For 6 of the example datasets, fixing the detector distance, $tau_2$ and $tau_3$
+For 6 of the example datasets, fixing the detector distance, $\tau_2$ and $\tau_3$
 gave acceptable results for joint refinement of the beam, crystal and detector
 in-plane translation and rotation parameters. For the more difficult case,
 \emph{dataset 6}, no additional parameters were fixed, but a restraint to
@@ -693,14 +693,16 @@ refinement are all given}
 \subsection{Scan-varying refinement of crystal and beam parameters
 \label{sec:sv-refinement}}
 
-In typical use, the global static model for a dataset is used as a starting
-point for scan-varying refinement. As originally implemented
+In typical use of \dials, the global static model for a dataset is used as a
+starting point for scan-varying refinement. As originally implemented
 \cite{Waterman2016}, this was intended to capture changes to the crystal unit
 cell and orientation parameters during data collection. These parameters were
 allowed to vary in a smooth manner by evenly distributing sample points across
 the scan and interpolating values at any one position using a Gaussian
 smoother. The beam and detector parameters could be jointly refined to global,
-static values alongside the scan-varying crystal. The analysis of electron
+static values alongside the scan-varying crystal.
+
+The analysis of electron
 diffraction images raises a new issue in that instrument stability during the
 course of data collection cannot be simply assumed, as it is for MX data. In
 some cases, there is significant drift of the beam centre during data
@@ -729,8 +731,6 @@ we extended the scan-varying refinement methodology from crystal parameters
 to optionally apply also to the beam parameters, available from \dials version
 1.9 onwards.
 
-\DW{Figure: scan-varying beam and observed beam plotted vs image number}
-
 The difficulties with refinement inherent to electron diffraction geometry are
 exacerbated during scan-varying refinement. Like static
 refinement, scan-varying refinement in \dials is also global, in that data from
@@ -757,9 +757,9 @@ is to modify options for the smoother used in scan-varying
 refinement. Each parameterisation of a model that is to be refined in a
 scan-varying manner has an associated interval width
 parameter that controls the number of refinable subparameters that will be used
-to describe changes during the scan. The default interval width is $36^\circ$.
+to describe changes during the scan, with a default of $36^\circ$.
 Increasing this value, or directly setting a small absolute number of
-intervals, will ensure a greater degree of smoothing by reducing the number of
+intervals, ensures a greater degree of smoothing by reducing the number of
 parameters in refinement. The most robust method for stabilising refinement
 is to fix parameters of the static models that have high degrees of correlation
 with parameters of the scan-varying models. For example, if detector distance
