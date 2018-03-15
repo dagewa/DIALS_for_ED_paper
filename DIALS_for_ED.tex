@@ -671,11 +671,24 @@ the plane of the detector, similar to \mosflm's TILT and TWIST. Joint refinement
 of these parameters along with the beam direction and detector translations
 within the detector plane can be unstable.
 
-\DW{Finish with some details of how static refinement was done for the 7
-example datasets. Perhaps reference to a data processing table, in which
+For 6 of the example datasets, fixing the detector distance, $tau_2$ and $tau_3$
+gave acceptable results for joint refinement of the beam, crystal and detector
+in-plane translation and rotation parameters. For the more difficult case,
+\emph{dataset 6}, no additional parameters were fixed, but a restraint to
+the target cell as given in Appendix~\ref{app:PHIL_example} was used. Only 139
+reflections were available for refinement in this case after outlier rejection.
+The use of the restraint ensured that the refined cell remained reasonable. In
+particular, without the restraint the long axis dimension drifted to above
+$\SI{108}{\angstrom}$. Including the restraint increased the RMSDs in X and Y
+by less than 0.07 and 0.14 pixels respectively, and had a negligible effect on
+the RMSD in the rotation angle, demonstrating a case in which this feature can
+be used to guide refinement, without resulting in a model that stands in dispute
+with the centroid data.
+
+\DW{Add reference to an experiment modelling table, in which
 information like refinement diagnostics, use of restraint, elliptical
 distortion, beam drift, unit cell, average unit cell from scan-varying
-refinement are all given?}
+refinement are all given}
 
 \subsection{Scan-varying refinement of crystal and beam parameters
 \label{sec:sv-refinement}}
