@@ -508,6 +508,18 @@ have a lower RMSD for the angular residual between the predicted and observed
 positions of the reflections.
 
 \subsection{Image distortion due to lens effects \label{sec:distortion}}
+
+Within \dials, the image distortion due to lens effects is handled via the use
+of distortion maps which encode the pixel offset across the detector for both
+the fast and slow directions, The distortion maps are applied during the
+conversion between detector pixel coordinates and virtual detector millimetre
+coordinates. During the transformation from from millimetre coordinates to pixel
+coordinates, the uncorrected pixel coordinate is first calculated and the
+correction is applied to obtain the distortion corrected pixel coordinate.
+Likewise, during the transformation from pixel coordiantes to millimetre
+coordinates, the reverse correction is first applied and the millimetre
+coordinate is calculated from the reverse corrected pixel coordinate.
+
 \DW{Complete section - add part on how dx, dy maps implemented in \dials,
 the \dials equivalent of geocorr and reference to the 7 lyso datasets}
 ...Possible distortions include
