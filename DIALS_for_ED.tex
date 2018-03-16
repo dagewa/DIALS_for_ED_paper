@@ -391,7 +391,7 @@ form factor of each quad. For the original \xds processing of these data, the
 images were converted into PCK format, in which pixel values were interpolated
 onto an orthogonal grid, with the gaps forming `dead' areas of the image array.
 For processing with \dials we took a different approach. The images had also
-been converted to CBF \DW{some details here - from Tim?}, without empty data
+been converted to CBF \DW{any more details here - from Tim?}, without empty data
 representing the regions of the large gaps. We created a \dxtbx format class
 specific for these images, which represents each quad as a separate panel of a
 composite detector. In this way, no interpolation is required because each
@@ -509,23 +509,64 @@ positions of the reflections.
 
 \subsection{Image distortion due to lens effects \label{sec:distortion}}
 
-Within \dials, the image distortion due to lens effects is handled via the use
-of distortion maps which encode the pixel offset across the detector for both
-the fast and slow directions, The distortion maps are applied during the
-conversion between detector pixel coordinates and virtual detector millimetre
-coordinates. During the transformation from from millimetre coordinates to pixel
-coordinates, the uncorrected pixel coordinate is first calculated and the
-correction is applied to obtain the distortion corrected pixel coordinate.
-Likewise, during the transformation from pixel coordiantes to millimetre
-coordinates, the reverse correction is first applied and the millimetre
-coordinate is calculated from the reverse corrected pixel coordinate.
-
-\DW{Complete section - add part on how dx, dy maps implemented in \dials,
-the \dials equivalent of geocorr and reference to the 7 lyso datasets}
-...Possible distortions include
+Image distortion is not unique to electron crystallography. In X--ray
+crystallography, geometrical distortions may be present due to components
+of the detector system. A familiar example of these are spatial distortions
+introduced by the fibre-optic taper in a phosphor-taper-CCD area detector
+\cite{Stanton1992}. In that case, the distortion is a fixed property of the
+detector and it is usual for images to be corrected by manufacturer-supplied
+routines prior to analysis. Nevertheless, data processing packages such as \xds
+have facilities for applying a distortion correction in the form of look-up
+tables. Even with the advent of Hybrid Pixel Array Detectors, which have a
+direct coupling between the detector surface and the counting electronics,
+geometrical distortion may be used to correct for sub-pixel shifts and
+misorientations between the modules of the detector array. With electron
+crystallography, geometrical distortions of the detector are no less relevant,
+however there is the additional factor of the possibility of distortion of
+the diffraction pattern itself due to effects of the electron optical system.
+Possible distortions include
 anisotropic magnification where the diffraction pattern pattern is elongated
 in one direction, transforming a circular powder pattern to an ellipse
-\cite{lenscorr_2dx:2006,Clabbers2017}.
+\cite{lenscorr_2dx:2006,Clabbers2017}. Care must be taken to investigate the
+presence of these effects in electron diffraction datasets and as they are
+not mechanical properties of the instrument it is necessary to recalibrate
+when instrument settings are changed.
+
+Despite the fact that the distortion occurs in angle of the scattered rays
+rather than within the detector, it is reasonable to correct images by the same
+means as for other sources of distortion. The difference in scattering angle
+implied by distorted or corrected images is likely to have a negligible effect
+on parallax correction. Anyway, the detector model for the example datasets
+discussed here has no parallax correction, thus making the assumption that
+observed intensity is essentially deposited on the surface of the ``virtual
+detector'' \cite{Parkhurst2014}. Within \dials, we implemented a similar mode
+for distortion correction as used in \xds. A pair of distortion maps encode the
+pixel offset across the detector for both the fast and slow directions. These
+maps are equal in size to the pixel array of the detector (for a multiple panel
+detector the correction files encode a list of separate maps for each panel).
+No interpolation is performed during the application of the distortion maps. In
+principle, sharp changes to correct for shear defects would be possible,
+however for the case of lens abberation, the offset varies slowly over the face
+of the detector so that neighbouring values in the look-up table are similar.
+The distortion maps are applied during the conversion between detector pixel
+coordinates and virtual detector millimetre coordinates. During the
+transformation from millimetre coordinates to pixel coordinates, the
+uncorrected pixel coordinate is first calculated and the correction is applied
+to obtain the distortion corrected pixel coordinate. Likewise, during the
+transformation from pixel coordinates to millimetre coordinates, the reverse
+correction is first applied and the millimetre coordinate is calculated from
+the reverse corrected pixel coordinate.
+
+The \emph{datasets 2--7} of our examples all showed a significant elliptical
+distortion. The parameters of this distortion were determined as described
+previously \cite{Clabbers2017}. We extended the program
+\emph{dials.make\_dx\_dy}
+\DW{The name for this program may change in the next few days. Looking for
+good suggestions.}
+to produce $X$ and $Y$ distortion maps for the 4 panel detector model based on
+the known parameters. These maps were registered for each relevant dataset
+during the \dialsimport step, after which they were loaded and applied
+whenever required by \dials programs.
 
 \subsection{Indexing}
 
