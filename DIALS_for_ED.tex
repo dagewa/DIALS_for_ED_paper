@@ -775,8 +775,28 @@ the details of a particular case and guide choices, however ultimately the user
 must inspect the resulting models for reasonable geometry as well as the final
 RMSD values.
 
-\DW{finish with details of scan-varying refinements done in the 7 lyso cases -
-detector parameters all fixed at static values, default smoothness, etc.}
+We performed scan-varying refinement prior to integration for the 7 example
+datasets. A variety of protocols was tested, and the best chosen for each
+dataset according to merging statistics after scaling of that dataset in
+isolation by \aimless \cite{Evans2013}. In each case, we fixed all detector
+parameters so that the detector maintained the geometry from the static
+refinement step. For \emph{dataset 1} a significant drift of the beam centre
+was observed. We enabled scan-varying refinement of both beam direction angles,
+$\mu_1$ and $\mu_12$ in the nomenclature of \citeasnoun{Waterman2016}.
+Remarkably, the simplest model consisting of two refineable sub-parameters for
+each angle resulted in the best merged dataset, rather than models with more
+sub-parameters that are smoothed less in order to track higher frequency
+changes to the beam drift. Scan-varying refinement of the beam was tested for
+each of the other datasets. For two cases, \emph{dataset 4} and
+\emph{dataset 5}, merging statistics favoured static refinement of the beam
+direction. In the other cases, the simple two sub-parameter model for each
+beam angle was used. For each dataset, the three crystal orientation ``misset''
+angles were refined in a scan-varying manner, using default smoother parameters.
+A scan-varying unit cell was refined for each case, except for datasets
+\emph{3}, \emph{4} and \emph{6}, for which fixing the unit cell at the static
+refined values stabilised refinement and produced better merging statistics.
+
+
 
 \subsection{Diagnostics for problematic diffraction geometry refinement
 \label{sec:diag}}
@@ -927,11 +947,11 @@ magnitude improvement of the problem condition.
 
 \subsection{Structure solution and refinement \label{sec:phase-refine}}
 
-The structure was determined as described \cite{Clabbers2017}, with the exception of 
-using the intensities for molecular replacement in PHASER \cite{McCoy2007,Read2016}, 
-and with the additional step of refining the lattice in REFMAC5 \cite{Murshudov2011}. 
-Lattice refinement allows refining the unit cell by a single scaling factor independent 
-of the sample to detector distance, thus removing the ambiguity between detector 
+The structure was determined as described \cite{Clabbers2017}, with the exception of
+using the intensities for molecular replacement in PHASER \cite{McCoy2007,Read2016},
+and with the additional step of refining the lattice in REFMAC5 \cite{Murshudov2011}.
+Lattice refinement allows refining the unit cell by a single scaling factor independent
+of the sample to detector distance, thus removing the ambiguity between detector
 distance and lattice parameters. The newly found unit cell was then used for subsequent
 structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}.
 
