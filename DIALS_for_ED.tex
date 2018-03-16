@@ -719,7 +719,7 @@ keywords required for \mosflm and \xds?}. The focus on global refinement in
 Beam drift in electron diffraction experiments, at least
 those collected by a continuous rotation protocol, appears to occur gradually.
 Therefore it seems reasonable to assume that a smoothly-varying model for the
-beam direction vector would suffice to \DW{better?} represent this effect.
+beam direction vector would suffice to represent this effect.
 For small magnitudes of the total drift, the difference between
 correction by implicit detector shifts and modelling of a drifting beam
 will be negligible. For the purposes of ED data processing,
@@ -878,11 +878,11 @@ a result of the electron diffraction geometry, we elected to perform refinement
 against simulated data. That way, we could compare two refinement procedures,
 using an identical crystal model, beam direction and rotation axis, while
 altering the wavelength and detector distance to match typical values for
-electron diffraction in one case, and X--ray diffraction in the other. The
-differences between the model geometries are summarised in Table~\DW{Table:
-diffraction geometry simulation models} and details about how the simulated
-data was constructed are presented in Appendix~\ref{app:simulation}. Refinement
-was performed for both versions of the geometry, using default settings in
+electron diffraction in one case, and X--ray diffraction in the other.
+Details about how the simulated data was constructed are presented in
+Supplementary Material~\ref{app:simulation}. Refinement
+was performed for the same sets of reflections with both versions
+of the geometry, using default settings in
 \dialsrefine. In each case, 13 parameters were refined in total: six to
 describe the detector position and orientation, one beam orientation angle,
 three crystal orientation angles and three reciprocal metrical matrix elements
@@ -890,12 +890,8 @@ for the unit cell. For the final step of refinement prior to termination at
 RMSD convergence, corrgrams were produced and the condition number calculated
 for comparisons.
 
-\DW{Insert Table: diffraction geometry simulation models.
-
-Pixel size, distance, wavelength}
-
 The two sets of three corrgrams are shown complete in the Supplementary Figure
-\DW{ref to suppl. fig.}. The pattern of high correlations between parameters
+\DW{ref to suppl. mat.}. The pattern of high correlations between parameters
 that affect the predicted reflection positions $(X, Y)$ on the detector plane
 are similar in the cases of electron and X-ray diffraction geometries. However,
 in general, the absolute values of correlations are higher for the electron
@@ -1195,7 +1191,8 @@ than simulating new error estimates, we kept the original error
 estimates from spot-finding on the real data set to give a realistic
 distribution of weights. The centroid $X$, $Y$ positions and their errors were
 rescaled to units of millimetres for use in refinement using the pixel sizes
-shown in Table~\DW{ref Table above: diffraction geometry simulation models}.
+of $\SI{55}{\micro\metre}$ for the electron diffraction detector and
+$\SI{172}{\micro\metre}$ for the X--ray detector.
 
 \DW{Supplementary figure: all corrgrams}
 
