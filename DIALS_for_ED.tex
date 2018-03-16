@@ -1080,6 +1080,35 @@ structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}
   with a restraint to an external target.}
 \end{table}
 
+\begin{table}
+\label{tab:quality-stats}
+\caption{
+  Data reduction and refinement statistics for 7 merged datasets.
+}
+\begin{tabular}{ll}
+  Space group & $P 2_1 2_1 2$\\
+  Unit cell dimensions\fnmark[1] \\
+  $a$, $b$, $c$ ($\SI{}{\angstrom}$) & 104.36, 67.49, 31.81 \\
+  $\alpha$, $\beta$, $\gamma$ ($^\circ$) & 90 90 90 \\
+  Resolution ($\SI{}{\angstrom}$) & 56.67--2.10 \\
+  Reflections & 9295 \\
+  $R1$\fnmark[2] (\%) & 25.3 \\
+  $R_\textrm{complete}$\fnmark[2] (\%) & 29.9 \\
+  $\langle B \rangle$ ($\SI{}{\angstrom}^2$) & 18.3 \\
+  $RmsZ$ bond lengths & 0.50 \\
+  $RmsZ$ bond angles & 0.72 \\
+  Ramachandran \\
+  favoured, allowed, outliers (\%) & 95.7 4.3 0.0\\
+
+\end{tabular} \fntext[1]{Unit cell dimensions after lattice parameter
+refinement in REFMAC5 by a single scaling factor \cite{Murshudov2011}}
+\fntext[2]{$R_\textrm{complete}$ is a more robust validation method, especially
+in cases where the data completeness is limited, making use of all reflections
+\cite{Brunger1997}, and thus $R_\textrm{work}$ is equivalent to $R1$.
+$R_\textrm{complete}$ was calculated with a 0.2\% test set size as described
+\cite{Luebben2015,Clabbers2017}.}
+\end{table}
+
 \begin{figure}
   \label{fig:spotfinding}
   \centering
