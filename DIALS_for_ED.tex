@@ -686,11 +686,6 @@ the RMSD in the rotation angle, demonstrating a case in which this feature can
 be used to guide refinement, without resulting in a model that stands in dispute
 with the centroid data.
 
-\DW{Add reference to an experiment modelling table, in which
-information like refinement diagnostics, use of restraint, elliptical
-distortion, beam drift, unit cell, average unit cell from scan-varying
-refinement are all given}
-
 \subsection{Scan-varying refinement of crystal and beam parameters
 \label{sec:sv-refinement}}
 
@@ -795,7 +790,8 @@ angles were refined in a scan-varying manner, using default smoother parameters.
 A scan-varying unit cell was refined for each case, except for datasets
 \emph{3}, \emph{4} and \emph{6}, for which fixing the unit cell at the static
 refined values stabilised refinement and produced better merging statistics.
-
+Further details about the diffraction geometry modelling for each dataset
+are given in Table~\ref{tab:geometry}.
 
 
 \subsection{Diagnostics for problematic diffraction geometry refinement
@@ -980,6 +976,31 @@ structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}
 
      % Simple tables should use the tabular environment according to this
      % model
+
+\pagebreak
+
+\begin{table}
+\label{tab:geometry}
+\caption{
+  Details relevant to the modelling of diffraction geometry are collated here
+  for the 7 example datasets.
+  \DW{Information to add:
+  condition number,
+  use of restraint,
+  elliptical distortion,
+  beam centre,
+  unit cell,
+  average unit cell from scan-varying refinement,
+  final RMSDs}
+}
+\begin{tabular}{llllllll}      % Alignment for each cell: l=left, c=center, r=right
+   Dataset & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+  \hline
+  Number of \\
+  indexed spots & 1624 & 1239 & 218 & 598 & 634 & 174 & 211\\
+
+\end{tabular}
+\end{table}
 
 \begin{figure}
   \label{fig:spotfinding}
