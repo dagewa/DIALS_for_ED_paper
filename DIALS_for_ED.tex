@@ -568,9 +568,10 @@ orthorhombic cell was successful with default options apart from fixing some
 detector parameters, as described in Section~\ref{sec:refinement}. For
 \emph{dataset 6} we additionally fixed the beam orientation parameters and
 provided the expected unit cell and a restraint to this target cell during
-refinement. This dataset shows relatively poor diffraction and particularly
-high RMSDs between the predicted and observed rotation angles for indexed
-spots. The action of both constraints and restraints help to stabilise and
+refinement. This dataset shows relatively poor diffraction. Rather few spots
+were successfully indexed and RMSDs between the predicted and observed rotation
+angles remained high after refinement (see Table~\ref{tab:geometry}.
+The action of both constraints and restraints help to stabilise and
 guide refinement in such difficult cases.
 
 \subsection{Global refinement of the unit cell and instrument parameters
@@ -800,8 +801,8 @@ direction. In the other cases, the simple two sub-parameter model for each
 beam angle was used. For each dataset, the three crystal orientation ``misset''
 angles were refined in a scan-varying manner, using default smoother parameters.
 A scan-varying unit cell was refined for each case, except for datasets
-\emph{3}, \emph{4} and \emph{6}, for which fixing the unit cell at the static
-refined values stabilised refinement and produced better merging statistics.
+\emph{3}, \emph{4} and \emph{6}, for which refining a global, static cell
+stabilised refinement and produced better merging statistics.
 Further details about the diffraction geometry modelling for each dataset
 are given in Table~\ref{tab:geometry}.
 
@@ -992,22 +993,50 @@ structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}
 \caption{
   Details relevant to the modelling of diffraction geometry are collated here
   for the 7 example datasets.
-  \DW{Information to add:
-  condition number,
-  use of restraint,
-  elliptical distortion,
-  beam centre,
-  unit cell,
-  average unit cell from scan-varying refinement,
-  final RMSDs}
 }
 \begin{tabular}{llllllll}      % Alignment for each cell: l=left, c=center, r=right
    Dataset & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
   \hline
+  Detector distance \\
+     ($\SI{}{\milli\metre}$) & 1890 & 2055 & 2055 & 2055 & 2055 & 2055 & 2055 \\
+  Distortion correction & N & Y & Y & Y & Y & Y & Y \\
+  Number of images & 503 & 263 & 587 & 419 & 422 & 421 & 421 \\
+  Image width ($^\circ$) & 0.076 & 0.1615 & 0.0344 & 0.0481 & 0.0481 & 0.0481
+       & 0.0481 \\
   Number of \\
   indexed spots & 1624 & 1239 & 218 & 598 & 634 & 174 & 211\\
+  Condition number\fnmark[1] \\
+    $\kappa \left( \mat{J} \right)$
+    & \num{1.1e4} & \num{9.2e+03} & \num{2.0e+04}
+    & \num{2.7e+04} & \num{2.8e+04} & \num{1.1e+04} & \num{2.3e+04}\\
+  Static cell ($\SI{}{\angstrom}$)\fnmark[2] \\
+  $a$  & 31.967(7) & 32.127(4)   & 31.56(5) & 32.36(2)  & 31.841(11)
+                                            & 31.70(15) & 31.63(2)  \\
+  $b$  & 69.41(3)  & 68.59(2)    & 65.0(2)  & 67.25(6)  & 65.81(3)
+                                            & 65.6(4)   & 69.08(5)  \\
+  $c$  & 104.62(3) & 104.875(17) & 106.4(3) & 105.71(7) & 103.28(3)
+                                            & 106.7(6)  & 104.07(4) \\
+  Average varying \\
+  cell ($\SI{}{\angstrom}$) \\
+  $a$  & 32.0  & 32.2  & 31.5  & --- & 31.8  & --- & 31.7  \\
+  $b$  & 68.3  & 68.5  & 67.1  & --- & 64.7  & --- & 68.8  \\
+  $c$  & 105.1 & 104.9 & 104.2 & --- & 103.5 & --- & 104.1 \\
+  Beam centre \\
+   panel id.  & 2            & 0            & 0            & 0     & 0     & 0            & 0            \\
+   X (pixels) & 485.4--487.7 & 420.4--420.9 & 400.5--400.6 & 428.0 & 406.3 & 405.5--406.0 & 399.1--399.2 \\
+   Y (pixels) & 1.7--2.5     & 478.8--478.9 & 475.1--477.0 & 478.3 & 479.0 & 480.0--480.6 & 490.9--491.6 \\
+  Final RMSD \\
+  X (pixels)   & 0.93 & 0.42 & 0.94 & 0.67 & 0.53 & 0.65 & 0.51 \\
+  Y (pixels)   & 0.83 & 0.59 & 0.95 & 0.85 & 0.66 & 0.58 & 0.63 \\
+  Z ($^\circ$) & 0.06 & 0.08 & 0.09 & 0.11 & 0.04 & 0.48 & 0.04 \\
 
 \end{tabular}
+\fntext[1]{The condition number diagnostic is shown for the final
+ step of static refinement.}
+\fntext[2]{Errors as reported by \dialsrefine refer to precision
+  estimated by the least-squares refinement procedure and are not indicative of
+  the accuracy of the unit cell. The unit cell for \emph{dataset 6} was refined
+  with a restraint to an external target.}
 \end{table}
 
 \begin{figure}
