@@ -57,8 +57,10 @@
   \newcommand{\dialsindex}{\emph{dials.index}\xspace}
   \newcommand{\dialsrefinebravaislattice}{\emph{dials.refine\_bravais\_lattice}\xspace}
   \newcommand{\dialsrefine}{\emph{dials.refine}\xspace}
+  \newcommand{\dialsintegrate}{\emph{dials.integrate}\xspace}
   \newcommand{\dialsimageviewer}{\emph{dials.image\_viewer}\xspace}
   \newcommand{\dialsreciprocallatticeviewer}{\emph{dials.reciprocal\_lattice\_viewer}\xspace}
+  \newcommand{\dialsexport}{\emph{dials.export}\xspace}
   \newcommand{\ccpfour}{\emph{CCP4}\xspace}
   \newcommand{\labelit}{\emph{LABELIT}\xspace}
   \newcommand{\cctbxxfel}{\emph{cctbx.xfel}\xspace}
@@ -989,7 +991,14 @@ magnitude improvement of the problem condition.
 
 \subsection{Integration and data reduction}
 
-\DW{TODO}
+Following global modelling of the experiment using \dialsrefine, data are
+integrated with \dialsintegrate. No special options are required for integrating
+electron diffraction data. For the examples we specified options only to
+run multiple processes in parallel and to specify resolution limits for spot
+prediction. The integrated datasets were then exported to MTZ format using
+\dialsexport and combined by \pointless \cite{Evans2006} for scaling and merging
+together with \aimless \cite{Evans2013}. Merging statistics are summarised in
+Table~\ref{tab:quality-stats}.
 
 \subsection{Structure solution and refinement \label{sec:phase-refine}}
 
@@ -1000,7 +1009,6 @@ Lattice refinement allows refining the unit cell by a single scaling factor inde
 of the sample to detector distance, thus removing the ambiguity between detector
 distance and lattice parameters. The newly found unit cell was then used for subsequent
 structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}.
-
 
 
 \section{Discussion}
