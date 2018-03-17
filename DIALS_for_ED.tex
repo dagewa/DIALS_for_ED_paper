@@ -1012,7 +1012,37 @@ structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}
 
 
 \section{Discussion}
-\DW{discussion and conclusions here.}
+
+Electron diffraction from three dimensional crystals has recently been used to
+solve the structures of macromolecules such as proteins. Previous authors have
+shown that where data are collected using the rotation method, standard in
+X--ray crystallography, data processing software such as \mosflm and
+\xds can be employed to successfully integrate the Bragg peaks. Here, we show
+that the \dials package, with appropriate adaptations, is also a viable
+alternative, even for difficult datasets with problematic features, such as
+distortions caused by microscope lens systems and drift of the direct beam
+position. A set of 7 example datasets was successfully processed using \dials,
+and the specific decisions required at each step are described in detail.
+
+A major focus of the \dials software is the global modelling of an experiment.
+The experimental geometry is optimised using all available data. Where
+components such as the crystal or the beam are expected to change during the
+course of the experiment, these changes are described using smoothly-varying
+parameterisations, avoiding discontinuities in the model and stabilising the
+refinement procedure. Other aspects of interest in global experiment modelling
+include unit cell restraints and refinement diagnostics, which enable an
+exploration of the effects of different parameterisations on refinement
+stability. A demonstration using simulated data shows that problematic
+refinement is caused to a significant level simply by the short wavelength and
+large detector distance of electron diffraction experiments, even before
+additional factors such as instrumental instabilities are considered.
+
+It is hoped that the presentation of these results will encourage other users to
+investigate the use of \dials for processing of electron diffraction data. The
+toolkit design philosophy of the software, including an extensible image format
+reading system and permissive open source licencing, lowers the barrier to entry
+for use and future development by scientists interested in this technique.
+
 
 %------------------------------------------------------------------------------
 % Acknowledgements
