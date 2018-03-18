@@ -483,7 +483,7 @@ reciprocal space for the two cases.
 Another potential source of inaccuracy in the initial model for the diffraction
 geometry arises because of the relatively poor characteristics of the sample
 positioning stage of electron microscopes, as compared to X--ray goniometers for the
-purpose of rotation method experiments. Improved set ups are possible
+purpose of rotation method experiments. Improved set ups are possible,
 but are not widely available \cite{Yonekura2015,Shi2016}.
 The rotation range per image is generally assumed constant and accurate.
 Instruments used
@@ -612,7 +612,7 @@ detector parameters, as described in Section~\ref{sec:refinement}. For
 provided the expected unit cell and a restraint to this target cell during
 refinement. This dataset shows relatively poor diffraction. Rather few spots
 were successfully indexed and RMSDs between the predicted and observed rotation
-angles remained high after refinement (see Table~\ref{tab:geometry}.
+angles remained high after refinement (see Table~\ref{tab:geometry}).
 The action of both constraints and restraints help to stabilise and
 guide refinement in such difficult cases.
 
@@ -768,19 +768,22 @@ instrumentation, the direct beam to be
 recorded simultaneously with diffraction spots, avoiding the need for a beam
 stop. When images are not corrected,
 software such as \mosflm or \xds can be set to independently refine the beam
-centre for each image, or within small blocks of images \DW{what are the
-keywords required for \mosflm and \xds?}. The focus on global refinement in
-\dials means that an alternative approach was sought.
-Beam drift in electron diffraction experiments, at least
-those collected by a continuous rotation protocol, appears to occur gradually.
+centre for each image, or within small blocks of images.
+% Andrew Leslie notes that default behaviour of MOSFLM is for all detector
+% parameters (beam position, YSCALE detector distance, detector twist and tilt)
+% to be refined independently on every image. The XDS default is
+% REFINE(INTEGRATE)=POSITION BEAM ORIENTATION, which includes beam position
+% refinement within small blocks (DELPHI degrees)
+The focus on global refinement in \dials means that an alternative approach was
+sought. Beam drift in electron diffraction experiments, at least those
+collected by a continuous rotation protocol, appears to occur gradually.
 Therefore it seems reasonable to assume that a smoothly-varying model for the
-beam direction vector would suffice to represent this effect.
-For small magnitudes of the total drift, the difference between
-correction by implicit detector shifts and modelling of a drifting beam
-will be negligible. For the purposes of ED data processing,
-we extended the scan-varying refinement methodology from crystal parameters
-to optionally apply also to the beam parameters, available from \dials version
-1.9 onwards.
+beam direction vector would suffice to represent this effect. For small
+magnitudes of the total drift, the difference between correction by implicit
+detector shifts and modelling of a drifting beam will be negligible. For the
+purposes of ED data processing, we extended the scan-varying refinement
+methodology from crystal parameters to optionally apply also to the beam
+parameters, available from \dials version 1.9 onwards.
 
 The difficulties with refinement inherent to electron diffraction geometry are
 exacerbated during scan-varying refinement. Like static
