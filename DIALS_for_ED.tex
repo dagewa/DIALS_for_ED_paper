@@ -268,27 +268,25 @@ open-source project, allowing scientists from outside the core collaboration to
 contribute software, or to use \dials within their own projects \DW{REF
 cctbx.xfel, IOTA, any others?}
 
-\MC{upon re-reading, think would be worth to add this paragraph}
-%To date, \dials development has focused on macromolecular and chemical
-%crystallography datasets, optimised for continuous rotation data collected in
-%fine slices using photon counting detectors at synchrotron light sources.\MC{maybe this
-%paragraph could ne omitted?}
-%Despite this emphasis, with suitable modification of parameters at certain
-%steps, high quality results have also been obtained for wide-sliced X-ray
-%datasets recorded on CCD detectors \cite{dials_adsc:2016a,dials_adsc:2016b}. The common
-%fundamental assumption is that reciprocal lattice points pass through the Ewald
-%sphere by constant-velocity rotation around a single axis.
-%%Reciprocal lattice
-%%points have a finite extent and the total scattered intensity for one
-%%reflection is the integration over the reflecting range of slices of
-%%the reciprocal lattice point that instantaneously satisfy Bragg's law.
-%No artificial restrictions on the diffraction geometry are imposed, allowing the
-%modelling of diffraction experiments using a generic vectorial description
-%\cite{Waterman2016}. By default, two measurements are made for each reflection:
-%summation integration and three dimensional profile fitting, along with
-%estimated errors \cite{Winter2018}. The simplicity of this approach, avoiding
-%assumptions inherent in the details of any particular technique, mean that
-%\dials is readily adapted for analysis beyond the original scope of its design.
+To date, \dials development has focused on macromolecular and chemical
+crystallography datasets, optimised for continuous rotation data collected in
+fine slices using photon counting detectors at synchrotron light sources.
+Despite this emphasis, with suitable modification of parameters at certain
+steps, high quality results have also been obtained for wide-sliced X-ray
+datasets recorded on CCD detectors \cite{dials_adsc:2016a,dials_adsc:2016b}. The common
+fundamental assumption is that reciprocal lattice points pass through the Ewald
+sphere by constant-velocity rotation around a single axis.
+%Reciprocal lattice
+%points have a finite extent and the total scattered intensity for one
+%reflection is the integration over the reflecting range of slices of
+%the reciprocal lattice point that instantaneously satisfy Bragg's law.
+No artificial restrictions on the diffraction geometry are imposed, allowing the
+modelling of diffraction experiments using a generic vectorial description
+\cite{Waterman2016}. By default, two measurements are made for each reflection:
+summation integration and three dimensional profile fitting, along with
+estimated errors \cite{Winter2018}. The simplicity of this approach, avoiding
+assumptions inherent in the details of any particular technique, mean that
+\dials is readily adapted for analysis beyond the original scope of its design.
 
 A common feature shared between \dials programs is the global modelling of an
 experiment, in which data are assumed to be complete before analysis begins.
@@ -476,7 +474,7 @@ with an effective detector.
 The relatively
 extreme geometry of the electron diffraction is unfamiliar to many X--ray
 crystallographers. It is instructive to compare graphical schematics, such as
-Figure 6 in \DW{Clabbers\&Abrahams 2018 doi 10.1080/0889311X.2018.1446427} 
+Figure 6 in \DW{Clabbers\&Abrahams 2018 doi 10.1080/0889311X.2018.1446427}
 for the real space geometry of the instruments
 and Figure~\ref{fig:ewald} for a comparison of the Ewald construction in
 reciprocal space for the two cases.
@@ -1037,20 +1035,20 @@ refinement is caused to a significant level simply by the short wavelength and
 large detector distance of electron diffraction experiments, even before
 additional factors such as instrumental instabilities are considered.
 
-Besides errors occuring from instrumentation, there are additional issues 
-specific to electron crystallography that will need to be adressed. 
-The measured kinematic signal in ED is obscured by inelastic, dynamic, and mixed 
-multiple scattering events \cite{dorset:1995,zou:2011} \DW{Clabbers\&Abrahams 
+Besides errors occuring from instrumentation, there are additional issues
+specific to electron crystallography that will need to be adressed.
+The measured kinematic signal in ED is obscured by inelastic, dynamic, and mixed
+multiple scattering events \cite{dorset:1995,zou:2011} \DW{Clabbers\&Abrahams
 2018 doi 10.1080/0889311X.2018.1446427}. Inelastic and diffuse mixed scattering increase
 the background signal, and focused mixed scattering leads to a broadening
 of the observed Bragg peaks. Zero-loss energy fitlering is a instrumental
-solution to this problem that can filter out most of the inelastically 
+solution to this problem that can filter out most of the inelastically
 scattered electrons, reducing the diffuse background and sharpening Bragg
 peaks \cite{Yonekura2002}. This should imrpove the accuracy of the intensity
 estimations from the recorded 3D spot profiles. However, it is not possible
 to discriminate between kinematic and dynamic scattering energetically. On average,
-dynamic scattering increases the intensity of weak spots that become stronger, 
-and strong spots become weaker \cite{Weirich2000}. \MC{maybe you like to comment here on simulations?}. 
+dynamic scattering increases the intensity of weak spots that become stronger,
+and strong spots become weaker \cite{Weirich2000}. \MC{maybe you like to comment here on simulations?}.
 
 \MC{TBA: comment on this line from the abstract: Dynamic
 scattering, absorption, radiation damage and incomplete wedges of data are
