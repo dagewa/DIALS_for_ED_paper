@@ -199,7 +199,7 @@
 Electron diffraction is a relatively novel alternative to X-ray crystallography
 for the structure determination of macromolecules from three-dimensional
 nanometre-sized crystals. The standard rotation method of data collection has
-been adapted for the electron microscope, however there are important
+been adapted for the electron microscope. However, there are important
 differences in geometry that must be considered for successful data
 integration. The wavelength of electrons in a TEM is typically around forty
 times shorter than X-rays at a macromolecular crystallography (MX) synchrotron
@@ -268,6 +268,7 @@ open-source project, allowing scientists from outside the core collaboration to
 contribute software, or to use \dials within their own projects \DW{REF
 cctbx.xfel, IOTA, any others?}
 
+\MC{upon re-reading, think would be worth to add this paragraph}
 %To date, \dials development has focused on macromolecular and chemical
 %crystallography datasets, optimised for continuous rotation data collected in
 %fine slices using photon counting detectors at synchrotron light sources.\MC{maybe this
@@ -386,7 +387,7 @@ be taken to import electron diffraction data into \dials.
 
 \end{enumerate}
 
-The seven lysozyme datasets discussed here consist of images from a
+The seven lysozyme datasets discussed here consist of diffraction images from a
 $1024\times1024$ pixel detector composed of a $2\times2$ array of Timepix quad detectors
 \cite{Clabbers2017}. Large gaps between the Timepix quads are imposed by the
 form factor of each quad. For the original \xds processing of these data, the
@@ -1036,6 +1037,10 @@ stability. A demonstration using simulated data shows that problematic
 refinement is caused to a significant level simply by the short wavelength and
 large detector distance of electron diffraction experiments, even before
 additional factors such as instrumental instabilities are considered.
+
+\MC{TBA: comment on this line from the abstract: Dynamic
+scattering, absorption, radiation damage and incomplete wedges of data are
+additional factors that complicate data processing.}
 
 It is hoped that the presentation of these results will encourage other users to
 investigate the use of \dials for processing of electron diffraction data. The
