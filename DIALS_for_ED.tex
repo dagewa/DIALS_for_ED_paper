@@ -938,7 +938,7 @@ using an identical crystal model, beam direction and rotation axis, while
 altering the wavelength and detector distance to match typical values for
 electron diffraction in one case, and X--ray diffraction in the other.
 Details about how the simulated data was constructed are presented in
-Supplementary Material~\ref{app:simulation}. Refinement
+the Supplementary Material. Refinement
 was performed for the same sets of reflections with both versions
 of the geometry, using default settings in
 \dialsrefine. In each case, 13 parameters were refined in total: six to
@@ -948,8 +948,8 @@ for the unit cell. For the final step of refinement prior to termination at
 RMSD convergence, corrgrams were produced and the condition number calculated
 for comparisons.
 
-The two sets of three corrgrams are shown complete in the Supplementary Figure
-\DW{ref to suppl. mat.}. The pattern of high correlations between parameters
+The two sets of three corrgrams are shown complete in Supplementary Figure~1.
+The pattern of high correlations between parameters
 that affect the predicted reflection positions $(X, Y)$ on the detector plane
 are similar in the cases of electron and X-ray diffraction geometries. However,
 in general, the absolute values of correlations are higher for the electron
@@ -1070,7 +1070,7 @@ for use and future development by scientists interested in this technique.
 %------------------------------------------------------------------------------
 \ack{Acknowledgements
 
-  \DW{acknowledgements}
+  \DW{Acknowledgements: TODO}
 
 }
 
@@ -1321,78 +1321,5 @@ The correct format for these PHIL files may be explored interactively using
 command line switches for \dials programs. For example, the command
 \texttt{dials.import -c -a2 -e2} will show all configuration options along with
 types and help strings up to an `expert level' of 2.
-
-\section{Simulation for comparison of ED versus MX geometry refinement
-  \label{app:simulation}}
-\DW{This should move to supplementary material rather than an appendix}
-
-To generate simulated spot centroid positions, we started with the real electron
-diffraction example \emph{dataset 1}, consisting of a continuous rotation scan over 503 images with
-an angular width of $0.076^\circ$ per image, for a total scan range of
-$38.2^\circ$. We took the model for the indexed experiments and ``regularised''
-the geometry of the beam and detector for the purposes of simulation, without
-changing the crystal model, which had an orthorhombic unit cell with dimensions
-$a=\SI{31.97}{\angstrom}$, $b=\SI{69.41}{\angstrom}$ and
-$c=\SI{104.62}{\angstrom}$. To regularise the beam and detector models, we
-forced the beam direction to be exactly aligned to the $-Z$ direction and
-reoriented the detector model such that the beam intersected the detector in
-the centre of its square window, and the detector plane was orthogonal to the
-beam vector. The detector distance remained at the value of
-$\SI{1890}{\milli\metre}$, as previously determined and stored in the CBF headers
-for the images. The real detector consists of $2\times2$ Timepix quads with
-large gaps between the active regions. For simplicity we replaced this model
-with a single panel covering the total extent of the real detector, with
-no parallax correction, effectively assuming it consists of a perfectly
-sensitive plane of zero thickness. The updated electron diffraction geometry
-was written to a new \dxtbx experiment list and then altered a second time to
-produce regularised geometry for an X-ray experiment. This involved changing
-the wavelength from $\SI{0.02508}{\angstrom}$ to $\SI{1.0332}{\angstrom}$ and the
-detector model such that the total extent and pixel size was equivalent to a
-Pilatus 6M detector at a distance of $\SI{200}{\milli\metre}$ from the sample.
-This model was also written to a \dxtbx experiment list. The differences
-between the model geometries are shown in Table~\DW{Table: diffraction geometry
-simulation models}.
-
-The regularised models were used alongside the indexed spot list from the
-real data set to simulate observed centroid positions for both versions of the
-experimental geometry. By using the spot list from a real experiment we ensured
-a realistic distribution of strong spots versus resolution. In order to ensure
-that the differences in refinement runs are caused only by the
-diffraction geometry and not obscured by different sets of input spots, we
-selected 1571 reflections that could be predicted by both versions of the
-diffraction geometry.
-
-Simulated centroid positions were calculated for each version of the geometry
-by predicting their positions then adding random error. The random errors were
-drawn from a normal distribution with a standard deviation of 0.25 pixels for
-the $X$ and $Y$ positions and 0.25 images for the $Z$ position. For real data,
-the centroid position errors in $X$, $Y$ and $Z$ are neither independent, nor
-normally-distributed. However, the purpose of adding displacements to the
-centroid positions was merely to ensure that refinement would proceed to
-convergence with realistic final RMSDs. The centroid positions from
-spot-finding result from a centre-of-gravity calculation, which also provides
-estimated errors in these positions that are used to set weights in
-refinement. These errors have a dependence on the found spot intensity. Rather
-than simulating new error estimates, we kept the original error
-estimates from spot-finding on the real data set to give a realistic
-distribution of weights. The centroid $X$, $Y$ positions and their errors were
-rescaled to units of millimetres for use in refinement using the pixel sizes
-of $\SI{55}{\micro\metre}$ for the electron diffraction detector and
-$\SI{172}{\micro\metre}$ for the X--ray detector.
-
-\begin{figure}
-  \label{fig:corrgrams-all}
-  \centering
-  \caption{
-    Corrgrams produced for the final step of geometry refinement for simulated
-    data assuming either typical electron diffraction geometry (left column)
-    or X--ray diffraction geometry (right column). The top row shows
-    correlation between effects of different parameters on the positional
-    residuals $(X - X_o)$, the middle row shows those for the
-    $(Y - Y_o)$ residuals and the lower row contains the corrgrams for the
-    angular residuals $(\phi - \phi_o)$.
-  }
-  \includegraphics[width=0.9\textwidth]{Figures/simulation/corrgrams_all.png}
-\end{figure}
 
 \end{document}
