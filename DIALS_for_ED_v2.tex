@@ -70,8 +70,10 @@
   \newcommand{\pointless}{\emph{POINTLESS}\xspace}
   \newcommand{\aimless}{\emph{AIMLESS}\xspace}
   \newcommand{\blend}{\emph{BLEND}\xspace}
-
-  % use bold face for vectors
+  \newcommand{\refmac}{\emph{REFMAC5}\xspace}
+  \newcommand{\phaser}{\emph{PHASER}\xspace} 
+ 
+ % use bold face for vectors
   \renewcommand{\vec}[1]{\mathbf{#1}}
   \newcommand{\mat}[1]{\mathbf{#1}}
 
@@ -1005,8 +1007,8 @@ Table~\ref{tab:quality-stats}.
 \subsection{Structure solution and refinement \label{sec:phase-refine}}
 
 The structure was determined as described \cite{Clabbers2017}, with the exception of
-using the intensities for molecular replacement in PHASER \cite{McCoy2007,Read2016},
-and with the additional step of refining the lattice in REFMAC5 \cite{Murshudov2011}.
+using the intensities for molecular replacement in \phaser \cite{McCoy2007,Read2016},
+and with the additional step of refining the lattice in \refmac \cite{Murshudov2011}.
 Lattice refinement allows refining the unit cell by a single scaling factor independent
 of the sample to detector distance, thus removing the ambiguity between detector
 distance and lattice parameters. The newly found unit cell was then used for subsequent
@@ -1176,7 +1178,7 @@ for use and future development by scientists interested in this technique.
   favoured, allowed, outliers (\%) & 95.7 4.3 0.0\\
 
 \end{tabular} \fntext[1]{Unit cell dimensions after lattice parameter
-refinement in REFMAC5 by a single scaling factor \cite{Murshudov2011}}
+refinement in \refmac \cite{Murshudov2011}.}
 \fntext[2]{$R_\textrm{complete}$ is a more robust validation method, especially
 in cases where the data completeness is limited, making use of all reflections
 \cite{Brunger1997}, and thus $R_\textrm{work}$ is equivalent to $R1$.
