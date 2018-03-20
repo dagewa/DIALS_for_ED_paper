@@ -1,5 +1,5 @@
 
-name=DIALS_for_ED
+name=DIALS_for_ED_v2
 
 default: $(name).pdf
 
