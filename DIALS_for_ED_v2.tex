@@ -479,8 +479,7 @@ with an effective detector.
 The relatively
 extreme geometry of the electron diffraction is unfamiliar to many X--ray
 crystallographers. It is instructive to compare graphical schematics, such as
-Figure 6 in \DW{Clabbers\&Abrahams 2018 doi 10.1080/0889311X.2018.1446427}
-for the real space geometry of the instruments
+Figure 6 in \cite{Clabbers2018} for the real space geometry of the instruments
 and Figure~\ref{fig:ewald} for a comparison of the Ewald construction in
 reciprocal space for the two cases.
 
@@ -1074,8 +1073,8 @@ additional factors such as instrumental instabilities are considered.
 Besides errors occuring from instrumentation, there are additional issues
 specific to electron crystallography that will need to be adressed.
 The measured kinematic signal in ED is obscured by inelastic, dynamic, and mixed
-multiple scattering events \cite{dorset:1995,zou:2011} \DW{Clabbers\&Abrahams
-2018 doi 10.1080/0889311X.2018.1446427}. Inelastic and diffuse mixed scattering increase
+multiple scattering events \cite{dorset:1995,zou:2011,Clabbers2018}. 
+Inelastic and diffuse mixed scattering increase
 the background signal, and focused mixed scattering leads to a broadening
 of the observed Bragg peaks. Zero-loss energy filtering is a instrumental
 solution to this problem that can filter out most of the inelastically
@@ -1187,7 +1186,7 @@ new challenges specific for optimally integrating electron diffraction data.
     Unit cell dimensions \\
   $a$, $b$, $c$ ($\SI{}{\angstrom}$) & 104.57, 67.62, 31.87 \\
   $\alpha$, $\beta$, $\gamma$ ($^\circ$) & 90.00, 90.00, 90.00 \\
-  Resolution ($\SI{}{\angstrom}$) & 56.78--2.10 (2.16--2.10) \\
+  Resolution ($\SI{}{\angstrom}$)\fnmark[1] & 56.78--2.10 (2.16--2.10) \\
   $R_\textrm{merge}$ & 0.313 (0.460) \\
   $R_\textrm{meas}$ & 0.356 (0.574) \\
   $R_\textrm{pim}$ & 0.160 (0.337) \\
@@ -1200,22 +1199,26 @@ new challenges specific for optimally integrating electron diffraction data.
   Refinement \\
   \hline
   Space group & $P 2_1 2_1 2$\\
-    Unit cell dimensions\fnmark[1] \\
+    Unit cell dimensions\fnmark[2] \\
   $a$, $b$, $c$ ($\SI{}{\angstrom}$) & 104.45, 67.54, 31.84 \\
   $\alpha$, $\beta$, $\gamma$ ($^\circ$) & 90.00, 90.00, 90.00 \\
   Resolution ($\SI{}{\angstrom}$) & 56.72--2.10 \\
   Reflections & 8143 \\
-  $R1$\fnmark[2] & 25.2 \\
-  $R_\textrm{complete}$\fnmark[2] & 29.2 \\
+  $R1$\fnmark[3] & 25.2 \\
+  $R_\textrm{complete}$\fnmark[3] & 29.2 \\
   $\langle B \rangle$ ($\SI{}{\angstrom}^2$) & 18.3 \\
   $RmsZ$ bond lengths & 0.48 \\
   $RmsZ$ bond angles & 0.72 \\
   Ramachandran \\
   favoured, allowed, outliers (\%) & 97.6, 2.0, 0.4 \\
 
-\end{tabular} \fntext[1]{Unit cell dimensions after lattice parameter
+\end{tabular} 
+\fntext[1]{Data were truncated at $CC_{{1}/{2}}$ \geqslant 0.5 and 
+$\langle I/\sigma(I) \rangle$ \geqslant 1.0, \emph{dataset 1} was cut at 2.1
+$\SI{}{\angstrom}$ based on the model refinement results.}
+\fntext[2]{Unit cell dimensions after lattice parameter
 refinement in \refmac \cite{Murshudov2011}.}
-\fntext[2]{$R_\textrm{complete}$ is a more robust validation method, especially
+\fntext[3]{$R_\textrm{complete}$ is a more robust validation method, especially
 in cases where the data completeness is limited, making use of all reflections
 \cite{Brunger1997}, and $R_\textrm{work}$ is thus equivalent to $R1$.
 $R_\textrm{complete}$ was calculated with a 0.2\% test set size as described
