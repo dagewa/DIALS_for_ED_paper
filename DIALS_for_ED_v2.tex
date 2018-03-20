@@ -405,18 +405,20 @@ of the relative position and orientation of independent panels and displays a
 composite image projected onto a viewing plane, as shown by
 Figure~\ref{fig:spotfinding}.
 
-Each ASIC of a Timepix quad has an outer square of edge pixels that are
-$\SI{165}{\micro\metre}$ wide, i.e. exactly three times wider than the standard
-pixel size of $\SI{55}{\micro\metre}$. During conversion of the images to CBF,
-these edge pixels were split into three standard width pixels, such that the
-array size for the full $2\times2$ quad detector is actually $1032\times1032$
-pixels. In order to correctly distribute the pixel values into the three split
-pixels while retaining integer type for the image array, the value of a wide
-pixel was copied into each of the three pixels it was split into, whilst the values of
-all other pixels were multiplied by three. This implies that the converted
-images model a detector with a gain of exactly 3. This was recorded in the
-\dxtbx format class so that the correct gain value would be used automatically,
-e.g. in the calculation of error estimates for integrated intensities.
+A 512x512 pixel Timepix quad is an assembly of four abutting Timepix ASICs, 
+each with 256x256 square, $\SI{55}{\micro\metre}$ pixels. However, the distance 
+between two abutting Timepix ASICs is $\SI{350}{\micro\metre}$ , corresponding 
+to a pitch for the abutting pixels that is about three times that of the other 
+pixels. Since these pixels have a larger surface, they also have a higher probability 
+of collecting more electrons. To correct for this non-uniformity, the conversion to 
+CBF splits pixels with an x- (and/or y-coordinate) that equals 256 or 257, into three 
+pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in 516x516 pixel 
+frames with a discernible, 6-pixel wide cross, in which the pixels have a gain that 
+is about three times higher than that of the other pixels outside the cross. This was 
+corrected by multiplying the counts of the unaffected pixels by a factor of three. The 
+converted images therefore model a detector with a gain of 3. This was recorded in the 
+\dxtbx format class so that the correct gain value would be used automatically, e.g. 
+in the calculation of error estimates for integrated intensities.
 
 \subsection{Spot finding \label{sec:spot_finding}}
 
@@ -1017,6 +1019,8 @@ structure refinement and validation \cite{Murshudov2011,Joosten2014,Luebben2015}
 
 \section{Discussion}
 
+\MC{read again and revise some parts}
+
 Electron diffraction from three-dimensional crystals has recently been used to
 solve the structures of macromolecules such as proteins. Previous authors have
 shown that where data are collected using the rotation method, standard in
@@ -1027,6 +1031,9 @@ alternative, even for difficult datasets with problematic features, such as
 distortions caused by microscope lens systems and drift of the direct beam
 position. A set of 7 example datasets was successfully processed using \dials,
 and the specific decisions required at each step are described in detail.
+
+\MC{add sentence on XDS vs DIALS, JPA: The quality of data integrated with DIALS 
+is very similar to what could be achieved with XDS \cite{Clabbers2017}.
 
 A major focus of the \dials software is the global modelling of an experiment.
 The experimental geometry is optimised using all available data. Where
@@ -1054,11 +1061,11 @@ peaks \cite{Yonekura2002}. This should improve the accuracy of the intensity
 estimations from the recorded 3D spot profiles. However, it is not possible
 to discriminate between kinematic and dynamic scattering energetically. On average,
 dynamic scattering increases the intensity of weak spots that become stronger,
-and strong spots become weaker \cite{Weirich2000}. \MC{maybe you like to comment here on simulations?}.
+and strong spots become weaker \cite{Weirich2000}. 
 
-\MC{TBA: comment on this line from the abstract: Dynamic
-scattering, absorption, radiation damage and incomplete wedges of data are
-additional factors that complicate data processing.}
+
+
+
 
 We hope that the restults presented here will encourage other users to
 investigate the use of \dials for processing of electron diffraction data. The
@@ -1185,7 +1192,7 @@ for use and future development by scientists interested in this technique.
 refinement in \refmac \cite{Murshudov2011}.}
 \fntext[2]{$R_\textrm{complete}$ is a more robust validation method, especially
 in cases where the data completeness is limited, making use of all reflections
-\cite{Brunger1997}, and thus $R_\textrm{work}$ is equivalent to $R1$.
+\cite{Brunger1997}, and $R_\textrm{work}$ is thus equivalent to $R1$.
 $R_\textrm{complete}$ was calculated with a 0.2\% test set size as described
 \cite{Luebben2015,Clabbers2017}.}
 \end{table}
