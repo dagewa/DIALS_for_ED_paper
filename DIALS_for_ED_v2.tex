@@ -411,7 +411,7 @@ between two abutting Timepix ASICs is $\SI{350}{\micro\metre}$ , corresponding
 to a pitch for the abutting pixels that is about three times that of the other 
 pixels. Since these pixels have a larger surface, they also have a higher probability 
 of collecting more electrons. To correct for this non-uniformity, the conversion to 
-CBF splits pixels with an x- (and/or y-coordinate) that equals 256 or 257, into three 
+CBF splits pixels with an \emph{x}- (and/or \emph{y}-coordinate) that equals 256 or 257, into three 
 pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in 516x516 pixel 
 frames with a discernible, 6-pixel wide cross, in which the pixels have a gain that 
 is about three times higher than that of the other pixels outside the cross. This was 
@@ -635,26 +635,44 @@ diffraction for some or all of the scan, poor quality spot centroids or the
 scan is an especially narrow wedge. In this section we offer some practical
 advice for \dials refinement tasks with challenging electron diffraction data.
 
-The most noticeable problem seen with electron diffraction geometry refinement
-is that the accuracy of the refined unit cell may be poor. With $2\theta$
-ranges typical for X--ray data collection, the Ewald sphere construction is
-gauged by the radius of the sphere \DW{What does that sentence mean?}.
-Deviations from the correct unit cell parameters or detector distance results
-in a non--linear deviation of predicted spot positions across the detector
-surface. The smaller $2\theta_\text{max}$, the more linear the deviation
-becomes and thus more difficult to detect: unit cell volume and detector
-distance can be scaled together while maintaining precise spot prediction. In
-cases where unit cell imprecision does not prevent structure solution, the
-parameters can be refined, as recently implemented in REFMAC5 (see
-Section~\ref{sec:phase-refine}).  While a change in the detector parameters can
-only result in a projective transformation of the positions of the recorded
-spots on any image, changes in the cell parameters will act to move the
-reciprocal lattice points towards or away from the surface of the Ewald sphere,
-altering not only the predicted positions of the spots on the detector, but
-also the rotation angle and therefore the predicted image number on which these
-spots are expected to appear. When the Ewald sphere is essentially flat, this
-distinguishing factor is much reduced and it is more difficult to separate the
-effects of the detector and unit cell parameters.
+\MC{can you check this paragraph and correct formatting?}
+It turns out to be more difficult to refine unit cell parameters using electron 
+diffraction data, rather than X--ray data. This is mainly caused by the weaker 
+signal and the much smaller diffraction angles $2\theta_\text{max}$ in electron diffraction
+\footnote{As the diffraction angle $\theta$ approaches 0, atan($\theta$) = asin($\theta$)
+= $\theta$. Substituting this into Bragg's law, and the geometry of the diffraction (where
+D is the detector distance, and r is the distance between the central beam and a Bragg
+spot with resoltuion d) results in d/r = d/lambda, wtih r and lmabda knwon, d and D are 
+linearly correlated.}. 
+A weak diffraction signal implies fewer diffraction spots and lower accuracies in 
+determining their centroids, compromising the accuracy of the refinement. The small diffraction 
+angle implies a low Ewald sphere curvature and a high correlation between detector 
+distance and a uniform unit cell scale factor. In the limiting case, the relative 
+accuracy of the unit cell’s scales linearly with the relative accuracy of the detector 
+distance calibration. In cases where unit cell imprecision does not prevent structure 
+solution, the parameters can be refined, as recently implemented in \refmac (see
+Section~\ref{sec:phase-refine}).
+
+%The most noticeable problem seen with electron diffraction geometry refinement
+%is that the accuracy of the refined unit cell may be poor. With $2\theta$
+%ranges typical for X--ray data collection, the Ewald sphere construction is
+%gauged by the radius of the sphere \DW{What does that sentence mean?}.
+%Deviations from the correct unit cell parameters or detector distance results
+%in a non--linear deviation of predicted spot positions across the detector
+%surface. The smaller $2\theta_\text{max}$, the more linear the deviation
+%becomes and thus more difficult to detect: unit cell volume and detector
+%distance can be scaled together while maintaining precise spot prediction. In
+%cases where unit cell imprecision does not prevent structure solution, the
+%parameters can be refined, as recently implemented in REFMAC5 (see
+%Section~\ref{sec:phase-refine}).  While a change in the detector parameters can
+%only result in a projective transformation of the positions of the recorded
+%spots on any image, changes in the cell parameters will act to move the
+%reciprocal lattice points towards or away from the surface of the Ewald sphere,
+%altering not only the predicted positions of the spots on the detector, but
+%also the rotation angle and therefore the predicted image number on which these
+%spots are expected to appear. When the Ewald sphere is essentially flat, this
+%distinguishing factor is much reduced and it is more difficult to separate the
+%effects of the detector and unit cell parameters.
 
 The high level of correlation between parameters in diffraction geometry
 refinement problems has long been recognised. The method of eigenvalue
@@ -807,30 +825,37 @@ and detector distance. Despite these observations, scan-varying refinement is
 still preferable to static refinement of the beam, crystal and detector models
 within local narrow wedges, which suffers even more from high parameter
 correlations. To stabilise a problematic scan-varying refinement task we must
-either restrain or constrain (fix) some parameters of the model. Currently,
-there is no facility available in \dials to restrain scan-varying models to
-the best (in a least squares sense) overall values for the dataset,
-as determined during global, static refinement. One way to improve stability
-is to modify options for the smoother used in scan-varying
-refinement. Each parameterisation of a model that is to be refined in a
-scan-varying manner has an associated interval width
-parameter that controls the number of refinable subparameters that will be used
-to describe changes during the scan, with a default of $36^\circ$.
-Increasing this value, or directly setting a small absolute number of
-intervals, ensures a greater degree of smoothing by reducing the number of
-parameters in refinement. The most robust method for stabilising refinement
-is to fix parameters of the static models that have high degrees of correlation
-with parameters of the scan-varying models. For example, if detector distance
-is optimised during the static refinement phase (or even better, known in
-advance by accurate calibration), then this parameter can be fixed for
-scan-varying refinement of the unit cell. If a smoothly-varying beam direction
-is refined then fixing the detector in-plane translations and the orientation
-angles $\tau_2$ and $\tau_3$ helps to stabilise refinement. There is no
+either restrain or constrain (fix) some parameters of the model. here is no
 automatic determination of a suitable parameterisation for refinement in
 \dialsrefine. Diagnostics (see Section~\ref{sec:diag}) may help to understand
 the details of a particular case and guide choices, however ultimately the user
 must inspect the resulting models for reasonable geometry as well as the final
 RMSD values.
+
+%Currently,
+%there is no facility available in \dials to restrain scan-varying models to
+%the best (in a least squares sense) overall values for the dataset,
+%as determined during global, static refinement. One way to improve stability
+%is to modify options for the smoother used in scan-varying
+%refinement. Each parameterisation of a model that is to be refined in a
+%scan-varying manner has an associated interval width
+%parameter that controls the number of refinable subparameters that will be used
+%to describe changes during the scan, with a default of $36^\circ$.
+%Increasing this value, or directly setting a small absolute number of
+%intervals, ensures a greater degree of smoothing by reducing the number of
+%parameters in refinement. The most robust method for stabilising refinement
+%is to fix parameters of the static models that have high degrees of correlation
+%with parameters of the scan-varying models. For example, if detector distance
+%is optimised during the static refinement phase (or even better, known in
+%advance by accurate calibration), then this parameter can be fixed for
+%scan-varying refinement of the unit cell. If a smoothly-varying beam direction
+%is refined then fixing the detector in-plane translations and the orientation
+%angles $\tau_2$ and $\tau_3$ helps to stabilise refinement. There is no
+%automatic determination of a suitable parameterisation for refinement in
+%\dialsrefine. Diagnostics (see Section~\ref{sec:diag}) may help to understand
+%the details of a particular case and guide choices, however ultimately the user
+%must inspect the resulting models for reasonable geometry as well as the final
+%RMSD values.
 
 We performed scan-varying refinement prior to integration for the 7 example
 datasets. A variety of protocols was tested, and the best chosen for each
