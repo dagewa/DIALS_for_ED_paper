@@ -565,9 +565,7 @@ the reverse corrected pixel coordinate.
 The \emph{datasets 2--7} of our examples all showed a significant elliptical
 distortion. The parameters of this distortion were determined as described
 previously \cite{Clabbers2017}. We extended the program
-\emph{dials.make\_dx\_dy}
-\DW{The name for this program may change in the next few days. Looking for
-good suggestions.}
+\emph{dials.generate\_distortion\_maps}
 to produce $X$ and $Y$ distortion maps for the 4 panel detector model based on
 the known parameters. These maps were registered for each relevant dataset
 during the \dialsimport step, after which they were loaded and applied
