@@ -71,8 +71,8 @@
   \newcommand{\aimless}{\emph{AIMLESS}\xspace}
   \newcommand{\blend}{\emph{BLEND}\xspace}
   \newcommand{\refmac}{\emph{REFMAC5}\xspace}
-  \newcommand{\phaser}{\emph{PHASER}\xspace} 
- 
+  \newcommand{\phaser}{\emph{PHASER}\xspace}
+
  % use bold face for vectors
   \renewcommand{\vec}[1]{\mathbf{#1}}
   \newcommand{\mat}[1]{\mathbf{#1}}
@@ -406,19 +406,19 @@ of the relative position and orientation of independent panels and displays a
 composite image projected onto a viewing plane, as shown by
 Figure~\ref{fig:spotfinding}.
 
-A $512\times512$ pixel Timepix quad is an assembly of four abutting Timepix ASICs, 
-each with $256\times256$ square, $\SI{55}{\micro\metre}$ pixels. However, the distance 
-between two abutting Timepix ASICs is $\SI{350}{\micro\metre}$, corresponding 
-to a pitch for the abutting pixels that is about three times that of the other 
-pixels. Since these pixels have a larger surface, they also have a higher probability 
-of collecting more electrons. To correct for this non-uniformity, the conversion to 
-CBF splits pixels with an \emph{x}- (and/or \emph{y}-coordinate) that equals 256 or 257, into three 
-pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in $516\times516$ pixel 
-frames with a discernible, 6-pixel wide cross, in which the pixels have a gain that 
-is about three times higher than that of the other pixels outside the cross. This was 
-corrected by multiplying the counts of the unaffected pixels by a factor of three. The 
-converted images therefore model a detector with a gain of 3. This was recorded in the 
-\dxtbx format class so that the correct gain value would be used automatically, e.g. 
+A $512\times512$ pixel Timepix quad is an assembly of four abutting Timepix ASICs,
+each with $256\times256$ square, $\SI{55}{\micro\metre}$ pixels. However, the distance
+between two abutting Timepix ASICs is $\SI{350}{\micro\metre}$, corresponding
+to a pitch for the abutting pixels that is about three times that of the other
+pixels. Since these pixels have a larger surface, they also have a higher probability
+of collecting more electrons. To correct for this non-uniformity, the conversion to
+CBF splits pixels with an \emph{x}- (and/or \emph{y}-coordinate) that equals 256 or 257, into three
+pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in $516\times516$ pixel
+frames with a discernible, 6-pixel wide cross, in which the pixels have a gain that
+is about three times higher than that of the other pixels outside the cross. This was
+corrected by multiplying the counts of the unaffected pixels by a factor of three. The
+converted images therefore model a detector with a gain of 3. This was recorded in the
+\dxtbx format class so that the correct gain value would be used automatically, e.g.
 in the calculation of error estimates for integrated intensities.
 
 \subsection{Spot finding \label{sec:spot_finding}}
@@ -633,20 +633,20 @@ diffraction for some or all of the scan, poor quality spot centroids or the
 scan is an especially narrow wedge. In this section we offer some practical
 advice for \dials refinement tasks with challenging electron diffraction data.
 
-It is more difficult to refine unit cell parameters using electron 
-diffraction data, rather than X--ray data. This is mainly caused by the weaker 
+It is more difficult to refine unit cell parameters using electron
+diffraction data, rather than X--ray data. This is mainly caused by the weaker
 signal and the much smaller diffraction angles $2\theta_\text{max}$ in electron diffraction
 \footnote{As the diffraction angle $\theta \to 0$, $\arctan(\theta) \approx \arcsin(\theta)
 \approx \theta$. Substituting this into Bragg's law, and the geometry of the diffraction (where
 $D$ is the detector distance, and $r$ is the distance between the central beam position and a Bragg
-spot with resolution $d$) results in $D/r = d/\lambda$; with $r$ and $\lambda$ known, $d$ and $D$ are 
-linearly correlated.}. 
-A weak diffraction signal implies fewer diffraction spots and lower accuracies in 
-determining their centroids, compromising the accuracy of the refinement. The small diffraction 
-angle implies a low Ewald sphere curvature and a very high correlation between detector 
-distance and a uniform unit cell scale factor. In the limiting case, the relative 
-accuracy of the unit cell’s scales linearly with the relative accuracy of the detector 
-distance calibration. In cases where unit cell imprecision does not prevent structure 
+spot with resolution $d$) results in $D/r = d/\lambda$; with $r$ and $\lambda$ known, $d$ and $D$ are
+linearly correlated.}.
+A weak diffraction signal implies fewer diffraction spots and lower accuracies in
+determining their centroids, compromising the accuracy of the refinement. The small diffraction
+angle implies a low Ewald sphere curvature and a very high correlation between detector
+distance and a uniform unit cell scale factor. In the limiting case, the relative
+accuracy of the unit cell’s scales linearly with the relative accuracy of the detector
+distance calibration. In cases where unit cell imprecision does not prevent structure
 solution, the parameters can be refined, as recently implemented in \refmac (see
 Section~\ref{sec:phase-refine}).
 
@@ -1053,7 +1053,7 @@ alternative, even for difficult datasets with problematic features, such as
 distortions caused by microscope lens systems and drift of the direct beam
 position. A set of 7 example datasets was successfully processed using \dials,
 and the specific decisions required at each step are described in detail. The
-quality of data integrated with \dials is very similar to what could be achieved 
+quality of data integrated with \dials is very similar to what could be achieved
 with XDS \cite{Clabbers2017}.
 
 A major focus of the \dials software is the global modelling of an experiment.
@@ -1072,7 +1072,7 @@ additional factors such as instrumental instabilities are considered.
 Besides errors occuring from instrumentation, there are additional issues
 specific to electron crystallography that will need to be adressed.
 The measured kinematic signal in ED is obscured by inelastic, dynamic, and mixed
-multiple scattering events \cite{dorset:1995,zou:2011,Clabbers2018}. 
+multiple scattering events \cite{dorset:1995,zou:2011,Clabbers2018}.
 Inelastic and diffuse mixed scattering increase
 the background signal, and focused mixed scattering leads to a broadening
 of the observed Bragg peaks. Zero-loss energy filtering is a instrumental
@@ -1082,12 +1082,12 @@ peaks \cite{Yonekura2002}. This should improve the accuracy of the intensity
 estimations from the recorded 3D spot profiles. However, it is not possible
 to discriminate between kinematic and dynamic scattering energetically. On average,
 dynamic scattering increases the intensity of weak spots that become stronger,
-and strong spots become weaker \cite{Weirich2000}. 
+and strong spots become weaker \cite{Weirich2000}.
 
-Electron diffraction of macromolecular crystals is still developing, and is confronting 
-crystallographers with new and sometimes unexpected problems. The extensive diagnostics 
-offered by \dials, in terms of corrgrams and its user friendly, interactive tools for 
-visual inspection of data and parameters, should help in identifying and solving the 
+Electron diffraction of macromolecular crystals is still developing, and is confronting
+crystallographers with new and sometimes unexpected problems. The extensive diagnostics
+offered by \dials, in terms of corrgrams and its user friendly, interactive tools for
+visual inspection of data and parameters, should help in identifying and solving the
 new challenges specific for optimally integrating electron diffraction data.
 The toolkit design philosophy of the software, including an extensible image format
 reading system and permissive open source licencing, lowers the barrier to entry
@@ -1208,10 +1208,10 @@ for use and future development by scientists interested in this technique.
   Ramachandran \\
   favoured, allowed, outliers (\%) & 97.6, 2.0, 0.4 \\
 
-\end{tabular} 
-\fntext[1]{Individual \emph{datasets 2--6} were truncated at $CC_{{1}/{2}} \geq 50\%$ and 
-$\langle I/\sigma(I) \rangle \geq 1.0$ \cite{Diederichs2013}; 
-\emph{dataset 1} was cut more conservatively at $\SI{2.1}{\angstrom}$ based on the model 
+\end{tabular}
+\fntext[1]{Individual \emph{datasets 2--6} were truncated at $CC_{{1}/{2}} \geq 50\%$ and
+$\langle I/\sigma(I) \rangle \geq 1.0$ \cite{Diederichs2013};
+\emph{dataset 1} was cut more conservatively at $\SI{2.1}{\angstrom}$ based on the model
 refinement results.}
 \fntext[2]{Unit cell dimensions after lattice parameter
 refinement in \refmac \cite{Murshudov2011}.}
