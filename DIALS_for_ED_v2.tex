@@ -199,13 +199,13 @@
 %------------------------------------------------------------------------------
 \begin{abstract}
 
-Electron diffraction is a relatively novel alternative to X-ray crystallography
+Electron diffraction is a relatively novel alternative to X--ray crystallography
 for the structure determination of macromolecules from three-dimensional
 nanometre-sized crystals. The standard rotation method of data collection has
 been adapted for the electron microscope. However, there are important
 differences in geometry that must be considered for successful data
 integration. The wavelength of electrons in a TEM is typically around forty
-times shorter than X-rays at a macromolecular crystallography (MX) synchrotron
+times shorter than X--rays at a macromolecular crystallography (MX) synchrotron
 beamline, implying a nearly flat Ewald sphere, consequently low diffraction
 angles and a high effective sample to detector distance. Nevertheless, the
 DIALS software package can, with specific adaptations, successfully process
@@ -276,7 +276,7 @@ To date, \dials development has focused on macromolecular and chemical
 crystallography datasets, optimised for continuous rotation data collected in
 fine slices using photon counting detectors at synchrotron light sources.
 Despite this emphasis, with suitable modification of parameters at certain
-steps, high quality results have also been obtained for wide-sliced X-ray
+steps, high quality results have also been obtained for wide-sliced X--ray
 datasets recorded on CCD detectors \cite{dials_adsc:2016a,dials_adsc:2016b}. The common
 fundamental assumption is that reciprocal lattice points pass through the Ewald
 sphere by constant-velocity rotation around a single axis.
@@ -320,7 +320,7 @@ reported in \citeasnoun{Clabbers2017}.
 The first stage in processing rotation data with \dials is to import the images
 constituting the data set to form a \code{DataBlock}, using the \dxtbx library
 \cite{Parkhurst2014}. This library contains format reading classes for the
-majority of common file formats used in X-ray crystallography. The classes are
+majority of common file formats used in X--ray crystallography. The classes are
 arranged in a hierarchy, from generic classes that contain code to read image
 data and construct an experimental model solely from metadata contained in the
 image headers, to specific classes that may recognise a particular instrument
@@ -444,10 +444,10 @@ manually for each dataset separately. The effect of these settings for
 \subsection{Experiment geometry}
 
 The most substantial difference between the processing of rotation data from
-electron diffraction compared to X-ray diffraction lies in the modelling of the
+electron diffraction compared to X--ray diffraction lies in the modelling of the
 diffraction geometry. The short wavelength of an electron beam
 ($\SI{0.02508}{\angstrom}$ for 200 keV electrons compared to
-$\SI{1.0332}{\angstrom}$ for 12 keV X-rays) implies a correspondingly large
+$\SI{1.0332}{\angstrom}$ for 12 keV X--rays) implies a correspondingly large
 Ewald sphere, with a small
 $2\theta$ scattering angle even for the highest resolution reflections.
 
@@ -463,7 +463,7 @@ by the largest possible magnification,
 and the relatively small size of the detectors. Whilst the true camera position underneath the
 TEM column is always at a fixed distance, the effective detector distance
 is set by the objective lens and does not correspond directly to a quantity that
-can be measured mechanically. Similar to an X-ray beamline, the sample to detector distance in
+can be measured mechanically. Similar to an X--ray beamline, the sample to detector distance in
 a TEM is easily calibrated with reliable test crystals. However,
 inaccuracy in the recorded effective distance may be difficult to correct by the
 usual process of diffraction geometry refinement due to the high correlation
@@ -501,7 +501,7 @@ rotation, and the rotation range per image. A reasonable estimate of the
 rotation axis orientation in the plane of the images can be made by finding a
 line through the beam centre along which reflections have the widest reflecting
 range, and few reflections are found. The direction of rotation around the axis
-is more difficult to determine. For an X-ray experiment, the curvature of the
+is more difficult to determine. For an X--ray experiment, the curvature of the
 Ewald sphere makes the incorrect choice obvious, for example using a visual
 tool such as \dialsreciprocallatticeviewer \cite{Winter2018}. By contrast, the
 flatness of the Ewald sphere in electron diffraction ensures that either choice
@@ -527,7 +527,7 @@ direct coupling between the detector surface and the counting electronics,
 geometrical distortion may be used to correct for sub-pixel shifts and
 misorientations between the modules of the detector array. With electron
 crystallography, geometrical distortions of the detector are no less relevant,
-however there is the additional factor of the possibility of distortion of
+while there is the additional factor of the possibility of distortion of
 the diffraction pattern itself due to effects of the electron optical system.
 Possible distortions include
 anisotropic magnification where the diffraction pattern pattern is elongated
@@ -729,7 +729,7 @@ R_a = \frac{\left( a - a_t \right)^2}{\sigma_a^2}
 In principle, statistical weighting could be achieved by
 setting the weights equal to the inverse variance of the target cell parameter
 values. However, realistic cell parameter uncertainties are notoriously
-difficult to obtain \cite{Dauter2015}. For X-ray diffraction refinement we
+difficult to obtain \cite{Dauter2015}. For X--ray diffraction refinement we
 usually try values between $\sigma \sim 0.001$ for qualitatively ``strong''
 restraints and $\sigma \sim 0.1$ for ``weak'' restraints, monitoring the
 effect on the refined RMSDs. In the electron diffraction case setting even very
@@ -978,7 +978,7 @@ for comparisons.
 The two sets of three corrgrams are shown complete in Supplementary Figure~1.
 The pattern of high correlations between parameters
 that affect the predicted reflection positions $(X, Y)$ on the detector plane
-are similar in the cases of electron and X-ray diffraction geometries. However,
+are similar in the cases of electron and X--ray diffraction geometries. However,
 in general, the absolute values of correlations are higher for the electron
 diffraction geometry. The most striking difference between the two cases is
 shown on the corrgram for the parameters that affect the predicted rotation
@@ -1006,7 +1006,7 @@ correspondingly more challenging refinement problem.
 The second diagnostic provides a measure to quantify that effect. The condition
 number at the final step of refinement for the electron diffraction geometry
 $\kappa \left( \mat{J}_{\textrm{ED}} \right) \approx 8 \times 10^5$ while for
-the X-ray diffraction geometry $\kappa \left( \mat{J}_{\textrm{MX}} \right)
+the X--ray diffraction geometry $\kappa \left( \mat{J}_{\textrm{MX}} \right)
 \approx 2 \times 10^3$. This clearly indicates that the electron diffraction
 geometry presents a considerably less well-posed problem for refinement. With
 the simulated data we jointly refined 13 parameters simultaneously, however for
@@ -1273,7 +1273,7 @@ $R_\textrm{complete}$ was calculated with a 0.2\% test set size as described
   \caption{
     Five reciprocal lattice points are shown (in black and labelled) along the
     $a^*$ axis for a crystal with unit cell dimension $a=\SI{10}{\angstrom}$.
-    Arcs representing the surface of the Ewald sphere with a typical X-ray
+    Arcs representing the surface of the Ewald sphere with a typical X--ray
     wavelength of $\lambda=\SI{1.0332}{\angstrom}$ intersect these points at
     rotation angles between $15.0^\circ$ for $h=1$ to $27.0^\circ$ for $h=5$,
     where rotations are assumed to be clockwise from vertical in the plane of
