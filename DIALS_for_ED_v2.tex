@@ -406,14 +406,14 @@ of the relative position and orientation of independent panels and displays a
 composite image projected onto a viewing plane, as shown by
 Figure~\ref{fig:spotfinding}.
 
-A 512x512 pixel Timepix quad is an assembly of four abutting Timepix ASICs, 
-each with 256x256 square, $\SI{55}{\micro\metre}$ pixels. However, the distance 
-between two abutting Timepix ASICs is $\SI{350}{\micro\metre}$ , corresponding 
+A $512\times512$ pixel Timepix quad is an assembly of four abutting Timepix ASICs, 
+each with $256\times256$ square, $\SI{55}{\micro\metre}$ pixels. However, the distance 
+between two abutting Timepix ASICs is $\SI{350}{\micro\metre}$, corresponding 
 to a pitch for the abutting pixels that is about three times that of the other 
 pixels. Since these pixels have a larger surface, they also have a higher probability 
 of collecting more electrons. To correct for this non-uniformity, the conversion to 
 CBF splits pixels with an \emph{x}- (and/or \emph{y}-coordinate) that equals 256 or 257, into three 
-pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in 516x516 pixel 
+pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in $516\times516$ pixel 
 frames with a discernible, 6-pixel wide cross, in which the pixels have a gain that 
 is about three times higher than that of the other pixels outside the cross. This was 
 corrected by multiplying the counts of the unaffected pixels by a factor of three. The 
