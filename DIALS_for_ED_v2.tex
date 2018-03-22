@@ -205,12 +205,11 @@
 
 Electron diffraction is a relatively novel alternative to X--ray crystallography
 for the structure determination of macromolecules from three-dimensional
-nanometre-sized crystals. The standard rotation method of data collection has
+nanometre-sized crystals. The rotation method of data collection has
 been adapted for the electron microscope. However, there are important
 differences in geometry that must be considered for successful data
 integration. The wavelength of electrons in a TEM is typically around forty
-times shorter than X--rays at a macromolecular crystallography (MX) synchrotron
-beamline, implying a nearly flat Ewald sphere, consequently low diffraction
+times shorter than X--rays, implying a nearly flat Ewald sphere, consequently low diffraction
 angles and a high effective sample to detector distance. Nevertheless, the
 \dials software package can, with specific adaptations, successfully process
 continuous rotation electron diffraction data. Pathologies encountered
@@ -244,7 +243,7 @@ Crystallography of Macromolecular Compounds'', 2017.}\cite{unwin-henderson:1975}
 In contrast to X--ray crystallography, the three domains, inorganic, organic,
 and macromolecular electron crystallography were developed rather independent
 of each other
-\cite{vainshtein:1964,dorset:1995,glaeser_downing_derosier:2007,zou:2011}.
+\cite{vainshtein:1964,dorset:1995,adt:2007,glaeser_downing_derosier:2007,zou:2011}.
 Physical and instrumental limitations, like miniature sample size or dynamic
 scattering effects and lens distortions, affect data precision. However,
 several studies show that model accuracy compares with X--ray structures
@@ -253,9 +252,10 @@ a half decades ago, electron diffraction of 3D crystals was pioneered with
 automated diffraction tomography (ADT) and further refined with rotation electron
 diffraction (RED) \cite{adt:2007,rotmethod_e:2010,gemmi_adt:2015}. Recently,
 single crystal 3D electron diffraction has also been applied to protein
-crystals, by adapting the standard rotation method used at MX beamlines
-\cite{Nederlof2013,Hattne2015,Yonekura2015,Clabbers2017}. The only very recent use of
-integration software with profile fitting and scaling is indicative of the
+crystals, by using the standard rotation method
+\cite{Arndt1977,Nederlof2013,Hattne2015,Yonekura2015,Clabbers2017}. The only
+very recent use of integration software with profile fitting and scaling is
+indicative of the
 independent development of electron diffraction. These methods have been in use
 for decades in X--ray crystallography, improving the quality of diffraction
 intensities and their standard uncertainties, whilst enabling heuristic
@@ -399,15 +399,16 @@ $1024\times1024$ pixel detector composed of a $2\times2$ array of Timepix quad d
 form factor of each quad. For the original \xds processing of these data, the
 images were converted into PCK format, in which pixel values were interpolated
 onto an orthogonal grid, with the gaps forming `dead' areas of the image array.
-For processing with \dials we took a different approach. The images had also
-been converted to CBF \DW{any more details here - from Tim?}, without empty data
-representing the regions of the large gaps. We created a \dxtbx format class
-specific for these images, which represents each quad as a separate panel of a
-composite detector. In this way, no interpolation is required because each
-panel has an independent position and orientation, thus sub-pixel shifts and
-rotations can be represented precisely. The \dialsimageviewer takes account
-of the relative position and orientation of independent panels and displays a
-composite image projected onto a viewing plane, as shown by
+For processing with \dials we chose a multiple panel description
+\cite{Parkhurst2014}. The images were converted to
+CBF\footnote{\url{https://strucbio.biologie.uni-konstanz.de/xdswiki/index.php/Timepix2cbf}}
+without interpretation of the gaps. We created a \dxtbx format class specific
+for these images, which represents each quad as a separate panel of a composite
+detector. In this way, no interpolation is required because each panel has an
+independent position and orientation, thus sub-pixel shifts and rotations can be
+represented precisely. The \dialsimageviewer takes account of the relative
+position and orientation of independent panels and displays a composite image
+projected onto a viewing plane, as shown by
 Figure~\ref{fig:spotfinding}.
 
 A $512\times512$ pixel Timepix quad is an assembly of four abutting Timepix ASICs,
@@ -473,13 +474,12 @@ inaccuracy in the recorded effective distance may be difficult to correct by the
 usual process of diffraction geometry refinement due to the high correlation
 between unit cell parameters and the detector distance when
 $2\theta_{\text{max}}$ is small, when the Ewald sphere construction becomes
-invariant of linear scaling (see Section~\ref{sec:refinement}) \cite{VanGenderen2016}.
-In addition,
-imperfections in the lens system may introduce distortions in the recorded
-diffraction images.
-With disregard of such defects, discussed further in Section~\ref{sec:distortion},
-the processing software can ignore the lens system and model the experiment
-with an effective detector.
+invariant of linear scaling (see Section~\ref{sec:refinement})
+\cite{VanGenderen2016}.  In addition, imperfections in the lens system may
+introduce distortions in the recorded diffraction images.  With disregard of
+such defects, discussed further in Section~\ref{sec:distortion}, the processing
+software can ignore the lens system and model the experiment with an effective
+detector distance.
 
 The relatively
 extreme geometry of the electron diffraction is unfamiliar to many X--ray
@@ -534,17 +534,18 @@ crystallography, geometrical distortions of the detector are no less relevant,
 while there is the additional factor of the possibility of distortion of
 the diffraction pattern itself due to effects of the electron optical system.
 Possible distortions include
-anisotropic magnification where the diffraction pattern pattern is elongated
+anisotropic magnification where the diffraction pattern is elongated
 in one direction, transforming a circular powder pattern to an ellipse
 \cite{lenscorr_2dx:2006,Clabbers2017}. Care must be taken to investigate the
 presence of these effects in electron diffraction datasets and as they are
 not mechanical properties of the instrument it is necessary to recalibrate
 when instrument settings are changed.
 
-Despite the fact that the distortion occurs in angle of the scattered rays
-rather than within the detector, it is reasonable to correct images by the same
-means as for other sources of distortion. The difference in scattering angle
-implied by distorted or corrected images is likely to have a negligible effect
+Despite the fact that the distortion occurs in the direction of the scattered
+rays rather than as a property of the detector,
+it is reasonable to correct images by the same means as for other sources of
+distortion. The difference in scattering angle implied by distorted or corrected
+images is likely to have a negligible effect
 on parallax correction. Anyway, the detector model for the example datasets
 discussed here has no parallax correction, thus making the assumption that
 observed intensity is essentially deposited on the surface of the ``virtual
@@ -729,25 +730,25 @@ R_a = \frac{\left( a - a_t \right)^2}{\sigma_a^2}
 \pder[R_a]{p} = 2 \pder[a]{p} \frac{\left( a - a_t \right)}{\sigma_a^2}
 \end{equation}
 
-In principle, statistical weighting could be achieved by
-setting the weights equal to the inverse variance of the target cell parameter
-values. However, realistic cell parameter uncertainties are notoriously
-difficult to obtain \cite{Dauter2015}. For X--ray diffraction refinement we
-usually try values between $\sigma \sim 0.001$ for qualitatively ``strong''
-restraints and $\sigma \sim 0.1$ for ``weak'' restraints, monitoring the
-effect on the refined RMSDs. In the electron diffraction case setting even very
-weak restraints to a target cell can avoid issues with the unit cell and
-detector distance drifting when these are refined simultaneously. Nevertheless,
-the high correlation between these parameters means that the problem of
-distinguishing between cell volume and detector distance remains salient, and
-indeed the unit cell can be driven towards a target cell of incorrect volume
-with minimal increase in refined RMSDs if the detector distance is also
-refined. It is generally advisable to accurately calibrate the effective
-detector distance prior to ED data collection and then to fix this during
-data processing. Other parameters that it may be prudent to fix include the
-detector $\tau_2$ and $\tau_3$ values, which describe rotations around axes in
-the plane of the detector, similar to \mosflm's TILT and TWIST. Joint refinement
-of these parameters along with the beam direction and detector translations
+In principle, statistical weighting could be achieved by setting the weights
+equal to the inverse variance of the target cell parameter values. However,
+numerical uncertainties from refinement are
+known to be underestimated \cite{Dauter2015}. For X--ray diffraction refinement
+we usually try values between $\sigma \sim 0.001$ for qualitatively ``strong''
+restraints and $\sigma \sim 0.1$ for ``weak'' restraints, monitoring the effect
+on the refined RMSDs. In the electron diffraction case setting even very weak
+restraints to a target cell can avoid issues with the unit cell and detector
+distance drifting when these are refined simultaneously. Nevertheless, the high
+correlation between these parameters means that the problem of distinguishing
+between cell volume and detector distance remains salient, and indeed the unit
+cell can be driven towards a target cell of incorrect volume with minimal
+increase in refined RMSDs if the detector distance is also refined. It is
+generally advisable to accurately calibrate the effective detector distance
+prior to ED data collection and then to fix this during data processing. Other
+parameters that it may be prudent to fix include the detector $\tau_2$ and
+$\tau_3$ values, which describe rotations around axes in the plane of the
+detector, similar to \mosflm's TILT and TWIST. Joint refinement of these
+parameters along with the beam direction and detector translations
 within the detector plane can be unstable.
 
 For 6 of the example datasets, fixing the detector distance, $\tau_2$ and $\tau_3$
@@ -1087,7 +1088,7 @@ estimations from the recorded 3D spot profiles. However, it is not possible
 to discriminate between kinematic and dynamic scattering energetically. On average,
 dynamic scattering increases the intensity of weak spots that become stronger,
 and the stronger spots become weaker \cite{Weirich2000}. This directly affects
-the measured intensities, which form the basis for any further structure determination. 
+the measured intensities, which form the basis for any further structure determination.
 These adverse effects are currently not taken into account during data integration.
 
 Electron diffraction of macromolecular crystals is still developing, and is confronting
