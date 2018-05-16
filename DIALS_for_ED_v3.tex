@@ -1030,7 +1030,9 @@ electron diffraction data. For the examples we specified options only to
 run multiple processes in parallel and to specify resolution limits for spot
 prediction. The integrated datasets were then exported to MTZ format using
 \dialsexport and combined by \pointless \cite{Evans2006} for scaling and merging
-together with \aimless \cite{Evans2013}. Merging statistics are summarised in
+together with \aimless \cite{Evans2013}. This procedure included a reindexing
+step to convert the orthorhombic cell used for integration, with $a<b<c$, to the
+conventional space group $P 2_1 2_1 2$. Merging statistics are summarised in
 Table~\ref{tab:quality-stats}.
 
 \subsection{Structure solution and refinement \label{sec:phase-refine}}
