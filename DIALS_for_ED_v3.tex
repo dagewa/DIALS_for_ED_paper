@@ -542,12 +542,7 @@ when instrument settings are changed.
 Despite the fact that the distortion occurs in the direction of the scattered
 rays rather than as a property of the detector,
 it is reasonable to correct images by the same means as for other sources of
-distortion. The difference in scattering angle implied by distorted or corrected
-images is likely to have a negligible effect
-on parallax correction. Anyway, the detector model for the example datasets
-discussed here has no parallax correction, thus making the assumption that
-observed intensity is essentially deposited on the surface of the ``virtual
-detector'' \cite{Parkhurst2014}. Within \dials, we implemented a similar mode
+distortion. Within \dials, we implemented a similar mode
 for distortion correction as used in \xds. A pair of distortion maps encode the
 pixel offset across the detector for both the fast and slow directions. These
 maps are equal in size to the pixel array of the detector (for a multiple panel
