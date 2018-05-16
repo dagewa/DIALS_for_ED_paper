@@ -421,8 +421,10 @@ CBF splits pixels with an \emph{x}- (and/or \emph{y}-coordinate) that equals 256
 pixels that are $\SI{55}{\micro\metre}$ wide (or high). This results in $516\times516$ pixel
 frames with a discernible, 6-pixel wide cross, in which the pixels have a gain that
 is about three times higher than that of the other pixels outside the cross. This was
-corrected by multiplying the counts of the unaffected pixels by a factor of three. The
-converted images therefore model a detector with a gain of 3. This was recorded in the
+corrected by multiplying the counts of the unaffected pixels by a factor of three.
+As the Timepix detector is operated in electron counting mode, the
+converted images therefore model a detector with Poisson response and a
+multiplicative gain of 3. This was recorded in the
 \dxtbx format class so that the correct gain value would be used automatically, e.g.
 in the calculation of error estimates for integrated intensities.
 
