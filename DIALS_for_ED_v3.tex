@@ -1211,7 +1211,7 @@ We also thank Oleg Kovalevskiy for discussions on lattice refinement in \refmac.
   Resolution ($\SI{}{\angstrom}$) & 56.72--2.10 \\
   Reflections & 8143 \\
   $R1$\fnmark[3] & 25.2 \\
-  $R_\textrm{complete}$\fnmark[3] & 29.2 \\
+  $R_\textrm{complete}$\fnmark[4] & 29.2 \\
   $\langle B \rangle$ ($\SI{}{\angstrom}^2$) & 18.3 \\
   $RmsZ$ bond lengths & 0.48 \\
   $RmsZ$ bond angles & 0.72 \\
@@ -1225,7 +1225,10 @@ $\langle I/\sigma(I) \rangle \geq 1.0$ \cite{Diederichs2013};
 refinement results.}
 \fntext[2]{Unit cell dimensions after lattice parameter
 refinement in \refmac \cite{Murshudov2011}.}
-\fntext[3]{$R_\textrm{complete}$ is a robust validation method, especially
+\fntext[3]{
+$R1 = \frac{ \sum\limits_{hkl} \left| |F_{\mathrm{obs}}(hkl)| - |F_{\mathrm{calc}}(hkl)|\right| } { \sum\limits_{hkl} |F_{\mathrm{obs}}(hkl)|}$
+where the sum includes \emph{all} data.}
+\fntext[4]{$R_\textrm{complete}$ is a robust validation method, especially
 in cases where the data completeness is limited, making use of all reflections
 \cite{Brunger1997}, and $R_\textrm{work}$ is thus equivalent to $R1$.
 $R_\textrm{complete}$ was calculated with a 0.2\% test set size as described
