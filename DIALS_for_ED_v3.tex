@@ -582,14 +582,11 @@ Provided a sufficient number of strong spots have been collected (\emph{cf.}
 Sec.~\ref{sec:spot_finding}), indexing of electron diffraction works with
 similar reliability as with X--ray diffraction data. Difficulties mostly arise
 from systematic errors like stability of the rotation axis and, mostly, the
-often large variation in oscillation width $\Delta \Phi$.  The \dialsindex
-program offers three different methods for determining the unit cell basis
-vectors. The default is based on the three-dimensional FFT, but alternatively a
-method based on one-dimensional FFT similar to the programs DPS
-\cite{Steller1997} and \mosflm \cite{leslie2007} can be used. When the cell
-parameters are known, a simplification of the Fourier transform-based methods
-can be used that is particularly successful for very narrow wedges of data
-\cite{Gildea2014}. The program \dialsindex performs refinement of the initial
+often large variation in oscillation width $\Delta \Phi$. The default method
+for determining the unit cell basis vectors in the \dialsindex program is
+based on the three-dimensional FFT of found spot positions, which works well
+even when the scan consists of relatively narrow wedge, typical for an electron
+diffraction dataset. The program \dialsindex performs refinement of the initial
 solution, therefore the guidance listed in Section~\ref{sec:refinement} for
 refinement of ED geometry is also relevant, and it is possible to pass
 options for the \dialsrefine program into \dialsindex where required.
@@ -612,8 +609,8 @@ RMSDs similar to the original triclinic solution are good candidates. Any
 solution resulting in a significant increase in RMSD is suggestive of an
 over-constrained lattice and should be discarded.
 
-For 6 of the 7 datasets of our example, indexing followed by orthorhombic lattice
-selection was successful with default options apart from fixing some
+For 6 of the 7 datasets of our example, indexing followed by selection of an
+orthorhombic lattice was successful with default options apart from fixing some
 detector parameters, as described in Section~\ref{sec:refinement}. For
 \emph{dataset 6} we additionally fixed the beam orientation parameters and
 provided the expected unit cell and a restraint to this target cell during
