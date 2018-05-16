@@ -1027,8 +1027,9 @@ magnitude improvement of the problem condition.
 Following global modelling of the experiment using \dialsrefine, data are
 integrated with \dialsintegrate. No special options are required for integrating
 electron diffraction data. For the examples we specified options only to
-run multiple processes in parallel and to specify resolution limits for spot
-prediction. The integrated datasets were then exported to MTZ format using
+run multiple processes in parallel and to specify resolution limits, within
+which all spots will be predicted for integration.
+The integrated datasets were then exported to MTZ format using
 \dialsexport and combined by \pointless \cite{Evans2006} for scaling and merging
 together with \aimless \cite{Evans2013}. This procedure included a reindexing
 step to convert the orthorhombic cell used for integration, with $a<b<c$, to the
