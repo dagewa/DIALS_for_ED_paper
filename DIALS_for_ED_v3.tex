@@ -624,8 +624,16 @@ guide refinement in such difficult cases.
 \subsection{Global refinement of the unit cell and instrument parameters
 \label{sec:refinement}}
 
-Following indexing, the model for the diffraction experiment is refined as
-described previously \cite{Waterman2016}. In common with X--ray data processing
+Following indexing, the model for the diffraction experiment geometry is refined.
+This consists of joint refinement of global parameters, including the beam
+direction, the unit cell parameters, the cell orientation, and the detector
+position and orientation. The choice of refined parameters is left to the user,
+with the default set being appropriate for typical X--ray datasets. For details
+see \citeasnoun{Waterman2016}. The flexible geometry description and refinement
+procedures of software such as \xds or \dials is of great importance in electron
+diffraction studies, where the initial values are only poorly known. The radius
+of convergence of these procedures is high enough to correct large errors, as
+long as the indexing of spots is correct. In common with X--ray data processing
 with \dials, it is usual to first refine a ``static'' model for the whole data
 set, in which parameters such as the crystal unit cell and orientation angles
 are not allowed to vary across the scan. The global refinement of a data set
