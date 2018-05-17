@@ -299,7 +299,7 @@ assumptions inherent in the details of any particular technique, mean that
 A common feature shared between \dials programs is the global modelling of an
 experiment, in which data are assumed to be complete before analysis begins.
 This has some advantages over the traditional approach of processing data by
-means of a moving window that passes over the complete data set in blocks of a
+means of a moving window that passes over the complete dataset in blocks of a
 local range of images. One is that the expensive step of integration can be
 performed with a high level of parallelism, as the experimental model is
 determined completely ahead of time. A second is that the programs can consider
@@ -322,7 +322,7 @@ reported in \citeasnoun{Clabbers2017}.
 \subsection{Image formats}
 
 The first stage in processing rotation data with \dials is to import the images
-constituting the data set to form a \code{DataBlock}, using the \dxtbx library
+constituting the dataset to form a \code{DataBlock}, using the \dxtbx library
 \cite{Parkhurst2014}. This library contains format reading classes for the
 majority of common file formats used in X--ray crystallography. The classes are
 arranged in a hierarchy, from generic classes that contain code to read image
@@ -636,7 +636,7 @@ of convergence of these procedures is high enough to correct large errors, as
 long as the indexing of spots is correct. In common with X--ray data processing
 with \dials, it is usual to first refine a ``static'' model for the whole data
 set, in which parameters such as the crystal unit cell and orientation angles
-are not allowed to vary across the scan. The global refinement of a data set
+are not allowed to vary across the scan. The global refinement of a dataset
 improves the stability of the refinement procedure. However, the geometry of an
 electron diffraction experiment raises particular issues that should be taken
 into account, especially if data quality is limited by low resolution
