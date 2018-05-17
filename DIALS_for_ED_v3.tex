@@ -501,8 +501,14 @@ can then be modelled as part of the scan-varying refinement of the crystal.
 
 Generally, there may be
 uncertainty regarding the orientation of the rotation axis, the direction of
-rotation, and the rotation range per image. A reasonable estimate of the
-rotation axis orientation in the plane of the images can be made by finding a
+rotation, and the rotation range per image. Procedures have been developed to
+identify rotation axis orientation for electron diffraction studies
+\cite{Dorset1976,Kolb2009}, however there is no implementation of an
+automated algorithm for this in \dials. Nevertheless, for macromolecular
+samples there are a relatively large number of spots found throughout a dataset
+and these can be used to obtain a reasonable estimate of the
+rotation axis orientation in the plane of the detector by inspecting the images.
+This axis forms a
 line through the beam centre along which reflections have the widest reflecting
 range, and few reflections are found. As long as the initial estimate is good
 enough for successful indexing, the remaining error may be corrected by
