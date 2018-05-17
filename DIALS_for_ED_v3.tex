@@ -504,7 +504,10 @@ uncertainty regarding the orientation of the rotation axis, the direction of
 rotation, and the rotation range per image. A reasonable estimate of the
 rotation axis orientation in the plane of the images can be made by finding a
 line through the beam centre along which reflections have the widest reflecting
-range, and few reflections are found. The direction of rotation around the axis
+range, and few reflections are found. As long as the initial estimate is good
+enough for successful indexing, the remaining error may be corrected by
+the geometry refinement procedure described in Section~\ref{sec:refinement}.
+The direction of rotation around the axis
 is more difficult to determine. For an X--ray experiment, the curvature of the
 Ewald sphere makes the incorrect choice obvious, for example using a visual
 tool such as \dialsreciprocallatticeviewer \cite{Winter2018}. By contrast, the
