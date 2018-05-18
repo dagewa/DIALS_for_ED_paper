@@ -8,6 +8,10 @@
 \usepackage{natbib}
 \usepackage{xspace}           % Spacing in macros
 \usepackage{siunitx}          % Proper formatting for units
+\usepackage{float}            % For placement of table
+\usepackage{caption}
+\captionsetup[table]{skip=10pt}
+\usepackage{booktabs}
 
 \newcommand{\dials}{\emph{DIALS}\xspace}
 \newcommand{\dxtbx}{\emph{dxtbx}\xspace}
@@ -16,7 +20,12 @@
   \large Supporting information}
 \date{}
 
+\renewcommand{\thetable}{S\arabic{table}}
+
 %\bibliographystyle{unsrt}
+%\usepackage{dcolumn,booktabs}
+%\newcolumntype{d}[1]{D{.}{.}{#1}}
+%\newcommand\mc[1]{\multicolumn{1}{c}{#1}} % handy shortcut macro
 
 \begin{document}
 
@@ -90,6 +99,62 @@ $\SI{172}{\micro\metre}$ for the X--ray detector.
   }
   \includegraphics[width=0.9\textwidth]{Figures/simulation/corrgrams_all.png}
 \end{figure}
+
+\section{Processing statistics for individual datasets}
+
+Datasets were processed individually in order to determine suitable resolution
+cutoffs. These limits were then applied to unscaled data, forming the input to
+the multiple dataset scaling and merging reported in the main text.
+
+\sisetup{range-phrase=--,
+         input-symbols={()}}
+\begin{table}[H]
+\label{tab:quality-stats-individual}
+\caption{
+  Data processing statistics as reported by AIMLESS for 7 individual datasets.
+  Values in parentheses refer to the highest resolution shell.
+}
+\begin{tabular}{rSSSSSSS}
+  \toprule
+  Dataset & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+  \midrule
+  Space group & ${P 2_1 2_1 2}$ & ${P 2_1 2_1 2}$ & ${P 2_1 2_1 2}$ & ${P 2_1 2_1 2}$ & ${P 2_1 2_1 2}$ & ${P 2_1 2_1 2}$ & ${P 2_1 2_1 2}$ \\
+  \addlinespace
+  Unit cell\\
+  $a$ ($\SI{}{\angstrom}$) & 105.12 & 104.93 & 104.25 & 105.22 & 103.47 & 105.00 & 104.14 \\
+  $b$ ($\SI{}{\angstrom}$) & 68.34  & 68.51  & 67.17  & 69.65  & 64.73  & 66.50  & 68.83  \\
+  $c$ ($\SI{}{\angstrom}$) & 31.98  & 32.15  & 31.55  & 32.35  & 31.84  & 31.71  & 31.73  \\
+  \addlinespace
+  Resolution ($\SI{}{\angstrom}$) & {31.18--2.00}  & {32.15--2.89}  & {41.18--2.85}  & {24.61--2.77}  & {27.12--2.64}  & {28.09--3.20}  & {34.71--3.00} \\
+                                  & {(2.05--2.00)} & {(3.07--2.89)} & {(3.12--2.85)} & {(2.96--2.77)} & {(2.80--2.64)} & {(3.58--3.20)} & {(3.29--3.00)} \\
+  \addlinespace
+  $R_\textrm{merge}$ & 0.312  & 0.218   & 0.318   & 0.244   & 0.248   & 0.437   & 0.210 \\
+                     &(0.538) & (0.567) & (0.538) & (0.513) & (0.465) & (0.613) & (0.504) \\
+  \addlinespace
+  $R_\textrm{meas}$  & 0.398  & 0.283   & 0.437   & 0.323   & 0.333   & 0.583   & 0.275  \\
+                     &(0.667) & (0.692) & (0.731) & (0.659) & (0.608) & (0.816) & (0.665) \\
+  \addlinespace
+  $R_\textrm{pim}$   & 0.244  & 0.176   & 0.298   & 0.210   & 0.221   & 0.383   & 0.175  \\
+                    & (0.389) & (0.381) & (0.492) & (0.408) & (0.387) & (0.532) & (0.430) \\
+  \addlinespace
+  Observations      & {18907}   & {4983}  & {2034}  & {2792}  & {3141}  & {914}   & {2012}  \\
+                    & {(1512)}  & {(946)} & {(571)} & {(653)} & {(601)} & {(276)} & {(513)} \\
+  \addlinespace
+  Completeness (\%) & 50.1    & 42.0   & 26.4   & 26.6   & 29.7   & 17.3   & 25.9 \\
+                    & (48.4)  & (41.7) & (28.6) & (28.7) & (30.2) & (18.1) & (28.1) \\
+  \addlinespace
+  Multiplicity      &  2.4     & 2.2   & 1.5    & 1.7    & 1.6    & 1.4   &  1.6  \\
+                    & (2.8)   & (2.7) & (1.6)   & (2.0)  & (1.9)  & (1.5) & (1.6) \\
+  \addlinespace
+  $\langle I/\sigma(I) \rangle$ & 2.0   & 2.7   & 2.0   & 2.2   & 1.8   &  2.1  & 2.2 \\
+                                & (1.4) & (1.5) & (1.1) & (1.5) & (1.4) & (1.0) & (1.0) \\
+  \addlinespace
+  $CC_{{1}/{2}}$ (\%) & 89.3  & 91.6   & 65.5   & 88.8   & 85.6   & 73.1   & 92.9 \\
+                      &(53.1) & (52.8) & (51.3) & (58.8) & (59.2) & (55.4) & (46.4) \\
+  \bottomrule
+\end{tabular}
+
+\end{table}
 
 %\bibliography{dials}
 
